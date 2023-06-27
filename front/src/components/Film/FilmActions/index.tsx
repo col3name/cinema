@@ -7,47 +7,40 @@ import PlusIcon from '@/components/Common/icons/plus';
 
 import styles from './stylesFilmAction.module.css';
 import CloseIcon from "@/components/Common/icons/close";
+import {useDispatch, useSelector} from "react-redux";
+import {addToCart, removeFromCart} from "@/redux/store/features/cartSlice";
 
 export type FilmActionPropsType = {
-  filmId: string,
-  countOnCart: number,
-  addFilmToCart: (filmId: string) => void,
-  removeFilmFromCart: (filmId: string) => void,
-  removeFilmFromOrder?: (filmId: string) => void,
+  film: any,
+  needRemove: boolean,
 };
 
 const FilmActions: React.FC<FilmActionPropsType> = ({
-  filmId,
-  countOnCart,
-  addFilmToCart,
-  removeFilmFromCart,
-  removeFilmFromOrder,
+  film,
+  needRemove = false,
 }) => {
-  const onRemoveFilm = (e) => {
-    e.stopPropagation();
-    removeFilmFromCart(filmId);
-  };
+  const films = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const onAddFilm = (e) => {
     e.stopPropagation();
-    addFilmToCart(filmId);
+    dispatch(addToCart(film))
   };
   const onRemoveFromOrder = (e) => {
     e.stopPropagation();
-    if (removeFilmFromOrder) {
-      removeFilmFromOrder(filmId);
-    }
+    dispatch(removeFromCart(film))
   };
 
+  let filter = films.filter(it => it.id === film.id);
   return <div className={ styles.filmActions }>
-    <Button className={ styles.filmRemoveButton } onClick={ onRemoveFilm }>
+    <Button className={ styles.filmRemoveButton } onClick={ onRemoveFromOrder }>
       <MinusIcon />
     </Button>
-    <p>{ countOnCart } </p>
+    <p>{ filter && filter[0]?.quantity || 0 } </p>
     <Button className={ styles.filmAddButton } onClick={ onAddFilm }>
       <PlusIcon />
     </Button>
-    { removeFilmFromOrder && <CloseIcon className={ styles.removeButton } onClick={ onRemoveFromOrder } /> }
+    { needRemove &&  <CloseIcon className={ styles.removeButton } onClick={ onRemoveFromOrder } />}
   </div>
 };
 

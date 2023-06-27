@@ -13,11 +13,11 @@ const Layout: React.FC<LayoutPropsType> = ({
   children,
 }) => {
   return <div>
-    <Header />
-    <main className={ styles.main }>
-      { children && children }
-    </main>
-    <Footer />
+      <Header />
+      <main className={ styles.main }>
+        { children && children }
+      </main>
+      <Footer />
   </div>;
 };
 

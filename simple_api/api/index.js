@@ -35,6 +35,7 @@ router.get("/movie", (req, res, next) => {
 router.get("/reviews", (req, res, next) => {
   const { movieId } = req.query;
 
+  console.log({movieId})
   let result = reviews;
 
   if (movieId) {

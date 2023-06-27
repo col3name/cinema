@@ -5,19 +5,18 @@ import ReviewItem from "@/components/Film/Reviews/ReviewItem";
 
 import styles from './stylesReviews.module.css';
 
-import { Review } from "@/types/types";
+import {useSelector} from "react-redux";
 
 export type ReviewsPropsType = {
   className?: string,
-  reviews: Review[],
 };
 
 const Reviews: React.FC<ReviewsPropsType> = ({
   className,
-  reviews
 }) => {
+  const reviews = useSelector(state => state.films.reviews);
   return <div className={ cn(styles.reviewList, className)}>
-    { reviews?.map((review, index) => <ReviewItem
+    { reviews.map((review, index) => <ReviewItem
       key={ index }
       review={ review }
     /> ) }

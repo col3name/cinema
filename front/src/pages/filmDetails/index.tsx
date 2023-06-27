@@ -1,45 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import PageContent from '@/components/Common/PageContent';
 import FilmDetailsItem from '@/components/Film/FilmDetails';
 import Reviews from '@/components/Film/Reviews';
 
-import { FilmData, Review } from '@/types/types';
-import {Film} from "@/api/api";
+import {fetchReview, Film} from "@/api/api";
+import {useDispatch} from "react-redux";
+import {setReviews} from "@/redux/store/features/filmSlice";
 
 const cart = new Map<string, number>();
 
 export type FilmDetailsPropsType = {
   film: Film,
-  reviews: Review[],
 };
 
 const FilmDetails: React.FC<FilmDetailsPropsType> = ({
   film,
-  reviews,
 }) => {
-  // console.log({ film })
-  const addFilmToCart = (filmId: string) => {
-    if (cart.has(filmId)) {
-      cart.set(filmId, cart.get(filmId) + 1);
-    } else {
-      cart.set(filmId, 1);
-    }
-  };
-
-  const removeFilmToCart = (filmId: string) => {
-    if (cart.has(filmId)) {
-      cart.set(filmId, cart.get(filmId) + 1);
-    } else {
-      cart.set(filmId, 1);
-    }
-  };
-
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(setReviews([]));
+    fetchReview(film.id).then(reviews => dispatch(setReviews(reviews)))
+  }, [film.id]);
   return <PageContent>
     <FilmDetailsItem
       id={ film.id }
+      film={ film }
       posterUrl={ film.posterUrl }
       rating={ film.rating }
       title={ film.title }
@@ -49,11 +37,9 @@ const FilmDetails: React.FC<FilmDetailsPropsType> = ({
       cinema={ '' }
       session={ '' }
       tickerCount={ 0 }
-      addFilmToCart={ addFilmToCart }
-      removeFilmFromCart={ removeFilmToCart }
      countOnCart={ 0 }
     />
-    <Reviews reviews={ reviews } />
+    <Reviews />
   </PageContent>;
 };
 

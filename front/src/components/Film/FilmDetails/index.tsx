@@ -20,13 +20,12 @@ export type FilmCardPropsType = {
   cinema: string,
   session: string,
   director: string,
-  addFilmToCart: (filmId: string) => void,
-  removeFilmFromCart: (filmId: string) => void,
 };
 
 const FilmDetails: React.FC<FilmCardPropsType> = (props) => {
   const {
     id,
+    film,
     posterUrl,
     rating,
     genre,
@@ -37,11 +36,7 @@ const FilmDetails: React.FC<FilmCardPropsType> = (props) => {
     countOnCart,
     cinema,
     session,
-    reviews,
-    addFilmToCart,
-    removeFilmFromCart,
   } = props;
-  // console.log(props)
   return (
     <div className={ styles.filmDetailsContainer }>
       <div className={ styles.filmContainer }>
@@ -50,10 +45,8 @@ const FilmDetails: React.FC<FilmCardPropsType> = (props) => {
           <div className={ styles.filmHeader }>
             <Title text={ title } />
             <FilmActions
-              filmId={ id }
-              countOnCart={ countOnCart }
-              addFilmToCart={ addFilmToCart }
-              removeFilmFromCart={ removeFilmFromCart }
+              film={ film }
+              needRemove
             />
           </div>
           <FilmDescriptionItem title='Жанр: ' description={ genre } />

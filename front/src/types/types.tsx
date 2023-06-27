@@ -30,7 +30,4 @@ export type FilmInfoPropsType = {
   className?: FilmData,
   film: FilmData,
   countOnCart?: number,
-  addFilmToCart: (filmId: string) => void,
-  removeFilmFromCart: (filmId: string) => void,
-  removeFilmFromOrder?: (filmId: string) => void,
 }

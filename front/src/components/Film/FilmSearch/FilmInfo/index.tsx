@@ -13,11 +13,7 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,
   film,
   countOnCart= 0,
-  addFilmToCart,
-  removeFilmFromCart,
-  removeFilmFromOrder,
 }) => {
-  console.log(`/film/${ film.id }`);
   return <div className={ cn(styles.filmInfo, className) }>
     <img className={ styles.filmInfoSmallPoster } src={ film.posterUrl } alt='film poster' />
     <div className={ styles.filmContent }>
@@ -26,11 +22,8 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
         <p>{ film.genre }</p>
       </div>
       <FilmActions
-        filmId={ film.id }
+        film={ film }
         countOnCart={ countOnCart! }
-        addFilmToCart={ addFilmToCart }
-        removeFilmFromCart={ removeFilmFromCart }
-        removeFilmFromOrder={ removeFilmFromOrder }
       />
     </div>
   </div>

@@ -11,7 +11,7 @@
 }
 
 .filmContainer {
-  flex-direction: row;
+  flex-direction: row !important;
 }
 
 .filmPoster {
