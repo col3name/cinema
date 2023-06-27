@@ -1,0 +1,7 @@
+.cartSummary {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+}

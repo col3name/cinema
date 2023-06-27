@@ -1,0 +1,49 @@
+.input {
+  width: 100%;
+  color: black;
+  padding: 4px 14px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 2;
+  min-height: 20px;
+  border: 1px solid #E1E3E6
+}
+
+.input:active,
+.input:focus {
+  border: 1px solid #3A71FF;
+  border-radius: 8px;
+  outline: none;
+}
+
+.input::placeholder {
+  font: 400 14px/20px 'SF Pro Text', sans-serif;
+  color: #999FA6;
+}
+
+.input {
+  resize: none;
+  font-family: "Open Sans", serif;
+  font-size: 14px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 28px;
+}
+
+.label {
+}
+
+.labelTitle {
+  font: 400 14px/20px 'SF Pro Text', sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  color: #1B1F23;
+  margin-bottom: 5px;
+}

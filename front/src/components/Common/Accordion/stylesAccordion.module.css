@@ -1,0 +1,43 @@
+.accordionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accordionItem {
+  width: 100%;
+  line-height: 15;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+}
+
+.accordionButton {
+  width: 100%;
+  position: relative;
+  text-align: left;
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.accordionTitleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordionTitle {
+  font: 600 24px/32px 'Roboto', sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  color: #1B1F23;
+}
+
+.accordionContent {
+  padding-top: 16px;
+}
+
+.accordionItemOpened {
+  transform: rotateZ(180deg);
+}

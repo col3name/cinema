@@ -1,0 +1,13 @@
+.filmFilter {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  width: 408px;
+  height: 862px;
+  background: white;
+  top: 108px;
+  left: 32px;
+  padding: 24px;
+  border-radius: 8px;
+  gap: 20px;
+}

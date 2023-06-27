@@ -1,0 +1,34 @@
+.filmActions {
+  display: flex;
+  gap: 8px;
+}
+
+.filmRemoveButton {
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  border-radius: 4px;
+  gap: 10px;
+  border: none;
+  background: #FFA375;
+  color: white;
+  text-align: center;
+  justify-content: center;
+}
+
+.filmAddButton {
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  border-radius: 4px;
+  gap: 10px;
+  background: #FF5500;
+  border: none;
+  color: white;
+  text-align: center;
+}
+
+.removeButton:hover {
+  cursor: pointer;
+}

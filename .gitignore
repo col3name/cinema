@@ -1,0 +1,5 @@
+node_modules
+front/node_modules
+front/.next
+simple_api/node_modules
+.idea
