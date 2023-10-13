@@ -1,5 +1,5 @@
 import {Review} from '@/types/types';
-import {Cinema} from '@/components/Film/FilmSearch/FilmFilter';
+import {Cinema} from "@/redux/features/film/model";
 
 export type FilmGenre = 'fantasy' | 'horror' |  'action' | 'comedy';
 
@@ -22,7 +22,9 @@ export async function fetchCinemas(): Promise<Cinema[]> {
 
 export async function fetchMovies(): Promise<Film[]> {
   const response = await fetch('http://localhost:3001/api/movies');
-  return await response.json();
+  let data = await response.json();
+  console.log(data)
+  return data;
 }
 
 export async function fetchReview(filmId: string): Promise<Review[]> {

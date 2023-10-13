@@ -42,10 +42,10 @@ export const useFindFilmSelector = (filmId: string): Film|undefined => {
 }
 
 export const useFilmsSelector = (): Film[] =>
-  useAppSelector((state: RootState) => state.films.films);
+  useAppSelector((state: RootState) => state.films.films) || [];
 
 export const useCinemasSelector = (): Cinema[] =>
-  useAppSelector((state: RootState) => state.films.cinemas);
+  useAppSelector((state: RootState) => state.films.cinemas) || [];
 
 export const useFilmReviewsSelector = (filmId: string): Review[] =>
   useAppSelector((state: RootState) => state.films.reviews[filmId]) || [];

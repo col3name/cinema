@@ -28,6 +28,7 @@ const slice = createSlice({
   reducers: {
     setFilms(state: FilmState, action: PayloadAction<Film[]>) {
       state.films = action.payload;
+      console.log(action.payload);
     },
     setCinemas(state: FilmState, action: PayloadAction<Cinema[]>) {
       state.cinemas = [{

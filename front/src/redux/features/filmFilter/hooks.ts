@@ -1,6 +1,5 @@
 import {useAppDispatch} from "@/redux/hooks";
-import {setCinema, setGenre} from "@/redux/features/filmFilter/filterSlice";
-import {setFilms} from "@/redux/features/film/slice";
+import {setCinema, setGenre, setFilmName} from "@/redux/features/filmFilter/filterSlice";
 
 export const useFilmFilter = () => {
   const dispatch = useAppDispatch();
@@ -11,7 +10,7 @@ export const useFilmFilter = () => {
     dispatch(setGenre(genre));
   }
   const updateFilmFilter = (film: string) => {
-    dispatch(setFilms(film));
+    dispatch(setFilmName(film));
   }
 
   return {

@@ -20,7 +20,7 @@ const filterSlice = createSlice({
     setGenre(state: FilmFilterState, action: PayloadAction<string>) {
       state.genre = action.payload;
     },
-    setName(state: FilmFilterState, action: PayloadAction<string>) {
+    setFilmName(state: FilmFilterState, action: PayloadAction<string>) {
       state.name = action.payload;
     },
     setCinema(state: FilmFilterState, action: PayloadAction<string>) {
@@ -32,5 +32,5 @@ const filterSlice = createSlice({
 export const filterReducer = filterSlice.reducer;
 
 export const {
-  setName, setGenre, setCinema
+  setFilmName, setGenre, setCinema
 } = filterSlice.actions;
