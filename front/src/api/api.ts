@@ -22,9 +22,7 @@ export async function fetchCinemas(): Promise<Cinema[]> {
 
 export async function fetchMovies(): Promise<Film[]> {
   const response = await fetch('http://localhost:3001/api/movies');
-  let data = await response.json();
-  console.log(data)
-  return data;
+  return await response.json();
 }
 
 export async function fetchReview(filmId: string): Promise<Review[]> {
