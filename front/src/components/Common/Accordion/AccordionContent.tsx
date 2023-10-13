@@ -15,7 +15,6 @@ const AccordionContent: React.FC<AccordionContentPropsType> = ({
   if (!isActive) {
     return null
   }
-  console.log({isActive})
 
   return <div className={ styles.accordionContent }>
     { children }

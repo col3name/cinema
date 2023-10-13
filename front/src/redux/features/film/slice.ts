@@ -30,11 +30,7 @@ const slice = createSlice({
       state.films = action.payload;
     },
     setCinemas(state: FilmState, action: PayloadAction<Cinema[]>) {
-      state.cinemas = [{
-        id: '',
-        name: "Все",
-        movieIds: []
-      }, ...action.payload];
+      state.cinemas = [...action.payload];
     },
     setReviews(state: FilmState, action: PayloadAction<ReviewState>) {
       const { filmId, list } = action.payload;

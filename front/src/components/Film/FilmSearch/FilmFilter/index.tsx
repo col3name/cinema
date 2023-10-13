@@ -12,6 +12,8 @@ import {getUrlParameter, replaceUrlParam} from '@/shared/lib/url';
 import {useCinemasSelector, useFilmsSelector} from '@/redux/features/film/hooks';
 import {Cinema} from '@/redux/features/film/model';
 import {useFilmFilter} from '@/redux/features/filmFilter/hooks';
+import Dropdown from "@/components/Common/Dropdown/Dropdown";
+import {FilmGenre} from "@/api/api";
 
 export type FilmFilterPropsType = {
   className?: string,
@@ -24,7 +26,7 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
 }) => {
   const films = useFilmsSelector()
   const cinemas = useCinemasSelector();
-  const genres = Array.from(new Set(films.map(film => film.genre)).values());
+  const genres: FilmGenre[] = Array.from(new Set(films.map(film => film.genre)).values());
 
   const {
     updateCinemaFilter,
@@ -45,21 +47,19 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
     replaceUrlParam('name', filmName);
   };
 
-  const onSelectFilmGenre = e => {
-    const value = e.target.value;
-    const newGenre = value === DEFAULT_VALUE ? '' : value;
+  const onSelectFilmGenre = value => {
+    const newGenre = !value || value === DEFAULT_VALUE ? '' : value;
     updateGenreFilter(newGenre)
     replaceUrlParam('genre', newGenre);
   };
 
-  const onSelectCinema = (e) => {
-    const cinema = cinemas.find((it: Cinema) => it.id === e.target.value);
+  const onSelectCinema = (cinemaId: string) => {
+    const cinema = cinemas.find((it: Cinema) => it.id === cinemaId);
     if (!cinema) {
       return;
     }
-    const {id} = cinema;
-    updateCinemaFilter(id)
-    replaceUrlParam('cinema', id);
+    updateCinemaFilter(cinemaId)
+    replaceUrlParam('cinema', cinemaId);
   };
 
   return (
@@ -69,14 +69,18 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
         <Input placeholder="Введите название" onChange={ onChangeFilmName }/>
       </Label>
       <Label title="Жанр">
-        <select placeholder="Выберите жанр" onChange={ onSelectFilmGenre }>
-          {[undefined, ...genres].map((genre: string|undefined, id: number) => <option key={id} id={genre} value={genre}>{genre || 'Все'}</option>)}
-        </select>
+        <Dropdown
+          options={ genres.map(genre => ({ value: genre}))}
+          onSelected={ onSelectFilmGenre }
+          placeholder="Выберите жанр"
+        />
       </Label>
       <Label title="Кинотеатр">
-        <select placeholder="Выберите кинотеатр" onChange={ onSelectCinema }>
-          {cinemas.map((cinema: Cinema) => <option key={cinema.id} value={cinema.id}>{cinema.name}</option>)}
-        </select>
+        <Dropdown
+          options={ cinemas.map(cinema => ({ value: cinema.name}))}
+          onSelected={ onSelectCinema }
+          placeholder="Выберите кинотеатр"
+        />
       </Label>
     </div>
   );

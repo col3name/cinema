@@ -18,13 +18,25 @@ const filterSlice = createSlice({
   initialState,
   reducers: {
     setGenre(state: FilmFilterState, action: PayloadAction<string>) {
-      state.genre = action.payload;
+      const newValue = action.payload;
+      if (state.genre === newValue) {
+        return
+      }
+      state.genre = newValue;
     },
     setFilmName(state: FilmFilterState, action: PayloadAction<string>) {
-      state.name = action.payload;
+      const newValue = action.payload;
+      if (state.name === newValue) {
+        return
+      }
+      state.name = newValue;
     },
     setCinema(state: FilmFilterState, action: PayloadAction<string>) {
-      state.cinema = action.payload;
+      const newValue = action.payload;
+      if (state.cinema === newValue) {
+        return
+      }
+      state.cinema = newValue;
     },
   },
 });

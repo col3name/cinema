@@ -20,8 +20,8 @@ const FilmSearch = () => {
     updateCinemas()
   }, [updateMovies, updateCinemas]);
   return <PageContent className={ styles.filmContainer } isFlex>
-    <FilmFilter/>
-    <Suspense fallback={ <div>Loading</div>}>
+    <FilmFilter />
+    <Suspense fallback={ <div>Loading</div> }>
       <FilmList />
     </Suspense>
     <PopupFilmRemove />
