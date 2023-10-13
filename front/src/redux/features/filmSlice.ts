@@ -8,18 +8,17 @@ type ReviewState = {
   filmId: string,
 };
 
+type Reviews = { [id: number]: Review[] };
 type FilmState = {
   films: Film[],
   cinemas: Cinema[],
-  reviews: ReviewState,
+  reviews: Reviews,
 }
+
 const initialState: FilmState = {
   films: [],
   cinemas: [],
-  reviews: {
-    filmId: undefined,
-    list: [],
-  } as ReviewState,
+  reviews: {},
 };
 
 const filmSlice = createSlice({
@@ -37,9 +36,8 @@ const filmSlice = createSlice({
       }, ...action.payload];
     },
     setReviews(state: FilmState, action: PayloadAction<ReviewState>) {
-      state.reviews.list = action.payload.list;
-      state.reviews.filmId = action.payload.filmId;
-      console.log(action.payload.list)
+      const { filmId, list } = action.payload;
+      state.reviews[filmId] = list
     }
   },
 });
