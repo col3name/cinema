@@ -10,7 +10,7 @@ import FilmAddButton from '@/components/Film/FilmActions/FilmAddButton';
 import styles from './stylesFilmAction.module.css';
 
 import {Film} from '@/api/api';
-import {decrementQuantity} from '@/redux/features/cartSlice';
+import {decrementQuantity, removeFromCart} from '@/redux/features/cartSlice';
 import {useAppDispatch} from '@/redux/hooks';
 
 export type FilmActionPropsType = {
@@ -23,18 +23,25 @@ const FilmActions: React.FC<FilmActionPropsType> = ({
   needRemove = false,
 }) => {
   const dispatch = useAppDispatch();
-  const onRemoveFromOrder = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
+  const onDecrementQuantity = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
     event.stopPropagation();
     dispatch(decrementQuantity(film.id));
   };
-  return <div className={ styles.filmActions }>
-    <Button className={ styles.filmRemoveButton } onClick={ onRemoveFromOrder }>
-      <MinusIcon />
-    </Button>
-    <FilmCounter key={ film.id } filmId={ film.id } />
-    <FilmAddButton film={ film }/>
-    { needRemove && <CloseIcon className={ styles.removeButton } onClick={ onRemoveFromOrder } />}
-  </div>
+  const onRemoveFromOrder = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
+    event.stopPropagation();
+    dispatch(removeFromCart(film.id));
+  };
+  return (
+    <div className={ styles.filmActions }>
+      <Button className={ styles.filmRemoveButton } onClick={ onDecrementQuantity }>
+        <MinusIcon />
+      </Button>
+      <FilmCounter key={ film.id } filmId={ film.id } />
+      <FilmAddButton film={ film }/>
+      { needRemove && <CloseIcon className={ styles.removeButton } onClick={ onRemoveFromOrder } />}
+    </div>
+  );
 };
 
-export default FilmActions;
+const MemoFilmAction = React.memo(FilmActions);
+export default MemoFilmAction;

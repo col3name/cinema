@@ -15,9 +15,7 @@ const FilmDetails: React.FC<FilmDetailsPropsType> = ({
   film,
 }) => {
   return <>
-    <FilmDetailsItem
-      film={ film }
-   />
+    <FilmDetailsItem film={ film } />
     <Reviews filmId={ film.id } />
   </>;
 };

@@ -7,21 +7,22 @@ import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 import styles from './stylesCartList.module.css'
 
 import {FilmOnCart} from '@/redux/features/cartSlice';
+import {useAppSelector} from "@/redux/hooks";
+import {RootState} from "@/redux/store";
 
 export type CartListPropsType = {
   className?: string,
-  films: FilmOnCart[],
 }
 
 const CartList: React.FC<CartListPropsType> = ({
   className,
-  films,
 }) => {
+  const films = useAppSelector((state: RootState) => state.cart.films);
   return <div className={ cn(styles.cartContainer, className) }>
     { films.map((film: FilmOnCart) => (
       <FilmInfo
         key={ film.id }
-        film={ film }
+        film={ {...film, quantity:undefined} }
       />
     )) }
   </div>
