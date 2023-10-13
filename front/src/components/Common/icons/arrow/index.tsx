@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconPropsType } from '@/types/types';
+import { IconPropsType } from '@/shared/types/types';
 
 const ArrowIcon: React.FC<IconPropsType> = ({
   className,

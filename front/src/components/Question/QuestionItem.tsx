@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Question } from '@/types/types';
+import { Question } from '@/shared/types/types';
 
 export type QuestionItemPropsType = {
   question: Question,

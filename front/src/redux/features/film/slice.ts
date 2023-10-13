@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Film} from '@/api/api';
-import {Review} from '@/types/types';
+import {Review} from '@/shared/types/types';
 import {Cinema} from "./model";
 
 type ReviewState = {

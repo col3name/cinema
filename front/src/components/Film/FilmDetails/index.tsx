@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import Title from '@/components/Common/Tite/Title';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
-import FilmDescriptionItem from '@/components/Film/FilmDetails/FilmDescriptionItem';
+import FilmDescriptionItem from './FilmDescriptionItem';
 import FilmActions from '@/components/Film/FilmActions';
 
 import styles from './stylesFilmDetail.module.css';

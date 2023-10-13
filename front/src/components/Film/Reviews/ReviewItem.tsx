@@ -8,7 +8,7 @@ import PhotoIcon from '@/components/Common/icons/photo';
 
 import styles from './stylesReviews.module.css';
 
-import { Review } from '@/types/types';
+import { Review } from '@/shared/types/types';
 
 export type ReviewItemPropsType = {
   review: Review,

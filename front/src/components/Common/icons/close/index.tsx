@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconPropsType } from '@/types/types';
+import { IconPropsType } from '@/shared/types/types';
 
 const CloseIcon: React.FC<IconPropsType> = ({
   className,

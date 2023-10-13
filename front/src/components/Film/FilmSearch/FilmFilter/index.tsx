@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 import cn from 'classnames';
 
-import FilterTitle from '@/components/Film/FilmSearch/FilmFilter/FilterTitle';
+import FilterTitle from './FilterTitle';
 import Input from '@/components/Common/Form/Input';
 import Label from '@/components/Common/Form/Label';
 import Dropdown from '@/components/Common/Dropdown/Dropdown';

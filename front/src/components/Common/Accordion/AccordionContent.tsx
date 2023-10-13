@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 
-import styles from '@/components/Common/Accordion/stylesAccordion.module.css';
+import styles from './stylesAccordion.module.css';
 
 import {AccordionContext} from './Accordion.props';
 

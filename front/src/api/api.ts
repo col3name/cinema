@@ -1,4 +1,4 @@
-import {Review} from '@/types/types';
+import {Review} from '@/shared/types/types';
 import {Cinema} from "@/redux/features/film/model";
 
 export type FilmGenre = 'fantasy' | 'horror' |  'action' | 'comedy';

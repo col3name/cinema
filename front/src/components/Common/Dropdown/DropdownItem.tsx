@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '@/components/Common/Dropdown/Dropdown.module.css';
+import styles from './Dropdown.module.css';
 
 import {DropdownItemPropsType} from './Dropdown.props';
 

@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Button from '@/components/Common/Button';
 import ArrowIcon from '@/components/Common/icons/arrow';
 
-import styles from '@/components/Common/Accordion/stylesAccordion.module.css';
+import styles from './stylesAccordion.module.css';
 
 import {AccordionContext, AccordionTitlePropsType} from './Accordion.props';
 

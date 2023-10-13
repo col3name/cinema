@@ -4,7 +4,7 @@ import {setCinemas, setFilms, setReviews} from './slice';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
 import {Cinema} from './model';
-import {Review} from '@/types/types';
+import {Review} from '@/shared/types/types';
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();

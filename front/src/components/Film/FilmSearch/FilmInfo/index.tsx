@@ -7,7 +7,7 @@ import FilmActions from '@/components/Film/FilmActions';
 
 import styles from './stylesFilmDetails.module.css';
 
-import { FilmInfoPropsType } from '@/types/types';
+import { FilmInfoPropsType } from '@/shared/types/types';
 import {Film} from '@/api/api';
 
 const FilmInfo: React.FC<FilmInfoPropsType> = ({

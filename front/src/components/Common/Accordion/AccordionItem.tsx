@@ -2,8 +2,8 @@
 import React, {useCallback, useState} from 'react';
 import cn from 'classnames';
 
-import AccordionTitle from '@/components/Common/Accordion/AccordionTitle';
-import AccordionContent from '@/components/Common/Accordion/AccordionContent';
+import AccordionTitle from './AccordionTitle';
+import AccordionContent from './AccordionContent';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
 
 import styles from './stylesAccordion.module.css';

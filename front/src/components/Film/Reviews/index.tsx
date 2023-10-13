@@ -5,7 +5,7 @@ import ReviewItem from '@/components/Film/Reviews/ReviewItem';
 
 import styles from './stylesReviews.module.css';
 
-import {Review} from '@/types/types';
+import {Review} from '@/shared/types/types';
 import {useFilmReviews} from '@/redux/features/film/hooks';
 
 export type ReviewsPropsType = {

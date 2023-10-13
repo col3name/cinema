@@ -5,7 +5,7 @@ import {
   confirmTheRemoveFromCart,
   decrementQuantity,
   removeFromCart,
-} from 'slice';
+} from './slice';
 
 export const useConfirmPopupOpened = () => {
   const opened = usePopupFilmRemoveOpened();

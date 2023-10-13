@@ -1,10 +1,10 @@
 'use client';
 import React, {MouseEvent} from 'react';
 
-import FilmCounter from '@/components/Film/FilmActions/FilmCounter';
+import FilmCounter from './FilmCounter';
+import FilmIncrementButton from './FilmIncrementButton';
+import FilmDecrementButton from './FilmDecrementButton';
 import CloseIcon from '@/components/Common/icons/close';
-import FilmIncrementButton from '@/components/Film/FilmActions/FilmIncrementButton';
-import FilmDecrementButton from '@/components/Film/FilmActions/FilmDecrementButton';
 
 import styles from './stylesFilmAction.module.css';
 
