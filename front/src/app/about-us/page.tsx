@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Title from '@/components/Common/Tite/Title';
-import Paragraph from '@/components/Common/Paragraph/Paragraph';
-import PageContent from '@/components/Common/PageContent';
 import Layout from '@/components/Layout';
+import PageContent from '@/components/Common/PageContent';
+import Paragraph from '@/components/Common/Paragraph/Paragraph';
+import Title from '@/components/Common/Tite/Title';
 
 import styles from './stylesAboutUs.module.css';
 
 const AboutUS = () => {
   return <Layout>
-    <PageContent className={ styles.content }>
+    <PageContent disableCounter className={ styles.content }>
       <Title text="O нас" />
       <Paragraph text="Мы — крупнейший сервис о кино в рунете. На нем вы сможете посмотреть фильмы и сериалы, купить билеты в кино, узнать рейтинги популярных видео и интересные факты, поставить фильмам оценки, написать рецензии и дополнить описание фильмов." />
       <Paragraph text="был запущен в 2003 году. Портал предоставляет пользователям информацию о фильмах и их создателях, новости кино, интервью с актерами и другими знаменитостями, рецензии пользователей, расписание сеансов в кинотеатрах, ТВ-программу и другие разделы." />

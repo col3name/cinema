@@ -8,17 +8,19 @@ import styles from './stylesPageContent.module.css';
 export type PageContentPropsType = {
   className?: string,
   children: React.ReactNode,
-  isFlex?: boolean
+  isFlex?: boolean,
+  disableCounter?: boolean,
 };
 
 const PageContent: React.FC<PageContentPropsType> = ({
   className,
   children,
-  isFlex = false
+  isFlex = false,
+  disableCounter =  false,
 }) => {
   return (
     <>
-      <Header/>
+      <Header disableCounter={ disableCounter } />
       <main className={ cn(styles.content, {
         [styles.contentFlex]: isFlex
       }, className) }>

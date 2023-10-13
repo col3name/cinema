@@ -30,7 +30,7 @@ const Reviews: React.FC<ReviewsPropsType> = ({
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [filmId, isLoading, reviews.length, updateReviews]);
+  }, [filmId, isLoading, reviews.length]);
   return <div className={ cn(styles.reviewList, className)}>
     { reviews?.map((review: Review, index: number) => <ReviewItem
       key={ index }
