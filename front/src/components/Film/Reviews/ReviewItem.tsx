@@ -4,11 +4,11 @@ import Image from 'next/image'
 
 import Title from '@/components/Common/Tite/Title';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
+import PhotoIcon from '@/components/Common/icons/photo';
 
 import styles from './stylesReviews.module.css';
 
 import { Review } from '@/types/types';
-import PhotoIcon from "@/components/Common/icons/photo";
 
 export type ReviewItemPropsType = {
   review: Review,

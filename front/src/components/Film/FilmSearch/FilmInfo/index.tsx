@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import cn from 'classnames';
 
 import FilmActions from '@/components/Film/FilmActions';
@@ -7,8 +8,7 @@ import FilmActions from '@/components/Film/FilmActions';
 import styles from './stylesFilmDetails.module.css';
 
 import { FilmInfoPropsType } from '@/types/types';
-import Link from "next/link";
-import {Film} from "@/api/api";
+import {Film} from '@/api/api';
 
 const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,

@@ -9,8 +9,8 @@ import FilmList from '@/components/Film/FilmSearch/FilmList';
 import styles from './stylesFilm.module.css';
 
 import { fetchCinemas, fetchMovies } from '@/api/api';
-import {setCinemas, setFilms} from "@/redux/features/filmSlice";
-import {useAppDispatch} from "@/redux/hooks";
+import {setCinemas, setFilms} from '@/redux/features/filmSlice';
+import {useAppDispatch} from '@/redux/hooks';
 
 const FilmSearch = () => {
   const dispatch = useAppDispatch();

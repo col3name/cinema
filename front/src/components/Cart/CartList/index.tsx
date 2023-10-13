@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
+import cn from 'classnames';
+
+import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 
 import styles from './stylesCartList.module.css'
-import cn from "classnames";
-import FilmInfo from "@/components/Film/FilmSearch/FilmInfo";
-import {FilmOnCart} from "@/redux/features/cartSlice";
+
+import {FilmOnCart} from '@/redux/features/cartSlice';
 
 export type CartListPropsType = {
   className?: string,

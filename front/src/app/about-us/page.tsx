@@ -1,9 +1,11 @@
+import React from 'react';
+
 import Title from '@/components/Common/Tite/Title';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
 import PageContent from '@/components/Common/PageContent';
+import Layout from '@/components/Layout';
 
 import styles from './stylesAboutUs.module.css';
-import Layout from "@/components/Layout";
 
 const AboutUS = () => {
   return <Layout>

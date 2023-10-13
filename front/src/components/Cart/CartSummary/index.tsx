@@ -5,8 +5,8 @@ import Paragraph from '@/components/Common/Paragraph/Paragraph';
 
 import styles from './stylesCartSummary.module.css';
 
-import {RootState} from "@/redux/store";
-import {useAppSelector} from "@/redux/hooks";
+import {RootState} from '@/redux/store';
+import {useAppSelector} from '@/redux/hooks';
 
 export type CartSummaryPropsType = {
   className?: string,

@@ -2,12 +2,12 @@
 import React from 'react';
 
 import PageContent from '@/components/Common/PageContent';
-import CartSummary from "@/components/Cart/CartSummary";
-import CartList from "@/components/Cart/CartList";
-import Layout from "@/components/Layout";
+import CartSummary from '@/components/Cart/CartSummary';
+import CartList from '@/components/Cart/CartList';
+import Layout from '@/components/Layout';
 
-import {RootState} from "@/redux/store";
-import {useAppSelector} from "@/redux/hooks";
+import {RootState} from '@/redux/store';
+import {useAppSelector} from '@/redux/hooks';
 
 export type CartPagePropsType = {};
 

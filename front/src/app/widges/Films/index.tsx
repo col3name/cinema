@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-import {RootState} from "@/redux/store";
-import {fetchMovies, Film} from "@/api/api";
+import {RootState} from '@/redux/store';
+import {fetchMovies, Film} from '@/api/api';
 
-import Paragraph from "@/components/Common/Paragraph/Paragraph";
-const FilmDetails = React.lazy(() => import("@/pages/filmDetails"))
+import Paragraph from '@/components/Common/Paragraph/Paragraph';
+const FilmDetails = React.lazy(() => import('@/pages/filmDetails'))
 
-import {useAppDispatch, useAppSelector} from "@/redux/hooks";
-import {setFilms} from "@/redux/features/filmSlice";
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {setFilms} from '@/redux/features/filmSlice';
 
 type FilmsPropsType = {
   filmId: string,

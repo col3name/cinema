@@ -1,12 +1,12 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import cn from 'classnames';
 
-import Button from "@/components/Common/Button";
-import Paragraph from "@/components/Common/Paragraph/Paragraph";
+import Button from '@/components/Common/Button';
+import Paragraph from '@/components/Common/Paragraph/Paragraph';
+import ArrowIcon from '@/components/Common/icons/arrow';
 
 import styles from './stylesAccordion.module.css';
-import ArrowIcon from "@/components/Common/icons/arrow";
 
 export type AccordionItemPropsType = {
   title: string,

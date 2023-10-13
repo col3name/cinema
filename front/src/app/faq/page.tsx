@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
-import Accordion from '@/components/Common/Accordion/Accordion';
 
-import PageContent from "@/components/Common/PageContent";
-import Layout from "@/components/Layout";
+import Layout from '@/components/Layout';
+import PageContent from '@/components/Common/PageContent';
+import Accordion from '@/components/Common/Accordion/Accordion';
 
 const faqList = [
   {

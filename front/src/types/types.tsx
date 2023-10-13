@@ -1,6 +1,7 @@
-import {Film, FilmGenre} from "@/api/api";
-import {FilmOnCart} from "@/redux/features/cartSlice";
-import {MouseEventHandler} from "react";
+import {MouseEventHandler} from 'react';
+
+import {Film, FilmGenre} from '@/api/api';
+import {FilmOnCart} from '@/redux/features/cartSlice';
 
 export type Question = {
   title: string,

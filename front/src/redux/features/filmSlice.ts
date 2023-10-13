@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Film} from "@/api/api";
-import {Cinema} from "@/components/Film/FilmSearch/FilmFilter";
-import {Review} from "@/types/types";
+import {Film} from '@/api/api';
+import {Cinema} from '@/components/Film/FilmSearch/FilmFilter';
+import {Review} from '@/types/types';
 
 type FilmState = {
   films: Film[],

@@ -1,10 +1,9 @@
 import React from 'react';
 
+import {Providers} from '@/redux/provider';
 import Footer from '@/components/Footer/Footer';
 
 import styles from '@/app/page.module.css';
-
-import {Providers} from "@/redux/provider";
 
 export type LayoutPropsType = {
   children: React.ReactNode,

@@ -1,14 +1,15 @@
 'use client';
 
-import React from "react";
+import React from 'react';
 import cn from 'classnames';
+import {useAppSelector} from '@/redux/hooks';
 
 import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 
 import styles from './stylesFilmList.module.css';
-import {RootState} from "@/redux/store";
-import {Film} from "@/api/api";
-import {useAppSelector} from "@/redux/hooks";
+
+import {RootState} from '@/redux/store';
+import {Film} from '@/api/api';
 
 export type FilmListPropsType = {
   className?: string

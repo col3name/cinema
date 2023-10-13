@@ -7,7 +7,7 @@ import Reviews from '@/components/Film/Reviews';
 
 import {fetchReview, Film} from '@/api/api';
 import {setReviews} from '@/redux/features/filmSlice';
-import {useAppDispatch} from "@/redux/hooks";
+import {useAppDispatch} from '@/redux/hooks';
 
 export type FilmDetailsPropsType = {
   film: Film,
