@@ -7,8 +7,8 @@ import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 import styles from './stylesCartList.module.css'
 
 import {FilmOnCart} from '@/redux/features/cartSlice';
-import {useAppSelector} from "@/redux/hooks";
-import {RootState} from "@/redux/store";
+import {useAppSelector} from '@/redux/hooks';
+import {RootState} from '@/redux/store';
 
 export type CartListPropsType = {
   className?: string,

@@ -8,8 +8,8 @@ import styles from './stylesReviews.module.css';
 import {Review} from '@/types/types';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
-import {setReviews} from "@/redux/features/filmSlice";
-import {fetchReview} from "@/api/api";
+import {setReviews} from '@/redux/features/filmSlice';
+import {fetchReview} from '@/api/api';
 
 export type ReviewsPropsType = {
   className?: string,
