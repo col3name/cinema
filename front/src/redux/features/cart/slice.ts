@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
 import {Film} from '@/api/api';
 
 export type FilmOnCart = Film & {

@@ -1,9 +1,9 @@
 
 import {fetchCinemas, fetchMovies, fetchReview, Film} from '@/api/api';
-import {setCinemas, setFilms, setReviews} from '@/redux/features/film/slice';
+import {setCinemas, setFilms, setReviews} from './slice';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
-import {Cinema} from '@/redux/features/film/model';
+import {Cinema} from './model';
 import {Review} from '@/types/types';
 
 export const useFetchCinemas = () => {

@@ -1,9 +1,11 @@
 import {useAppDispatch} from '@/redux/hooks';
-import {usePopupFilmRemoveOpened} from '@/redux/features/cart/selector';
+import {usePopupFilmRemoveOpened} from './selector';
 import {
   closeRemoveConfirmPopup,
-  confirmTheRemoveFromCart, decrementQuantity, removeFromCart,
-} from '@/redux/features/cart/slice';
+  confirmTheRemoveFromCart,
+  decrementQuantity,
+  removeFromCart,
+} from 'slice';
 
 export const useConfirmPopupOpened = () => {
   const opened = usePopupFilmRemoveOpened();
