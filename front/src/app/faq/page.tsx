@@ -2,13 +2,8 @@
 import React from 'react';
 import Accordion from '@/components/Common/Accordion/Accordion';
 
-import {Question} from '@/types/types';
 import PageContent from "@/components/Common/PageContent";
 import Layout from "@/components/Layout";
-
-export type FAQPropsType = {
-  questions: Question[]
-};
 
 const faqList = [
   {
@@ -27,15 +22,13 @@ const faqList = [
     description: 'Чтобы оставить отзыв на Билетопоиск, зайдите на их сайт, найдите раздел "Отзывы" или "Оценки", выберите соответствующую функцию, заполните форму с вашим отзывом и оценкой, и отправьте.'
   },
 ];
-const FAQ: React.FC<FAQPropsType> = ({
+const FAQ = ({
 }) => {
   return (
     <Layout>
       <PageContent>
         <Accordion
           items={ faqList }
-          onClick={ (txt: string) => alert("You clicked on\n" + txt) }
-          multiExpand={ true }
         />
       </PageContent>
     </Layout>

@@ -95,7 +95,6 @@ const Accordion: React.FC<AccordionPropsType> = ({
     <ul className={ styles.accordionContainer } role='list'>
       { items.map(({ id, ...data }) => (
         <AccordionItems
-          id={ id }
           key={ id }
           title={ data.title }
           description={ data.description }

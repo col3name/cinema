@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import Image from 'next/image'
 
 import Title from '@/components/Common/Tite/Title';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
@@ -21,10 +22,12 @@ const ReviewItem: React.FC<ReviewItemPropsType> = ({
   return (
     <div className={ cn(styles.reviewItem, className) }>
       { review.authorImage ? (
-        <img
+        <Image
           className={ styles.reviewImage }
           src={ review.authorImage }
           alt="review author face"
+          width={320}
+          height={240}
         />
       ) : (
         <PhotoIcon />

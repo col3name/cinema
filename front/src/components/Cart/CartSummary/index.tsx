@@ -4,14 +4,16 @@ import cn from 'classnames';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
 
 import styles from './stylesCartSummary.module.css';
-import {useSelector} from "react-redux";
+
+import {RootState} from "@/redux/store";
+import {useAppSelector} from "@/redux/hooks";
 
 export type CartSummaryPropsType = {
   className?: string,
 };
 
 const Counter = () =>  {
-  const count = useSelector((state) => state.cart).reduce((acc, it) => it.quantity + acc, 0);
+  const count = useAppSelector((state: RootState) => state.cart.films).reduce((acc, it) => it.quantity + acc, 0);
   return <Paragraph text={ `${ count }` }/>
 };
 

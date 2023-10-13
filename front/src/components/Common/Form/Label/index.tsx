@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import cn from 'classnames';
 
 import styles from '../stylesForm.module.css';
@@ -9,7 +9,7 @@ export type LabelPropsType = {
   children: React.ReactNode,
 };
 
-const Label: React<LabelPropsType> = ({
+const Label: React.FC<LabelPropsType> = ({
   className,
   title,
   children

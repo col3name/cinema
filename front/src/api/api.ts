@@ -1,4 +1,7 @@
-export type Genre = 'fantasy' | 'horror' |  'action' | 'comedy';
+import {Review} from '@/types/types';
+import {Cinema} from '@/components/Film/FilmSearch/FilmFilter';
+
+export type FilmGenre = 'fantasy' | 'horror' |  'action' | 'comedy';
 
 export type Film = {
   id: string,
@@ -6,23 +9,23 @@ export type Film = {
   posterUrl: string,
   releaseYear: number,
   description: string,
-  genre: Genre,
+  genre: FilmGenre,
   rating: number,
   director: string,
   reviewIds: string[],
 };
 
-export async function fetchCinemas() {
+export async function fetchCinemas(): Promise<Cinema[]> {
   const response = await fetch('http://localhost:3001/api/cinemas');
   return await response.json();
 }
 
-export async function fetchMovies() {
+export async function fetchMovies(): Promise<Film[]> {
   const response = await fetch('http://localhost:3001/api/movies');
   return await response.json();
 }
 
-export async function fetchReview(filmId: string) {
+export async function fetchReview(filmId: string): Promise<Review[]> {
   const response = await fetch(`http://localhost:3001/api/reviews?movieId=${filmId}`);
   return await response.json();
 }

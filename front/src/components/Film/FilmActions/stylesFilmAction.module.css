@@ -29,6 +29,10 @@
   text-align: center;
 }
 
+.filmAddButtonDisabled {
+  opacity: 0.5;
+}
+
 .removeButton:hover {
   cursor: pointer;
 }

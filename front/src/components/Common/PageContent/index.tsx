@@ -1,6 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 
+import Header from '@/components/Header/Header';
+
 import styles from './stylesPageContent.module.css';
 
 export type PageContentPropsType = {
@@ -15,11 +17,14 @@ const PageContent: React.FC<PageContentPropsType> = ({
   isFlex = false
 }) => {
   return (
-    <main className={ cn(styles.content, {
-      [styles.contentFlex]: isFlex
-    }, className) }>
-      { children && children }
-    </main>
+    <>
+      <Header/>
+      <main className={ cn(styles.content, {
+        [styles.contentFlex]: isFlex
+      }, className) }>
+        { children && children }
+      </main>
+    </>
   )
 };
 

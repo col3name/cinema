@@ -5,19 +5,20 @@ import { debounce } from 'lodash';
 import styles from '../stylesForm.module.css';
 
 export type TextareaPropsType = {
+  className?: string,
   selectAllOnMount?: boolean,
   placeholder?: string,
   onChange: (value: string) => void,
 };
 
-const Input: React<TextareaPropsType> = (props) => {
+const Input: React.FC<TextareaPropsType> = (props) => {
   const {
     className,
     selectAllOnMount,
     placeholder,
     onChange,
   } = props;
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement|null>(null);
   useEffect(() => {
     if (selectAllOnMount) {
       inputRef.current?.select();

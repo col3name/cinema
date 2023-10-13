@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import cn from 'classnames';
 
 import styles from './stylesButton.module.css';
@@ -17,7 +17,7 @@ export type ButtonPropsType = {
   popupAction?: boolean,
   children?: React.ReactNode,
   className?: string,
-  onClick?: any,
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
   warn?: boolean,
   alert?: boolean,
   done?: boolean,

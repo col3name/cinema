@@ -1,3 +1,7 @@
+import {Film, FilmGenre} from "@/api/api";
+import {FilmOnCart} from "@/redux/features/cartSlice";
+import {MouseEventHandler} from "react";
+
 export type Question = {
   title: string,
   answer: string,
@@ -5,7 +9,7 @@ export type Question = {
 
 export type IconPropsType = {
   className?: string,
-  onClick?: (e) => void,
+  onClick?: MouseEventHandler<SVGSVGElement> | undefined,
 };
 
 export type Review = {
@@ -21,13 +25,13 @@ export type FilmData = {
   title: string,
   releaseYear: number,
   director: string,
-  genre: string,
+  genre: FilmGenre,
   rating: number,
   description: string,
 };
 
 export type FilmInfoPropsType = {
-  className?: FilmData,
-  film: FilmData,
+  className?: string,
+  film: FilmData | FilmOnCart | Film,
   countOnCart?: number,
 }

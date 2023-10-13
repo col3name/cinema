@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 import Title from '@/components/Common/Tite/Title';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
@@ -9,52 +10,33 @@ import FilmActions from '@/components/Film/FilmActions';
 
 import styles from './stylesFilmDetail.module.css';
 
+import {Film} from '@/api/api';
+
 export type FilmCardPropsType = {
-  id: string,
-  posterUrl: string,
-  rating: number,
-  title: string,
-  description: string,
-  countOnCart: number,
-  releaseYear: number,
-  cinema: string,
-  session: string,
-  director: string,
+  film: Film,
 };
 
-const FilmDetails: React.FC<FilmCardPropsType> = (props) => {
-  const {
-    id,
-    film,
-    posterUrl,
-    rating,
-    genre,
-    title,
-    releaseYear,
-    director,
-    description,
-    countOnCart,
-    cinema,
-    session,
-  } = props;
+const FilmDetails: React.FC<FilmCardPropsType> = ({
+  film
+}) => {
   return (
     <div className={ styles.filmDetailsContainer }>
       <div className={ styles.filmContainer }>
-        <img className={ styles.filmPoster } src={ posterUrl } alt='film poster' />
+        <Image className={ styles.filmPoster } src={ film.posterUrl } alt='film poster' width={320} height={240} />
         <div className={ styles.filmContent }>
           <div className={ styles.filmHeader }>
-            <Title text={ title } />
+            <Title text={ film.title } />
             <FilmActions
               film={ film }
               needRemove
             />
           </div>
-          <FilmDescriptionItem title='Жанр: ' description={ genre } />
-          <FilmDescriptionItem title='Год выпуска: ' description={ releaseYear } />
-          <FilmDescriptionItem title='Рейтинг: ' description={ rating } />
-          <FilmDescriptionItem title='Режиссер: ' description={ director } />
+          <FilmDescriptionItem title='Жанр: ' description={ film.genre } />
+          <FilmDescriptionItem title='Год выпуска: ' description={ film.releaseYear } />
+          <FilmDescriptionItem title='Рейтинг: ' description={ film.rating } />
+          <FilmDescriptionItem title='Режиссер: ' description={ film.director } />
           <FilmDescriptionItem title='Описание: ' />
-          <Paragraph text={ description} />
+          <Paragraph text={ film.description } />
         </div>
        </div>
     </div>

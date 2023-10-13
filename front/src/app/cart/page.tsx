@@ -3,22 +3,21 @@ import React from 'react';
 
 import PageContent from '@/components/Common/PageContent';
 import CartSummary from "@/components/Cart/CartSummary";
-import CartList, from "@/components/Cart/CartList";
+import CartList from "@/components/Cart/CartList";
 import Layout from "@/components/Layout";
-import { useSelector } from "react-redux";
+
+import {RootState} from "@/redux/store";
+import {useAppSelector} from "@/redux/hooks";
 
 export type CartPagePropsType = {};
 
 const CartPage: React.FC<CartPagePropsType> = () => {
-  const films = useSelector((state) => state.cart);
+  const films = useAppSelector((state: RootState) => state.cart.films);
 
   return <Layout>
     <PageContent>
       <CartList
         films={ films }
-        addOneFilmToOrder={ () => {} }
-        removeFilmFromOrder={ () => {} }
-        removeOneFilmFromOrder={ () => {} }
       />
       <CartSummary />
     </PageContent>
