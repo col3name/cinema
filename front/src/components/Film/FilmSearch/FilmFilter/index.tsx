@@ -47,7 +47,7 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
     replaceUrlParam('name', filmName);
   };
 
-  const onSelectFilmGenre = value => {
+  const onSelectFilmGenre = (value: string) => {
     const newGenre = !value || value === DEFAULT_VALUE ? '' : value;
     updateGenreFilter(newGenre)
     replaceUrlParam('genre', newGenre);

@@ -19,11 +19,13 @@ const Dropdown: React.FC<DropdownPropsType> = ({
   const [selected, setIsSelected] = useState<string|undefined>(placeholder);
 
   const toggle = useCallback(() => setIsActive((old: boolean) => !old), [setIsActive]);
-  const onSelect = useCallback((e) => {
+
+  // eslint-disable-next-line
+  // @ts-ignore
+  const onSelect = useCallback((e) => {// eslint-disable-line
     const { textContent } = e.target;
     const newValue = (textContent === defaultText ? defaultValue: textContent).trim();
     onSelected(newValue);
-    console.log({newValue})
     setIsSelected(newValue);
     toggle();
   }, [defaultText, defaultValue, onSelected, toggle]);

@@ -12,7 +12,7 @@ export const useCartFilmsSelector = () =>
 export const useFilmInCart = (filmId: string): boolean =>
   useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId) === undefined);
 
-export const useCartFilm = (filmId: string): FilmOnCart =>
+export const useCartFilm = (filmId: string): FilmOnCart|undefined =>
   useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId));
 
 export const useTicketCount = () =>

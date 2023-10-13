@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import { cartReducer } from './features/cart/slice';
 import { filterReducer }  from './features/filmFilter/filterSlice';
 import filmReducer from './features/film/slice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     cart: cartReducer,
     filter: filterReducer,

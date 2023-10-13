@@ -13,6 +13,7 @@ export type DropdownPropsType = {
   options: DropdownOption[],
   className?: string,
   placeholder?: string,
+  defaultText?: string,
   defaultValue?: string,
   onSelected: (value: string) => void,
 }

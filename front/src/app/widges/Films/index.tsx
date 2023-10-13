@@ -13,7 +13,7 @@ const Films: React.FC<FilmsPropsType> = ({
   filmId
 })  => {
   const film = useFindFilmSelector(filmId);
-  const updateMovies = useFetchMovies()
+  const updateMovies = useFetchMovies();
 
   const [notFound, setNotFound] = useState<boolean>(film === undefined);
   const [loading, setLoading] = useState<boolean>(film === undefined);

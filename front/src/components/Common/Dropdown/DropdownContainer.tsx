@@ -6,7 +6,7 @@ import styles from './Dropdown.module.css';
 import {DropdownContainerPropsType, DropdownContext} from './Dropdown.props';
 
 const DropdownContainer: React.FC<DropdownContainerPropsType> = ({
-  className = '',
+  className,
   children,
 }) => {
   const { isActive} = useContext(DropdownContext);

@@ -8,7 +8,7 @@ type ReviewState = {
   filmId: string,
 };
 
-type Reviews = { [id: number]: Review[] };
+type Reviews = { [id: string]: Review[] };
 
 type FilmState = {
   films: Film[],

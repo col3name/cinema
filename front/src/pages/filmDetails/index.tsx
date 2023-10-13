@@ -14,6 +14,9 @@ export type FilmDetailsPropsType = {
 const FilmDetails: React.FC<FilmDetailsPropsType> = ({
   film,
 }) => {
+  if (!film) {
+    return null
+  }
   return <>
     <FilmDetailsItem film={ film } />
     <Reviews filmId={ film.id } />
