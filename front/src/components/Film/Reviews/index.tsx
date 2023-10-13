@@ -16,7 +16,7 @@ export type ReviewsPropsType = {
 const Reviews: React.FC<ReviewsPropsType> = ({
   className,
 }) => {
-  const reviews: Review[] = useAppSelector((state: RootState) => state.films.reviews);
+  const reviews: Review[] = useAppSelector((state: RootState) => state.films.reviews.list);
   return <div className={ cn(styles.reviewList, className)}>
     { reviews.map((review: Review, index: number) => <ReviewItem
       key={ index }

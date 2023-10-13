@@ -7,7 +7,8 @@ import Reviews from '@/components/Film/Reviews';
 
 import {fetchReview, Film} from '@/api/api';
 import {setReviews} from '@/redux/features/filmSlice';
-import {useAppDispatch} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {RootState} from "@/redux/store";
 
 export type FilmDetailsPropsType = {
   film: Film,
@@ -17,10 +18,17 @@ const FilmDetails: React.FC<FilmDetailsPropsType> = ({
   film,
 }) => {
   const dispatch = useAppDispatch();
+  const review: string = useAppSelector((state: RootState) => state.films.reviews.filmId)
   useEffect(() => {
-    dispatch(setReviews([]));
-    fetchReview(film.id).then(reviews => dispatch(setReviews(reviews)))
-  }, [film.id, dispatch]);
+    const filmId = film.id;
+    if (review && filmId && review === filmId) {
+      return;
+    }
+    dispatch(setReviews({filmId, list: []}));
+    fetchReview(filmId).then(reviews => {
+      dispatch(setReviews({ filmId, list: reviews }))
+    })
+  }, [film.id, dispatch, review]);
   return <>
     <FilmDetailsItem
       film={ film }

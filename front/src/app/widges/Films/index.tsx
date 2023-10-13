@@ -4,7 +4,7 @@ import {RootState} from '@/redux/store';
 import {fetchMovies, Film} from '@/api/api';
 
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
-const FilmDetails = React.lazy(() => import('@/pages/filmDetails'))
+import FilmDetails from '@/pages/filmDetails';
 
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {setFilms} from '@/redux/features/filmSlice';
@@ -27,6 +27,7 @@ const Films: React.FC<FilmsPropsType> = ({
         .then(films => {
           dispatch(setFilms(films));
           setLoading(false);
+          setNotFound(false);
         })
         .catch(() => {
           setNotFound(true);
