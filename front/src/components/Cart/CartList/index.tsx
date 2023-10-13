@@ -7,7 +7,7 @@ import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 import styles from './stylesCartList.module.css'
 
 import {FilmOnCart} from '@/redux/features/cart/slice';
-import {useFilmsSelector} from '@/redux/features/film/hooks';
+import {useCartFilmsSelector} from '@/redux/features/cart/selector';
 
 export type CartListPropsType = {
   className?: string,
@@ -16,7 +16,7 @@ export type CartListPropsType = {
 const CartList: React.FC<CartListPropsType> = ({
   className,
 }) => {
-  const films = useFilmsSelector();
+  const films = useCartFilmsSelector();
 
   return <div className={ cn(styles.cartContainer, className) }>
     { films.map((film: FilmOnCart) => (
