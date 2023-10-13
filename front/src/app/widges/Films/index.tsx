@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
 import FilmDetails from '@/pages/filmDetails';
 
-import {useFetchMovies, useFindFilmSelector} from "@/redux/features/film/hooks";
+import {useFetchMovies, useFindFilmSelector} from '@/redux/features/film/hooks';
 
 type FilmsPropsType = {
   filmId: string,

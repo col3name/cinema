@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import styles from './stylesCounter.module.css';
 
-import {useTicketCount} from "@/redux/features/cart/selector";
+import {useTicketCount} from '@/redux/features/cart/selector';
 
 export type CounterPropsType = {
   className?: string,

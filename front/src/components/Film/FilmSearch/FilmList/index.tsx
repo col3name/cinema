@@ -8,8 +8,8 @@ import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 import styles from './stylesFilmList.module.css';
 
 import {Film} from '@/api/api';
-import {useCinemasSelector, useFilmsSelector} from "@/redux/features/film/hooks";
-import {useFilmFilter} from "@/redux/features/filmFilter/selector";
+import {useCinemasSelector, useFilmsSelector} from '@/redux/features/film/hooks';
+import {useFilmFilter} from '@/redux/features/filmFilter/selector';
 
 export type FilmListPropsType = {
   className?: string

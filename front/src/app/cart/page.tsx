@@ -5,7 +5,7 @@ import PageContent from '@/components/Common/PageContent';
 import CartSummary from '@/components/Cart/CartSummary';
 import CartList from '@/components/Cart/CartList';
 import Layout from '@/components/Layout';
-import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
+import PopupFilmRemove from '@/components/Cart/popups/PopupFilmRemove';
 
 export type CartPagePropsType = {};
 

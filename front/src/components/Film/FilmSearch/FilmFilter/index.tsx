@@ -5,6 +5,7 @@ import cn from 'classnames';
 import FilterTitle from '@/components/Film/FilmSearch/FilmFilter/FilterTitle';
 import Input from '@/components/Common/Form/Input';
 import Label from '@/components/Common/Form/Label';
+import Dropdown from '@/components/Common/Dropdown/Dropdown';
 
 import styles from './stylesFilmFilter.module.css';
 
@@ -12,8 +13,7 @@ import {getUrlParameter, replaceUrlParam} from '@/shared/lib/url';
 import {useCinemasSelector, useFilmsSelector} from '@/redux/features/film/hooks';
 import {Cinema} from '@/redux/features/film/model';
 import {useFilmFilter} from '@/redux/features/filmFilter/hooks';
-import Dropdown from "@/components/Common/Dropdown/Dropdown";
-import {FilmGenre} from "@/api/api";
+import {FilmGenre} from '@/api/api';
 
 export type FilmFilterPropsType = {
   className?: string,

@@ -6,7 +6,7 @@ import ReviewItem from '@/components/Film/Reviews/ReviewItem';
 import styles from './stylesReviews.module.css';
 
 import {Review} from '@/types/types';
-import {useFilmReviews} from "@/redux/features/film/hooks";
+import {useFilmReviews} from '@/redux/features/film/hooks';
 
 export type ReviewsPropsType = {
   className?: string,

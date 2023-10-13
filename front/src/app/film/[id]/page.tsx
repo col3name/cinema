@@ -5,7 +5,7 @@ import React from 'react';
 import Layout from '@/components/Layout';
 import PageContent from '@/components/Common/PageContent';
 import Films from '@/app/widges/Films';
-import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
+import PopupFilmRemove from '@/components/Cart/popups/PopupFilmRemove';
 
 const FilmPage = (props: { params: { id: string }}) => {
   const filmId = props.params.id;
