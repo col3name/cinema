@@ -9,7 +9,7 @@ import FilmDecrementButton from '@/components/Film/FilmActions/FilmDecrementButt
 import styles from './stylesFilmAction.module.css';
 
 import {Film} from '@/api/api';
-import { removeFromCart} from '@/redux/features/cartSlice';
+import { removeFromCart} from '@/redux/features/cart/slice';
 import {useAppDispatch} from '@/redux/hooks';
 
 export type FilmActionPropsType = {

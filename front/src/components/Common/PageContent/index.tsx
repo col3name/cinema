@@ -24,6 +24,7 @@ const PageContent: React.FC<PageContentPropsType> = ({
       }, className) }>
         { children && children }
       </main>
+      <div id="root-modal"/>
     </>
   )
 };

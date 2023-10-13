@@ -11,6 +11,7 @@ import styles from './stylesFilm.module.css';
 import { fetchCinemas, fetchMovies } from '@/api/api';
 import {setCinemas, setFilms} from '@/redux/features/filmSlice';
 import {useAppDispatch} from '@/redux/hooks';
+import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
 
 const FilmSearch = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const FilmSearch = () => {
     <Suspense fallback={ <div>Loading</div>}>
       <FilmList />
     </Suspense>
+    <PopupFilmRemove />
   </PageContent>
 }
 

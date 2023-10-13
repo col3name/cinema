@@ -7,7 +7,7 @@ import PlusIcon from '@/components/Common/icons/plus';
 import styles from '@/components/Film/FilmActions/stylesFilmAction.module.css';
 
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {addToCart} from '@/redux/features/cartSlice';
+import {addToCart} from '@/redux/features/cart/slice';
 import {RootState} from '@/redux/store';
 import {Film} from '@/api/api';
 

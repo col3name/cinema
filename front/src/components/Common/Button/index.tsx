@@ -26,13 +26,16 @@ export type ButtonPropsType = {
 const Button: React.FC<ButtonPropsType> = ({
   type = 'button',
   disabled,
+  done= false,
   onClick,
   className,
   children
 }) => {
   return (
     <button
-      className={ cn(styles.button, className,) }
+      className={ cn(styles.button, className,{
+        [styles.buttonDone]: done
+      }) }
       type={ type }
       disabled={ disabled }
       onClick={ onClick }

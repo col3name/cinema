@@ -1,7 +1,7 @@
 import {MouseEventHandler} from 'react';
 
 import {Film, FilmGenre} from '@/api/api';
-import {FilmOnCart} from '@/redux/features/cartSlice';
+import {FilmOnCart} from '@/redux/features/cart/slice';
 
 export type Question = {
   title: string,

@@ -8,7 +8,7 @@ import styles from '@/components/Film/FilmActions/stylesFilmAction.module.css';
 
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
-import {decrementQuantity, FilmOnCart} from '@/redux/features/cartSlice';
+import {decrementQuantity, FilmOnCart} from '@/redux/features/cart/slice';
 
 type FilmRemoveButtonPropsType = {
   children?: React.ReactNode,

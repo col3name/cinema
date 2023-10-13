@@ -14,6 +14,9 @@ export type CartSummaryPropsType = {
 
 const Counter = () =>  {
   const count = useAppSelector((state: RootState) => state.cart.films).reduce((acc, it) => it.quantity + acc, 0);
+  if (count === 0) {
+    return null
+  }
   return <Paragraph text={ `${ count }` }/>
 };
 

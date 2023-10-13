@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { cartReducer } from './features/cartSlice';
+import { cartReducer } from './features/cart/slice';
 import { filterReducer }  from './features/filterSlice';
 import filmReducer from './features/filmSlice';
 

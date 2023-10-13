@@ -1,0 +1,84 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100vw;
+  height: 100vh;
+  padding: 24px;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modalContent {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  width: 344px;
+  height: 168px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.modalContent.small {
+  width: 600px;
+}
+
+.modalContentHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalContentHeaderTitle {
+  letter-spacing: 0;
+  text-align: left;
+  font: 600 20px/20px 'Roboto', Arial, sans-serif;
+}
+
+.modalContentTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 56px;
+  color: #3f72af;
+  margin-bottom: 32px;
+}
+
+.modalContentHeaderButton {
+  cursor: pointer;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+}
+
+.modalContentText {
+  margin-bottom: 24px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.modalContentFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalContentRow {
+  display: flex;
+  justify-content: space-between;
+}

@@ -7,6 +7,7 @@ import styles from './stylesLinkText.module.css';
 
 export type LinkTextPropsType = {
   className?: string,
+  large?: boolean,
   href: string,
   text: string,
 };
@@ -14,11 +15,14 @@ export type LinkTextPropsType = {
 const LinkText: React.FC<LinkTextPropsType> = ({
   className,
   href,
+  large = false,
   text,
 }) => {
   return (
     <Link href={ href }>
-      <span className={ cn(styles.linkText, className) }>{ text }</span>
+      <span className={ cn(styles.linkText, className, {
+        [styles.linkTextLarge]: large
+      }) }>{ text }</span>
     </Link>
   )
 };

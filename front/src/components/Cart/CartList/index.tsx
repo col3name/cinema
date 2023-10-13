@@ -6,7 +6,7 @@ import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 
 import styles from './stylesCartList.module.css'
 
-import {FilmOnCart} from '@/redux/features/cartSlice';
+import {FilmOnCart} from '@/redux/features/cart/slice';
 import {useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
 

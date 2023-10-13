@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FilmOnCart} from '@/redux/features/cartSlice';
+import {FilmOnCart} from '@/redux/features/cart/slice';
 import {useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
 

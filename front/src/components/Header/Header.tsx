@@ -10,7 +10,7 @@ import styles from './stylesHeader.module.css';
 const Header = () => {
   return (
       <header className={ styles.header }>
-        <LinkText href={'/' }  text="Билетопоиск" />
+        <LinkText href={'/' } large  text="Билетопоиск" />
         <Link href="/cart" style={ { display: 'flex', gap: '10px', alignItems: 'center' } }>
           <Counter />
           <BasketIcon />
