@@ -11,12 +11,14 @@ import {addToCart} from '@/redux/features/cartSlice';
 import {RootState} from '@/redux/store';
 import {Film} from '@/api/api';
 
-type FilmAddButtonPropsType = {
+type FilmIncrementButtonPropsType = {
   film: Film,
+  children?: React.ReactNode,
 }
 
-const FilmAddButton: React.FC<FilmAddButtonPropsType> = ({
+const FilmIncrementButton: React.FC<FilmIncrementButtonPropsType> = ({
   film,
+  children,
 }) => {
   const dispatch = useAppDispatch();
   const onAddFilm = (event: MouseEvent<HTMLButtonElement>) => {
@@ -28,12 +30,16 @@ const FilmAddButton: React.FC<FilmAddButtonPropsType> = ({
   };
   const isFull = useAppSelector((state: RootState) => state.cart.isFull)
   return (
-    <Button disabled={isFull} className={ cn(styles.filmAddButton, {
-      [styles.filmAddButtonDisabled]: isFull
-    }) } onClick={ onAddFilm }>
+    <Button
+      className={ cn(styles.filmButton, {
+        [styles.filmButtonDisabled]: isFull
+      }) }
+      onClick={ onAddFilm }
+    >
       <PlusIcon />
+      {children && children}
     </Button>
   )
 }
 
-export default FilmAddButton;
+export default FilmIncrementButton;
