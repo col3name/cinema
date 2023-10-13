@@ -3,9 +3,7 @@ import cn from 'classnames';
 
 import styles from './stylesCounter.module.css';
 
-import {useAppSelector} from '@/redux/hooks';
-import {RootState} from '@/redux/store';
-import {FilmOnCart} from '@/redux/features/cart/slice';
+import {useTicketCount} from "@/redux/features/cart/selector";
 
 export type CounterPropsType = {
   className?: string,
@@ -13,9 +11,9 @@ export type CounterPropsType = {
 
 const Counter: React.FC<CounterPropsType> = ({
   className,
-}) => {
-  const count = useAppSelector((state: RootState) => state.cart.films)
-    .reduce((acc: number, it: FilmOnCart) => it.quantity + acc, 0);
+}) =>
+{
+  const count = useTicketCount();
   if (count === 0) {
     return null
   }

@@ -6,10 +6,8 @@ import PlusIcon from '@/components/Common/icons/plus';
 
 import styles from '@/components/Film/FilmActions/stylesFilmAction.module.css';
 
-import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {addToCart} from '@/redux/features/cart/slice';
-import {RootState} from '@/redux/store';
 import {Film} from '@/api/api';
+import {useAddFilmToCart, useCartIsFull} from '@/redux/features/cart/selector';
 
 type FilmIncrementButtonPropsType = {
   film: Film,
@@ -20,15 +18,15 @@ const FilmIncrementButton: React.FC<FilmIncrementButtonPropsType> = ({
   film,
   children,
 }) => {
-  const dispatch = useAppDispatch();
+  const isFull = useCartIsFull();
+  const addToCart = useAddFilmToCart();
   const onAddFilm = (event: MouseEvent<HTMLButtonElement>) => {
     if (isFull) {
       return;
     }
     event.stopPropagation();
-    dispatch(addToCart(film));
+    addToCart(film)
   };
-  const isFull = useAppSelector((state: RootState) => state.cart.isFull)
   return (
     <Button
       className={ cn(styles.filmButton, {

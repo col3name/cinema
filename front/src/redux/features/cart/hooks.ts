@@ -1,16 +1,13 @@
-import {useDispatch} from 'react-redux';
-
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {popupFilmRemoveOpened} from '@/redux/features/cart/selector';
 import {
   closeRemoveConfirmPopup,
-  confirmTheRemoveFromCart,
-  openRemoveConfirmPopup,
+  confirmTheRemoveFromCart, decrementQuantity, removeFromCart,
 } from '@/redux/features/cart/slice';
 
 export const useConfirmPopupOpened = () => {
   const opened = useAppSelector(popupFilmRemoveOpened);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const close = () => {
     dispatch(closeRemoveConfirmPopup());
   }
@@ -24,10 +21,18 @@ export const useConfirmPopupOpened = () => {
     remove,
   }
 }
-export const useOpenConfirmPopup = () => {
-  const dispatch = useDispatch();
 
-  return (filmId) => {
-    dispatch(openRemoveConfirmPopup(filmId));
+export const useDecrementFilmInCart = () => {
+  const dispatch = useAppDispatch();
+  return (filmId: string) => {
+    dispatch(decrementQuantity(filmId));
+  }
+}
+
+export const useRemoveFromCart = () => {
+  const dispatch = useAppDispatch();
+
+  return (filmId: string) => {
+    dispatch(removeFromCart(filmId));
   }
 }

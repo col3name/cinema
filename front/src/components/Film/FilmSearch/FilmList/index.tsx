@@ -2,14 +2,14 @@
 
 import React from 'react';
 import cn from 'classnames';
-import {useAppSelector} from '@/redux/hooks';
 
 import FilmInfo from '@/components/Film/FilmSearch/FilmInfo';
 
 import styles from './stylesFilmList.module.css';
 
-import {RootState} from '@/redux/store';
 import {Film} from '@/api/api';
+import {useCinemasSelector, useFilmsSelector} from "@/redux/features/film/hooks";
+import {useFilmFilter} from "@/redux/features/filmFilter/selector";
 
 export type FilmListPropsType = {
   className?: string
@@ -18,9 +18,9 @@ export type FilmListPropsType = {
 const FilmList: React.FC<FilmListPropsType> = ({
   className,
 }) => {
-  const films = useAppSelector((state: RootState) => state.films.films);
-  const cinemas = useAppSelector((state: RootState) => state.films.cinemas);
-  const filter = useAppSelector((state: RootState) => state.filter);
+  const films = useFilmsSelector()
+  const cinemas = useCinemasSelector();
+  const filter = useFilmFilter()
 
   const filterFilms = (film: Film) =>
     (filter.name !== '' ? film.title.toLowerCase().includes(filter.name?.toLowerCase()) : true)

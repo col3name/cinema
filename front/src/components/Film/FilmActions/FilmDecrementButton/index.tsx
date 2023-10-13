@@ -6,9 +6,8 @@ import MinusIcon from '@/components/Common/icons/minus';
 
 import styles from '@/components/Film/FilmActions/stylesFilmAction.module.css';
 
-import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {RootState} from '@/redux/store';
-import {decrementQuantity, FilmOnCart} from '@/redux/features/cart/slice';
+import { useFilmInCart} from "@/redux/features/cart/selector";
+import {useDecrementFilmInCart} from "@/redux/features/cart/hooks";
 
 type FilmRemoveButtonPropsType = {
   children?: React.ReactNode,
@@ -19,12 +18,11 @@ const FilmDecrementButton: React.FC<FilmRemoveButtonPropsType> = ({
   children,
   filmId,
 }) => {
-  const dispatch = useAppDispatch();
-  const disabled = useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId) === undefined);
-
+  const disabled = useFilmInCart(filmId)
+  const decrementFilm = useDecrementFilmInCart();
   const onDecrementQuantity = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
     event.stopPropagation();
-    dispatch(decrementQuantity(filmId));
+    decrementFilm(filmId)
   };
   return (
     <Button

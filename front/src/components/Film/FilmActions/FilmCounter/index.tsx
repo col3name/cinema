@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {FilmOnCart} from '@/redux/features/cart/slice';
-import {useAppSelector} from '@/redux/hooks';
-import {RootState} from '@/redux/store';
+import {useCartFilm} from "@/redux/features/cart/selector";
 
 export type FilmCounterPropsType = {
   filmId: string,
@@ -13,9 +11,7 @@ const FilmCounter: React.FC<FilmCounterPropsType> = ({
   filmId,
   className = ''
 }) => {
-  const filmOnCart = useAppSelector((state: RootState) =>
-    state.cart.films.find((film: FilmOnCart) => film.id === filmId)
-  );
+  const filmOnCart = useCartFilm(filmId)
   return <p className={className}>{ filmOnCart && filmOnCart?.quantity || 0 } </p>
 }
 

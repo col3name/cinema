@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Film} from '@/api/api';
-import {Cinema} from '@/components/Film/FilmSearch/FilmFilter';
 import {Review} from '@/types/types';
+import {Cinema} from "@/redux/features/film/model";
 
 type ReviewState = {
   list: Review[],
@@ -9,6 +9,7 @@ type ReviewState = {
 };
 
 type Reviews = { [id: number]: Review[] };
+
 type FilmState = {
   films: Film[],
   cinemas: Cinema[],
@@ -21,7 +22,7 @@ const initialState: FilmState = {
   reviews: {},
 };
 
-const filmSlice = createSlice({
+const slice = createSlice({
   name: 'films',
   initialState,
   reducers: {
@@ -41,6 +42,6 @@ const filmSlice = createSlice({
     }
   },
 });
-export const { setFilms, setReviews, setCinemas } = filmSlice.actions;
+export const { setFilms, setReviews, setCinemas } = slice.actions;
 
-export default filmSlice.reducer;
+export default slice.reducer;

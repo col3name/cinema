@@ -9,8 +9,7 @@ import FilmDecrementButton from '@/components/Film/FilmActions/FilmDecrementButt
 import styles from './stylesFilmAction.module.css';
 
 import {Film} from '@/api/api';
-import { removeFromCart} from '@/redux/features/cart/slice';
-import {useAppDispatch} from '@/redux/hooks';
+import {useRemoveFromCart} from '@/redux/features/cart/hooks';
 
 export type FilmActionPropsType = {
   film: Film,
@@ -22,11 +21,10 @@ const FilmActions: React.FC<FilmActionPropsType> = ({
   film,
   needRemove = false,
 }) => {
-  const dispatch = useAppDispatch();
-
+  const removeFromCart = useRemoveFromCart();
   const onRemoveFromOrder = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
     event.stopPropagation();
-    dispatch(removeFromCart(film.id));
+    removeFromCart(film.id)
   };
   return (
     <div className={ styles.filmActions }>

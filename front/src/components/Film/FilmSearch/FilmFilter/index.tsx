@@ -8,50 +8,48 @@ import Label from '@/components/Common/Form/Label';
 
 import styles from './stylesFilmFilter.module.css';
 
-import {setCinema, setGenre, setName} from '@/redux/features/filterSlice';
 import {getUrlParameter, replaceUrlParam} from '@/shared/lib/url';
-import {RootState} from '@/redux/store';
-import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-
-export type Cinema = {
-  id: string,
-  name: string,
-  movieIds: string[],
-};
+import {useCinemasSelector, useFilmsSelector} from '@/redux/features/film/hooks';
+import {Cinema} from '@/redux/features/film/model';
+import {useFilmFilter} from '@/redux/features/filmFilter/hooks';
 
 export type FilmFilterPropsType = {
   className?: string,
 };
-
 
 const DEFAULT_VALUE = 'Все';
 
 const FilmFilter: React.FC<FilmFilterPropsType> = ({
   className,
 }) => {
-  const dispatch = useAppDispatch();
-  const films = useAppSelector((state: RootState) => state.films.films) || [];
-  const cinemas = useAppSelector((state: RootState) => state.films.cinemas) || [];
+  const films = useFilmsSelector()
+  const cinemas = useCinemasSelector();
   const genres = Array.from(new Set(films.map(film => film.genre)).values());
 
+  const {
+    updateCinemaFilter,
+    updateGenreFilter,
+    updateFilmFilter,
+  } = useFilmFilter()
   useEffect(() => {
-    const name = getUrlParameter('name');
+    const filmName = getUrlParameter('name');
     const genre = getUrlParameter('genre');
     const cinema = getUrlParameter('cinema');
-    dispatch(setCinema(cinema));
-    dispatch(setName(name));
-    dispatch(setGenre(genre));
-  }, [dispatch]);
+    updateCinemaFilter(cinema);
+    updateFilmFilter(filmName);
+    updateGenreFilter(genre);
+  }, [updateCinemaFilter, updateFilmFilter, updateGenreFilter]);
 
-  const onChangeFilmName = (value: string) => {
-    dispatch(setName(value));
-    replaceUrlParam('name', value);
+  const onChangeFilmName = (filmName: string) => {
+    updateFilmFilter(filmName)
+    replaceUrlParam('name', filmName);
   };
 
   const onSelectFilmGenre = e => {
     const value = e.target.value;
-    dispatch(setGenre(value === DEFAULT_VALUE ? '' : value));
-    replaceUrlParam('genre', value === DEFAULT_VALUE ? '' : value);
+    const newGenre = value === DEFAULT_VALUE ? '' : value;
+    updateGenreFilter(newGenre)
+    replaceUrlParam('genre', newGenre);
   };
 
   const onSelectCinema = (e) => {
@@ -60,7 +58,7 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
       return;
     }
     const {id} = cinema;
-    dispatch(setCinema(id));
+    updateCinemaFilter(id)
     replaceUrlParam('cinema', id);
   };
 

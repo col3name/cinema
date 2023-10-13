@@ -5,15 +5,14 @@ import Paragraph from '@/components/Common/Paragraph/Paragraph';
 
 import styles from './stylesCartSummary.module.css';
 
-import {RootState} from '@/redux/store';
-import {useAppSelector} from '@/redux/hooks';
+import {useTicketCount} from '@/redux/features/cart/selector';
 
 export type CartSummaryPropsType = {
   className?: string,
 };
 
 const Counter = () =>  {
-  const count = useAppSelector((state: RootState) => state.cart.films).reduce((acc, it) => it.quantity + acc, 0);
+  const count = useTicketCount();
   if (count === 0) {
     return null
   }
