@@ -27,9 +27,8 @@ const FAQ = ({
   return (
     <Layout>
       <PageContent>
-        <Accordion
-          items={ faqList }
-        />
+        <Accordion items={ faqList } />
+        <Accordion items={ faqList } />
       </PageContent>
     </Layout>
   );

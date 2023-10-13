@@ -1,44 +1,34 @@
 'use client';
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import cn from 'classnames';
 
-import Button from '@/components/Common/Button';
+import AccordionTitle from '@/components/Common/Accordion/AccordionTitle';
+import AccordionContent from '@/components/Common/Accordion/AccordionContent';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
-import ArrowIcon from '@/components/Common/icons/arrow';
 
 import styles from './stylesAccordion.module.css';
 
-export type AccordionItemPropsType = {
-  title: string,
-  description: string,
-  className?: string,
-};
+import {AccordionContext, AccordionItemPropsType} from './Accordion.props';
 
 const AccordionItem: React.FC<AccordionItemPropsType> = ({
   className,
   title,
   description,
 }) => {
-  const [isShowing, setIsShowing] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-  const toggle = () => {
-    setIsShowing(!isShowing);
-  };
+  const toggle = useCallback( () => {
+    setIsActive((value: boolean) => !value);
+  }, []);
 
   return (
     <div className={ cn(styles.accordionItem, className)}>
-      <div className={ styles.accordionTitleWrapper }>
-        <Button
-          className={ styles.accordionButton }
-          onClick={ toggle }
-        >
-          <span className={ styles.accordionTitle }>{ title }</span>
-        </Button>
-        <ArrowIcon className={ isShowing ? styles.accordionItemOpened : ''} />
-      </div>
-      { isShowing && <div className={ styles.accordionContent}>
-        <Paragraph text={ description } />
-      </div> }
+      <AccordionContext.Provider value={ { isActive, toggle } }>
+        <AccordionTitle text={ title } />
+        <AccordionContent>
+          <Paragraph text={ description } />
+        </AccordionContent>
+      </AccordionContext.Provider>
     </div>
   );
 }
