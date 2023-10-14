@@ -18,7 +18,7 @@ export type FilmCardPropsType = {
   film: Film,
 };
 
-const FilmActionsWrapper = ({
+const FilmActionsWrapper: React.FC<FilmCardPropsType> = ({
   film,
 }) => {
   const inCart = useFilmInCartNotExist(film.id);
