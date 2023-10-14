@@ -9,7 +9,7 @@ import styles from './stylesFilmDetails.module.css';
 
 import { FilmInfoPropsType } from '@/shared/types/types';
 import {Film} from '@/api/api';
-import {Genre} from '@/shared/lib/translator';
+import {GenreToText} from '@/shared/lib/translator';
 
 const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,
@@ -21,7 +21,7 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
     <div className={ styles.filmContent }>
       <div>
         <Link href={ `/film/${ film.id }` }><h2>{ film.title }</h2></Link>
-        <p>{ Genre[film.genre] }</p>
+        <p>{ GenreToText[film.genre] }</p>
       </div>
       { film && (
         <FilmActions

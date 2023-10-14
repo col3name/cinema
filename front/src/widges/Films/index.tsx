@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import Paragraph from '@/components/Common/Paragraph/Paragraph';
 import FilmDetails from '@/pages/filmDetails';
 
-import {useFetchMovies, useFindFilmSelector} from '@/redux/features/film/hooks';
+import {useFetchMovie, useFindFilmSelector} from '@/redux/features/film/hooks';
 
 type FilmsPropsType = {
   filmId: string,
@@ -13,14 +13,14 @@ const Films: React.FC<FilmsPropsType> = ({
   filmId
 })  => {
   const film = useFindFilmSelector(filmId);
-  const updateMovies = useFetchMovies();
+  const fetchMovie = useFetchMovie();
 
   const [notFound, setNotFound] = useState<boolean>(film === undefined);
   const [loading, setLoading] = useState<boolean>(film === undefined);
   useEffect(() => {
     if (!film) {
       setLoading(true)
-      updateMovies()
+      fetchMovie(filmId)
         .then(() => {
           setLoading(false);
           setNotFound(false);
@@ -30,7 +30,7 @@ const Films: React.FC<FilmsPropsType> = ({
           setLoading(false);
         });
     }
-  }, [updateMovies,film, setNotFound])
+  }, [fetchMovie, film, filmId, setNotFound])
 
   if (loading) {
     return <div>Loading</div>
