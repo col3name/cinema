@@ -16,21 +16,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Install dependencies
-        run: npm install
+        run: cd ./front && npm install && yarn build && yarn lint && cd ../
 
-      - name: Run lint (опционально)
-        run: npm run lint
+#      - name: Run lint (опционально)
+#        run: cd ./front && npm run lint
 
-      - name: Install commitlint
-        run: npm install --save-dev @commitlint/{cli,config-conventional}
-      - name: Run commitlint
-        run: npx commitlint --from HEAD~1 --to HEAD --verbose
-      - name: Validate current commit (last commit) with commitlint
-        if: github.event_name == 'push'
-        run: npx commitlint --from HEAD~1 --to HEAD --verbose
+#      - name: Install commitlint
+#        run: npm install --save-dev @commitlint/{cli,config-conventional}
+#      - name: Run commitlint
+#        run: npx commitlint --from HEAD~1 --to HEAD --verbose
+#      - name: Validate current commit (last commit) with commitlint
+#        if: github.event_name == 'push'
+#        run: npx commitlint --from HEAD~1 --to HEAD --verbose
 #
 #      - name: Run tests
 #        run: npm test

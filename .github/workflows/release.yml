@@ -1,0 +1,56 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*' # Срабатывать на push с тегами, начинающимися с 'v'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get Previous Release Tag
+        id: prev_tag
+        run: echo ::set-output name=previous_tag::$(git describe --tags --abbrev=0)
+
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          git log --oneline --no-decorate --pretty=format:"%h %s (%an)" ${{ steps.prev_tag.outputs.previous_tag }}..HEAD > changelog.txt
+          echo ::set-output name=changelog::changelog.txt
+
+      - name: Create or Update Release Registry Entry
+        id: create_release
+        run: |
+          # Ваш сценарий для создания или обновления записи в реестре релизов
+          # Информация, полученная из предыдущих шагов:
+          # - Номер версии: ${{ github.ref }}
+          # - Changelog: ${{ steps.changelog.outputs.changelog }}
+          # - Автор и дата: Можно извлечь из тэга в переменной ${{ github.ref }}
+
+      - name: Run Checks (Replace with your tests)
+        id: run_checks
+        run: |
+          cd ./front && npm install && npm run build && cd ../
+          cd ./simple_api && npm install && npm run build && cd ../
+          # Ваш сценарий для запуска проверок
+          # Если проверки прошли успешно, добавьте ссылку на результат в реестр релизов
+      - name: changelog
+        run: |
+          git log --pretty="- %s" > CHANGELOG.md
+          cat CHANGELOG.md
+      - name: Deploy to gh-pages
+        if: steps.run_checks.outcome == 'success'
+        run: |
+          # Ваш сценарий для развертывания приложения на gh-pages
+          # Обновите запись в реестре релизов, чтобы включить ссылку на gh-pages
+
+      - name: Close Release Issue
+        if: steps.run_checks.outcome == 'success'
+        run: |
+          # Ваш сценарий для автоматического закрытия релизного issue на GitHub
+
