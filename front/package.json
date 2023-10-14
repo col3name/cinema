@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "next test"
+    "test": "next test",
+    "commintlint": "commitlint --from=HEAD~1"
   },
   "dependencies": {
     "@faker-js/faker": "8.0.2",
