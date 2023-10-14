@@ -22,7 +22,7 @@ jobs:
         run: cd ./front && npm install
 
       - name: Run lint (опционально)
-        run: npm run lint
+        run: cd ./front && npm run lint
 
       - name: Install commitlint
         run: npm install --save-dev @commitlint/{cli,config-conventional}
