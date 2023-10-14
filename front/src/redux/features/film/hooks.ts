@@ -1,5 +1,5 @@
 
-import {fetchCinemas, fetchMovies, fetchReview, Film} from '@/api/api';
+import {fetchCinemas, fetchMovie, fetchMovies, fetchReview, Film} from '@/api/api';
 import {setCinemas, setFilms, setReviews} from './slice';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
@@ -16,6 +16,16 @@ export const useFetchMovies = () => {
   const dispatch = useAppDispatch();
   return () => {
     return fetchMovies().then(films => dispatch(setFilms(films)));
+  }
+}
+export const useFetchMovie = () => {
+  const dispatch = useAppDispatch();
+  return (filmId: string) => {
+    return fetchMovie(filmId).then(film => {
+      if (film) {
+        dispatch(setFilms([film]))
+      }
+    });
   }
 }
 

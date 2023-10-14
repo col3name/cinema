@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {FilmGenre} from "@/api/api";
 
 export type FilmFilter = {
   cinema: string,
@@ -17,7 +18,7 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    setGenre(state: FilmFilterState, action: PayloadAction<string>) {
+    setGenre(state: FilmFilterState, action: PayloadAction<FilmGenre>) {
       const newValue = action.payload;
       if (state.genre === newValue) {
         return

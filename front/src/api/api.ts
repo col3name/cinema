@@ -1,7 +1,7 @@
 import {Review} from '@/shared/types/types';
 import {Cinema} from '@/redux/features/film/model';
 
-export type FilmGenre = 'fantasy' | 'horror' |  'action' | 'comedy';
+export type FilmGenre = 'fantasy' | 'horror' | 'action' | 'comedy' | '';
 
 export type Film = {
   id: string,
@@ -16,16 +16,21 @@ export type Film = {
 };
 
 export async function fetchCinemas(): Promise<Cinema[]> {
-  const response = await fetch('http://localhost:3001/api/cinemas');
+  const response = await fetch('/api/cinemas');
   return await response.json();
 }
 
 export async function fetchMovies(): Promise<Film[]> {
-  const response = await fetch('http://localhost:3001/api/movies');
+  const response = await fetch('/api/movies');
+  return await response.json();
+}
+
+export async function fetchMovie(filmId: string): Promise<Film|undefined> {
+  const response = await fetch(`/api/movie?movieId=${filmId}`);
   return await response.json();
 }
 
 export async function fetchReview(filmId: string): Promise<Review[]> {
-  const response = await fetch(`http://localhost:3001/api/reviews?movieId=${filmId}`);
+  const response = await fetch(`/api/reviews?movieId=${filmId}`);
   return await response.json();
 }

@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Previous Release Tag
         id: prev_tag
@@ -35,10 +35,8 @@ jobs:
       - name: Run Checks (Replace with your tests)
         id: run_checks
         run: |
-          cd ./front && npm install && npm run build && cd ../
-          cd ./simple_api && npm install && npm run build && cd ../
-          # Ваш сценарий для запуска проверок
-          # Если проверки прошли успешно, добавьте ссылку на результат в реестр релизов
+          cd ./front && npm install && npm run build && npm run lint && cd ../
+          cd ./simple_api && npm install && cd ../
       - name: changelog
         run: |
           git log --pretty="- %s" > CHANGELOG.md
