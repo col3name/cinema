@@ -34,5 +34,5 @@ export type FilmData = {
 export type FilmInfoPropsType = {
   className?: string,
   film: FilmData | FilmOnCart | Film,
-  countOnCart?: number,
+  enableRemove?: boolean,
 }

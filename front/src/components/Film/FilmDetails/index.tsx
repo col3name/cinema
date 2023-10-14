@@ -28,7 +28,7 @@ const FilmDetails: React.FC<FilmCardPropsType> = ({
             <Title text={ film.title } />
             <FilmActions
               film={ film }
-              needRemove
+              enableRemove
             />
           </div>
           <FilmDescriptionItem title='Жанр: ' description={ film.genre } />

@@ -13,13 +13,13 @@ import {useRemoveFromCart} from '@/redux/features/cart/hooks';
 
 export type FilmActionPropsType = {
   film: Film,
-  needRemove?: boolean,
+  enableRemove?: boolean,
 };
 
 
 const FilmActions: React.FC<FilmActionPropsType> = ({
   film,
-  needRemove = false,
+  enableRemove = false,
 }) => {
   const removeFromCart = useRemoveFromCart();
   const onRemoveFromOrder = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
@@ -31,7 +31,7 @@ const FilmActions: React.FC<FilmActionPropsType> = ({
       <FilmDecrementButton filmId={ film.id } />
       <FilmCounter key={ film.id } filmId={ film.id } />
       <FilmIncrementButton film={ film }/>
-      { needRemove && <CloseIcon className={ styles.filmRemoveButton } onClick={ onRemoveFromOrder } />}
+      { enableRemove && <CloseIcon className={ styles.filmRemoveButton } onClick={ onRemoveFromOrder } />}
     </div>
   );
 };

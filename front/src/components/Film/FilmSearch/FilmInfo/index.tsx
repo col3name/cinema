@@ -13,7 +13,7 @@ import {Film} from '@/api/api';
 const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,
   film,
-  countOnCart= 0,
+  enableRemove= false
 }) => {
   return <div className={ cn(styles.filmInfo, className) }>
     <Image className={ styles.filmInfoSmallPoster } src={ film.posterUrl } alt='film poster' width={320} height={240} />
@@ -25,11 +25,12 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
       { film && (
         <FilmActions
           film={ film as Film }
-          needRemove={ countOnCart === undefined }
+          enableRemove={ enableRemove !== undefined && enableRemove }
         />
       )}
     </div>
   </div>
 }
 
-export default React.memo(FilmInfo);
+const MemoFilmInfo = React.memo(FilmInfo);
+export default MemoFilmInfo;

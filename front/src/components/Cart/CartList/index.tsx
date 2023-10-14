@@ -23,6 +23,7 @@ const CartList: React.FC<CartListPropsType> = ({
       <FilmInfo
         key={ film.id }
         film={ {...film, quantity:undefined} }
+        enableRemove={true}
       />
     )) }
   </div>
