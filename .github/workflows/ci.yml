@@ -19,7 +19,7 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: cd ./front && npm install
+        run: cd ./front && npm install && yarn build && cd ../
 
 #      - name: Run lint (опционально)
 #        run: cd ./front && npm run lint
