@@ -93,17 +93,6 @@ const slice = createSlice({
         state.isFull = false;
       }
     },
-    openRemoveConfirmPopup: (state: CartState, action: PayloadAction<string>) => {
-      if (state.confirmPopup.opened) {
-        if (state.confirmPopup.filmId !== action.payload) {
-          state.confirmPopup.filmId = action.payload;
-          return
-        }
-        return;
-      }
-      state.confirmPopup.opened = true;
-      state.confirmPopup.filmId = action.payload;
-    },
     closeRemoveConfirmPopup: (state: CartState) => {
       if (!state.confirmPopup.opened) {
         return;
@@ -118,10 +107,8 @@ export const cartReducer = slice.reducer;
 
 export const {
   addToCart,
-  incrementQuantity,
   decrementQuantity,
   confirmTheRemoveFromCart,
   removeFromCart,
-  openRemoveConfirmPopup,
   closeRemoveConfirmPopup,
 } = slice.actions;

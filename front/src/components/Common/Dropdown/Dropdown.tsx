@@ -31,8 +31,8 @@ const Dropdown: React.FC<DropdownPropsType> = ({
   }, [defaultText, defaultValue, onSelected, toggle]);
   return (
     <DropdownContext.Provider value={ { isActive, selected, toggle }}>
-      <DropdownContainer className={ className }>
-        <DropdownTitle placeholder={ placeholder }/>
+      <DropdownContainer className={ className !== undefined ? className : '' }>
+        <DropdownTitle placeholder={ placeholder } />
         <DropdownContent>
           <DropdownItem key="default" onSelect={ onSelect }>{ defaultText }</DropdownItem>
           { options.map((option) => (

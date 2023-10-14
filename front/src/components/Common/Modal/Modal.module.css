@@ -33,10 +33,6 @@
   box-sizing: border-box;
 }
 
-.modalContent.small {
-  width: 600px;
-}
-
 .modalContentHeader {
   display: flex;
   justify-content: space-between;
@@ -48,34 +44,11 @@
   font: 600 20px/20px 'Roboto', Arial, sans-serif;
 }
 
-.modalContentTitle {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 56px;
-  color: #3f72af;
-  margin-bottom: 32px;
-}
-
 .modalContentHeaderButton {
   cursor: pointer;
   box-sizing: border-box;
   border: none;
   background: transparent;
-}
-
-.modalContentText {
-  margin-bottom: 24px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  color: #000000;
-}
-
-.modalContentFooter {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .modalContentRow {

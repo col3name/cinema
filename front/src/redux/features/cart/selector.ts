@@ -9,7 +9,7 @@ export const usePopupFilmRemoveOpened = (): boolean =>
 export const useCartFilmsSelector = (): FilmOnCart[] =>
   useAppSelector((state: RootState) => state.cart.films) || [];
 
-export const useFilmInCart = (filmId: string): boolean =>
+export const useFilmInCartNotExist = (filmId: string): boolean =>
   useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId) === undefined);
 
 export const useCartFilm = (filmId: string): FilmOnCart|undefined =>

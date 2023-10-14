@@ -11,10 +11,23 @@ import FilmActions from '@/components/Film/FilmActions';
 import styles from './stylesFilmDetail.module.css';
 
 import {Film} from '@/api/api';
+import {useFilmInCartNotExist} from "@/redux/features/cart/selector";
 
 export type FilmCardPropsType = {
   film: Film,
 };
+
+const FilmActionsWrapper = ({
+  film,
+}) => {
+  const inCart = useFilmInCartNotExist(film.id);
+  return (
+    <FilmActions
+      film={ film }
+      enableRemove={!inCart}
+    />
+  )
+}
 
 const FilmDetails: React.FC<FilmCardPropsType> = ({
   film
@@ -26,10 +39,7 @@ const FilmDetails: React.FC<FilmCardPropsType> = ({
         <div className={ styles.filmContent }>
           <div className={ styles.filmHeader }>
             <Title text={ film.title } />
-            <FilmActions
-              film={ film }
-              enableRemove
-            />
+            <FilmActionsWrapper film={ film } />
           </div>
           <FilmDescriptionItem title='Жанр: ' description={ film.genre } />
           <FilmDescriptionItem title='Год выпуска: ' description={ film.releaseYear } />

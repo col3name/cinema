@@ -3,11 +3,6 @@ import {MouseEventHandler} from 'react';
 import {Film, FilmGenre} from '@/api/api';
 import {FilmOnCart} from '@/redux/features/cart/slice';
 
-export type Question = {
-  title: string,
-  answer: string,
-};
-
 export type IconPropsType = {
   className?: string,
   onClick?: MouseEventHandler<SVGSVGElement> | undefined,
