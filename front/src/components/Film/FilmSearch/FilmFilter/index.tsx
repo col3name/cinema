@@ -14,6 +14,7 @@ import {useCinemasSelector, useFilmsSelector} from '@/redux/features/film/hooks'
 import {Cinema} from '@/redux/features/film/model';
 import {useFilmFilter} from '@/redux/features/filmFilter/hooks';
 import {FilmGenre} from '@/api/api';
+import {Genre} from "@/shared/lib/translator";
 
 export type FilmFilterPropsType = {
   className?: string,
@@ -70,7 +71,7 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({
       </Label>
       <Label title="Жанр">
         <Dropdown
-          options={ genres.map(genre => ({ value: genre}))}
+          options={ genres.map(genre => ({ value: Genre[genre] }))}
           onSelected={ onSelectFilmGenre }
           placeholder="Выберите жанр"
         />

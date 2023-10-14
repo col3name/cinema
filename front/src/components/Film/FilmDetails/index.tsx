@@ -11,7 +11,8 @@ import FilmActions from '@/components/Film/FilmActions';
 import styles from './stylesFilmDetail.module.css';
 
 import {Film} from '@/api/api';
-import {useFilmInCartNotExist} from "@/redux/features/cart/selector";
+import {useFilmInCartNotExist} from '@/redux/features/cart/selector';
+import {Genre} from '@/shared/lib/translator';
 
 export type FilmCardPropsType = {
   film: Film,
@@ -41,7 +42,7 @@ const FilmDetails: React.FC<FilmCardPropsType> = ({
             <Title text={ film.title } />
             <FilmActionsWrapper film={ film } />
           </div>
-          <FilmDescriptionItem title='Жанр: ' description={ film.genre } />
+          <FilmDescriptionItem title='Жанр: ' description={ Genre[film.genre ]} />
           <FilmDescriptionItem title='Год выпуска: ' description={ film.releaseYear } />
           <FilmDescriptionItem title='Рейтинг: ' description={ film.rating } />
           <FilmDescriptionItem title='Режиссер: ' description={ film.director } />
