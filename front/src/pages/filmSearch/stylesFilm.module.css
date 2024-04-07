@@ -1,4 +1,5 @@
 .filmContainer {
   display: flex ;
   flex-direction: row !important;
+  height: calc(100vh - 250px);
 }

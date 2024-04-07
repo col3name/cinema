@@ -1,7 +1,8 @@
 .filmList {
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: calc(100vw - 370px);
+  overflow-y: scroll;
+  border-radius: 8px;
 }

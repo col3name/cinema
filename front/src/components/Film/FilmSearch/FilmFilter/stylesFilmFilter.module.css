@@ -7,8 +7,6 @@
   gap: 20px;
   width: 370px;
   min-width: 370px;
-  height: calc(100vh - 120px);
-  min-height: calc(100vh - 120px);
 
   padding: 24px;
   background: white;
