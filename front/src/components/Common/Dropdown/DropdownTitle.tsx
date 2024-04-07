@@ -9,12 +9,13 @@ import {DropdownContext, DropdownTitlePropsType} from './Dropdown.props';
 
 const DropdownTitle: React.FC<DropdownTitlePropsType> = ({
   placeholder = '',
+  className,
   children = null
 }) => {
   const {isActive, selected, toggle} = useContext(DropdownContext);
   return (
     <div
-      className={ styles.dropdownBtn }
+      className={ cn(styles.dropdownBtn, className)}
       onClick={toggle}
     >
       <span className={ isActive ? styles.dropdownTitleActive : '' }>{selected || placeholder}</span>

@@ -2,13 +2,13 @@ import React from 'react';
 import cn from 'classnames';
 import Image from 'next/image'
 
-import Title from '@/components/Common/Tite/Title';
-import Paragraph from '@/components/Common/Paragraph/Paragraph';
+import Title from '@/components/Common/Tite';
+import Paragraph from '@/components/Common/Paragraph';
 import PhotoIcon from '@/components/Common/icons/photo';
 
 import styles from './stylesReviews.module.css';
 
-import { Review } from '@/shared/types/types';
+import { Review } from '@/shared/types';
 
 export type ReviewItemPropsType = {
   review: Review,
@@ -20,7 +20,7 @@ const ReviewItem: React.FC<ReviewItemPropsType> = ({
   className,
 }) => {
   return (
-    <div className={ cn(styles.reviewItem, className) }>
+    <li className={ cn(styles.reviewItem, className) }>
       { review.authorImage ? (
         <Image
           className={ styles.reviewImage }
@@ -39,7 +39,7 @@ const ReviewItem: React.FC<ReviewItemPropsType> = ({
         </div>
         <Paragraph>{ review.text }</Paragraph>
       </div>
-    </div>
+    </li>
   )
 }
 

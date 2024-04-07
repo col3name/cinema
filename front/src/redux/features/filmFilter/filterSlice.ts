@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {FilmGenre} from "@/api/api";
+import {FilmGenre} from "@/api";
 
 export type FilmFilter = {
   cinema: string,

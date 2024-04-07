@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import {getById, reply} from '@/pages/api/utils';
 import {movies} from '@/pages/api/mock';
-import {Film} from "@/api/api";
+import {Film} from "@/api";
 
 type ResponseData = {
   message: string

@@ -1,7 +1,7 @@
 import {RootState} from '@/redux/store';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {addToCart, FilmOnCart} from './slice';
-import {Film} from '@/api/api';
+import {Film} from '@/api';
 
 export const usePopupFilmRemoveOpened = (): boolean =>
   useAppSelector((state: RootState) => state.cart.confirmPopup.opened);
@@ -23,7 +23,8 @@ export const useCartIsFull = (): boolean =>
 
 export const useAddFilmToCart = () => {
   const dispatch = useAppDispatch();
+
   return (film: Film) => {
     dispatch(addToCart(film));
-  }
-}
+  };
+};

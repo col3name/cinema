@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import Portal from '@/components/Common/Portal/Portal';
+import Portal from '@/components/Common/Portal';
 import CloseIcon from '@/components/Common/icons/close';
 
 import styles from './Modal.module.css';

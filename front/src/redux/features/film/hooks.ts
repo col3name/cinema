@@ -1,53 +1,86 @@
+import {useEffect} from 'react';
+import useSWR from 'swr';
 
-import {fetchCinemas, fetchMovie, fetchMovies, fetchReview, Film} from '@/api/api';
-import {setCinemas, setFilms, setReviews} from './slice';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {RootState} from '@/redux/store';
+
+import {fetchCinemas, fetchMovie, fetchMovies, fetchReview, Film} from '@/api';
+
+import {setCinemas, setFilms, setReviews} from './slice';
 import {Cinema} from './model';
-import {Review} from '@/shared/types/types';
+import {Review} from '@/shared/types';
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
-  return () => {
-    return fetchCinemas().then(cinemas => dispatch(setCinemas(cinemas)))
-  }
+
+  const {data, isLoading, error} = useSWR('/api/cinemas', fetchCinemas);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setCinemas(data));
+    }
+  }, [data, dispatch]);
+
+  return {
+    cinemas: data, isLoading, error
+  };
 }
+
 export const useFetchMovies = () => {
   const dispatch = useAppDispatch();
-  return () => {
-    return fetchMovies().then(films => dispatch(setFilms(films)));
-  }
-}
-export const useFetchMovie = () => {
+
+  const { data, isLoading, error } = useSWR('/api/movies', fetchMovies)
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setFilms(data))
+    }
+  }, [dispatch, data]);
+
+  return {
+    movies: data,
+    isLoading,
+    error,
+  };
+};
+
+export const useFetchMovie = (filmId: string) => {
   const dispatch = useAppDispatch();
-  return (filmId: string) => {
-    return fetchMovie(filmId).then(film => {
-      if (film) {
-        dispatch(setFilms([film]))
-      }
-    });
-  }
-}
+
+  const { data, isLoading, error } = useSWR(`/api/movie?movieId=${filmId}`, fetchMovie(filmId))
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setFilms([data]));
+    }
+  }, [data, dispatch]);
+
+  return {
+    movie: data,
+    isLoading,
+    error,
+  };
+};
 
 export const useFilmReviews = (filmId: string) => {
-  const reviews: Review[] = useFilmReviewsSelector(filmId);
   const dispatch = useAppDispatch();
-  const updateReviews = (filmId: string): Promise<any> => {
-    if (reviews.length > 0 && filmId) {
-      return Promise.resolve();
-    }
-    dispatch(setReviews({ filmId, list: []}));
-    return fetchReview(filmId).then(reviews =>
-      dispatch(setReviews({ filmId, list: reviews }))
-    )
-  }
-  return {
-    reviews,
-    updateReviews,
-  }
-}
 
-export const useFindFilmSelector = (filmId: string): Film|undefined => {
+  const {data, isLoading, error} = useSWR(`/api/reviews?movieId=${filmId}`, fetchReview(filmId));
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setReviews({filmId, list: data}))
+    }
+  }, [filmId, data, isLoading, error, dispatch]);
+
+  return {
+    reviews: data,
+    isLoading,
+    error,
+  };
+};
+
+export const useFindFilmSelector = (filmId: string): Film | undefined => {
   return useAppSelector((state: RootState) => state.films.films.find((film: Film) => film.id === filmId));
 }
 

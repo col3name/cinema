@@ -2,8 +2,8 @@ import React from 'react';
 
 import Layout from '@/components/Layout';
 import PageContent from '@/components/Common/PageContent';
-import Paragraph from '@/components/Common/Paragraph/Paragraph';
-import Title from '@/components/Common/Tite/Title';
+import Paragraph from '@/components/Common/Paragraph';
+import Title from '@/components/Common/Tite';
 
 import styles from './stylesAboutUs.module.css';
 

@@ -4,14 +4,24 @@ import React from 'react';
 
 import Layout from '@/components/Layout';
 import PageContent from '@/components/Common/PageContent';
-import Films from '@/widges/Films';
 import PopupFilmRemove from '@/components/Cart/popups/PopupFilmRemove';
+import FilmDetails from '@/pages/filmDetails';
 
-const FilmPage = (props: { params: { id: string }}) => {
-  const filmId = props.params.id;
+interface FilmPageParams {
+  id: string
+}
+interface FilmPageProps {
+  params: FilmPageParams
+}
+
+const FilmPage: React.FC<FilmPageProps> = ({
+  params
+}) => {
+  const filmId = params.id;
+
   return <Layout>
     <PageContent>
-      <Films filmId={filmId} />
+      <FilmDetails filmId={filmId}/>
       <PopupFilmRemove />
     </PageContent>
   </Layout>;

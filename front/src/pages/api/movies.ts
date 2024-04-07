@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import {Entity, getById, reply} from '@/pages/api/utils';
 import {cinemas, movies} from '@/pages/api/mock';
 import {Cinema} from "@/redux/features/film/model";
-import {Film} from "@/api/api";
+import {Film} from "@/api";
 
 type ResponseData = {
   message: string

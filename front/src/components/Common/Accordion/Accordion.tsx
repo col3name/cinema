@@ -1,9 +1,8 @@
 'use client';
 
-import React, {
-} from 'react';
+import React, { FC } from 'react';
 
-import AccordionItems from './AccordionItem';
+import AccordionRow from './AccordionItem';
 
 import styles from './stylesAccordion.module.css';
 
@@ -17,13 +16,13 @@ interface AccordionPropsType {
   items: AccordionItem[];
 }
 
-const Accordion: React.FC<AccordionPropsType> = ({
+const Accordion: FC<AccordionPropsType> = ({
   items,
 }) => {
   return (
     <ul className={ styles.accordionContainer } role='list'>
       { items.map(({ id, ...data }) => (
-        <AccordionItems
+        <AccordionRow
           key={ id }
           title={ data.title }
           description={ data.description }

@@ -14,6 +14,7 @@ export type DropdownPropsType = {
   className?: string,
   placeholder?: string,
   defaultText?: string,
+  isDisabled?: boolean,
   defaultValue?: string,
   onSelected: (value: string) => void,
 }
@@ -34,6 +35,7 @@ export type DropdownContentPropsType = {
 }
 
 export type DropdownTitlePropsType = {
+  className?: string,
   placeholder?: string,
   children?: React.ReactNode,
 }

@@ -3,7 +3,7 @@ import React from 'react';
 
 import Layout from '@/components/Layout';
 import PageContent from '@/components/Common/PageContent';
-import Accordion from '@/components/Common/Accordion/Accordion';
+import Accordion from '@/components/Common/Accordion';
 
 const faqList = [
   {

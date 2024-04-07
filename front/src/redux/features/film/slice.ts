@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Film} from '@/api/api';
-import {Review} from '@/shared/types/types';
+import {Film} from '@/api';
+import {Review} from '@/shared/types';
 import {Cinema} from "./model";
 
 type ReviewState = {
@@ -38,6 +38,7 @@ const slice = createSlice({
     }
   },
 });
+
 export const { setFilms, setReviews, setCinemas } = slice.actions;
 
 export default slice.reducer;

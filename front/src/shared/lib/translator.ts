@@ -1,4 +1,4 @@
-import {FilmGenre} from '@/api/api';
+import {FilmGenre} from '@/api';
 
 export const GenreToText: Record<FilmGenre, string> = {
   '': '',

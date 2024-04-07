@@ -10,9 +10,12 @@
   z-index: 10;
 }
 
-
 .dropdownTitleActive {
   color: #1B1F23;
+}
+
+.dropdownTitleDisabled {
+  opacity: 0.5;
 }
 
 .dropdown .dropdownBtn {

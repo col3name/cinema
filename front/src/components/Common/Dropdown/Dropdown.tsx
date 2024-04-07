@@ -7,6 +7,8 @@ import DropdownTitle from './DropdownTitle';
 
 import {DropdownContext, DropdownPropsType} from './Dropdown.props';
 
+import styles from './Dropdown.module.css';
+
 const Dropdown: React.FC<DropdownPropsType> = ({
   className = '',
   options = [],
@@ -14,6 +16,7 @@ const Dropdown: React.FC<DropdownPropsType> = ({
   defaultText = 'Не выбрано',
   defaultValue = '',
   onSelected,
+  isDisabled= false,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [selected, setIsSelected] = useState<string|undefined>(placeholder);
@@ -29,10 +32,14 @@ const Dropdown: React.FC<DropdownPropsType> = ({
     setIsSelected(newValue);
     toggle();
   }, [defaultText, defaultValue, onSelected, toggle]);
+
   return (
     <DropdownContext.Provider value={ { isActive, selected, toggle }}>
       <DropdownContainer className={ className !== undefined ? className : '' }>
-        <DropdownTitle placeholder={ placeholder } />
+        <DropdownTitle
+          className={ isDisabled ? styles.dropdownTitleDisabled : '' }
+          placeholder={ placeholder || '' }
+        />
         <DropdownContent>
           <DropdownItem key="default" onSelect={ onSelect }>{ defaultText }</DropdownItem>
           { options.map((option) => (
