@@ -1,12 +1,14 @@
 .filmFilter {
   position: sticky;
-  top: 30px;
+  top: 120px;
   left: 32px;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 370px;
   min-width: 370px;
+  height: min-content;
 
   padding: 24px;
   background: white;

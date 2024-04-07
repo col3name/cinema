@@ -34,7 +34,22 @@ export const cinemas: Cinema[] = [
   },
 ];
 
-export const movies = [
+export type FilmGenre = "fantasy" | "horror" | "action" | "comedy" | "";
+
+type MovieId = string;
+export interface Movie {
+  title: string;
+  posterUrl: string;
+  releaseYear: number;
+  description: string;
+  genre: FilmGenre;
+  id: MovieId;
+  rating: number;
+  director: string;
+  reviewIds: string[];
+}
+
+export const movies: Movie[] = [
   {
     title: "Властелин колец: Братство Кольца",
     posterUrl: "https://i.postimg.cc/pdCLNMqX/1.webp",

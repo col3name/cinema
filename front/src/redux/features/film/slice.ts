@@ -29,6 +29,9 @@ const slice = createSlice({
     setFilms(state: FilmState, action: PayloadAction<Film[]>) {
       state.films = action.payload;
     },
+    appendFilms(state: FilmState, action: PayloadAction<Film[]>) {
+      state.films = [...state.films, ...action.payload];
+    },
     setCinemas(state: FilmState, action: PayloadAction<Cinema[]>) {
       state.cinemas = [...action.payload];
     },
@@ -39,6 +42,6 @@ const slice = createSlice({
   },
 });
 
-export const { setFilms, setReviews, setCinemas } = slice.actions;
+export const { setFilms, appendFilms, setReviews, setCinemas } = slice.actions;
 
 export default slice.reducer;

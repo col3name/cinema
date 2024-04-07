@@ -20,8 +20,8 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({ className }) => {
   const {
     cinemas,
     genres,
-    isLoading,
-    error,
+    // isLoading,
+    // error,
     onChangeFilmName,
     onSelectFilmGenre,
     onSelectCinema,
@@ -45,7 +45,7 @@ const FilmFilter: React.FC<FilmFilterPropsType> = ({ className }) => {
           options={cinemas.map((cinema) => ({ value: cinema.name }))}
           onSelected={onSelectCinema}
           placeholder="Выберите кинотеатр"
-          isDisabled={isLoading || error}
+          // isDisabled={isLoading || error}
         />
       </Label>
     </div>

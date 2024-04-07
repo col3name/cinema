@@ -18,11 +18,11 @@ export const useFilmFilterActions = () => {
   const cinemas = useCinemasSelector();
   useFetchCinemas();
 
-  const { isLoading, error } = useFetchMovies();
+  // const { isLoading, error } = useFetchMovies(0);
 
   const films = useFilmsSelector();
   const genres: FilmGenre[] = useMemo(
-    () => Array.from(new Set(films.map((film) => film.genre)).values()),
+    () => Array.from(new Set(films.filter(it => it !== null).map((film) => film?.genre)).values()),
     [films],
   );
 
@@ -65,8 +65,8 @@ export const useFilmFilterActions = () => {
   };
 
   return {
-    isLoading,
-    error,
+    // isLoading,
+    // error,
     cinemas,
     genres,
     onChangeFilmName,

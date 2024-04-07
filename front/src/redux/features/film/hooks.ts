@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import useSWR from "swr";
-
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 
@@ -12,18 +11,20 @@ import {
   Film,
 } from "@/api";
 
-import { setCinemas, setFilms, setReviews } from "./slice";
+import { setCinemas, setFilms, appendFilms, setReviews } from "./slice";
 import { Cinema } from "./model";
 import { Review } from "@/shared/types";
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
 
+  const films = useFilmsSelector();
+
   const { data, isLoading, error } = useSWR("/api/cinemas", fetchCinemas);
 
   useEffect(() => {
     if (data) {
-      dispatch(setCinemas(data));
+      dispatch(setCinemas([...films, ...data]));
     }
   }, [data, dispatch]);
 
@@ -33,15 +34,23 @@ export const useFetchCinemas = () => {
     error,
   };
 };
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useFetchMovies = () => {
+export const useFetchMovies = (page: number) => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR("/api/movies", fetchMovies);
+  const { data, isLoading, error } = useSWR(
+    `/api/movies?page=${page}`,
+    fetcher
+  );
 
   useEffect(() => {
     if (data) {
-      dispatch(setFilms(data));
+      if (Number(page) === 0) {
+        dispatch(setFilms(data));
+      } else {
+        dispatch(appendFilms(data));
+      }
     }
   }, [dispatch, data]);
 

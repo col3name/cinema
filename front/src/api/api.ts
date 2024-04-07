@@ -20,10 +20,10 @@ export async function fetchCinemas(): Promise<Cinema[]> {
   return await response.json();
 }
 
-export async function fetchMovies(): Promise<Film[]> {
-  const response = await fetch("/api/movies");
+export const fetchMovies = (page: number) => async (): Promise<Film[]> => {
+  const response = await fetch(`/api/movies?page=${page}`);
   return await response.json();
-}
+};
 
 export const fetchMovie =
   (filmId: string) => async (): Promise<Film | undefined> => {

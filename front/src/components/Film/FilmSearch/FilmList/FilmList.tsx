@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useRef, useCallback, useState, useEffect,useLayoutEffect } from "react";
 import cn from "classnames";
 
 import FilmInfo from "@/components/Film/FilmSearch/FilmInfo";
@@ -16,16 +16,22 @@ import {
   useFilmsSelector,
 } from "@/redux/features/film/hooks";
 import { useFilmFilter } from "@/redux/features/filmFilter/selector";
+import { throttle } from "lodash";
 
 export type FilmListPropsType = {
   className?: string;
 };
 
+const MAX_AUTO_SCROLL = 5;
+
 const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
-  const { isLoading, error } = useFetchMovies();
+  const [page, setPage] = useState<number>(0);
+
+  const { isLoading, error} = useFetchMovies(page);
   const cinemas = useCinemasSelector();
   const filter = useFilmFilter();
 
+  const filmsRef = useRef<HTMLUListElement>();
   const filterFilms = useCallback(
     (film: Film) =>
       (filter.name !== ""
@@ -45,19 +51,62 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
   const films = useFilmsSelector();
   const filmsList = films.filter(filterFilms);
 
+  const handleScroll = useCallback(throttle(() => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (page >= MAX_AUTO_SCROLL) {
+      return;
+    }
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      setPage(prev => prev + 1);
+    }
+  }, 300), [page]);
+
+
+  useEffect(() => {
+    window?.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window?.removeEventListener("scroll", handleScroll, { passive: true });
+    }
+  }, [page]);
+
   return (
-    <DataHOC
-      data={filmsList}
-      isLoading={isLoading}
-      loaderText="movies"
-      error={error}
-    >
-      <ul className={cn(styles.filmList, className)}>
-        {filmsList.map((film) => (
-          <FilmInfo key={film.id} film={film} />
-        ))}
-      </ul>
-    </DataHOC>
+    <div className={cn(styles.filmList, className)}>
+      <div>
+        <button
+          onClick={() => {
+            if (page > 0) {
+              setPage((prev) => prev - 1);
+            }
+          }}
+        >
+          prev
+        </button>
+        <button
+          onClick={() => {
+            setPage((prev) => prev + 1);
+          }}
+        >
+          next
+        </button>
+      </div>
+      {/* <DataHOC
+        data={filmsList}
+        isLoading={isLoading}
+        loaderText="movies"
+        error={error}
+      > */}
+        <ul ref={filmsRef}>
+          {filmsList.map((film) => (
+            <FilmInfo key={film.id} film={film} />
+          ))}
+        </ul>
+        {isLoading && <div>Loading...</div>}
+        { (!isLoading && page >= MAX_AUTO_SCROLL) && (
+          <button onClick={() => setPage(prev => prev + 1)}>next page</button>
+        )}
+      {/* </DataHOC> */}
+    </div>
   );
 };
 
