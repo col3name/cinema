@@ -10,6 +10,7 @@ export const useFilmFilter = () => {
   const updateGenreFilter = (genre: FilmGenre) => {
     dispatch(setGenre(genre));
   };
+
   const updateFilmFilter = (film: string) => {
     dispatch(setFilmName(film));
   };
