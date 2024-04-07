@@ -11,8 +11,8 @@ import styles from "./stylesFilmList.module.css";
 import { Film } from "@/api";
 import {
   useCinemasSelector,
-  useFetchCinemas,
   useFetchMovies,
+  useFetchCinemas,
   useFilmsSelector,
 } from "@/redux/features/film/hooks";
 import { useFilmFilter } from "@/redux/features/filmFilter/selector";
@@ -28,6 +28,7 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
   const [page, setPage] = useState<number>(0);
 
   const { isLoading, error} = useFetchMovies(page);
+  useFetchCinemas();
   const cinemas = useCinemasSelector();
   const filter = useFilmFilter();
 
