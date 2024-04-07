@@ -1,6 +1,8 @@
 .paragraph {
-  color: #1B1F23;
-  font: 400 16px/24px 'Roboto', sans-serif;
+  color: #1b1f23;
+  font:
+    400 16px/24px "Roboto",
+    sans-serif;
   letter-spacing: 0;
   text-align: left;
 }

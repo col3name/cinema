@@ -1,10 +1,10 @@
-import React from 'react';
-import cn from 'classnames';
+import React from "react";
+import cn from "classnames";
 
-import Portal from '@/components/Common/Portal';
-import CloseIcon from '@/components/Common/icons/close';
+import Portal from "@/components/Common/Portal";
+import CloseIcon from "@/components/Common/icons/close";
 
-import styles from './Modal.module.css';
+import styles from "./Modal.module.css";
 
 interface ModalProps {
   title?: string;
@@ -16,7 +16,7 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({
   clearState,
-  title= '',
+  title = "",
   active,
   close,
   children,
@@ -24,18 +24,24 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <Portal>
       <div
-        className={ cn(styles.modal, {
-          [styles.active]: active
+        className={cn(styles.modal, {
+          [styles.active]: active,
         })}
         onClick={() => {
           clearState && clearState();
-          close()
+          close();
         }}
       >
-        <div className={ styles.modalContent } onClick={(e) => e.stopPropagation()}>
-          <div className={ styles.modalContentHeader }>
-            <h2 className={ styles.modalContentHeaderTitle }>{title }</h2>
-            <CloseIcon className={ styles.modalContentHeaderButton } onClick={ close } />
+        <div
+          className={styles.modalContent}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={styles.modalContentHeader}>
+            <h2 className={styles.modalContentHeaderTitle}>{title}</h2>
+            <CloseIcon
+              className={styles.modalContentHeaderButton}
+              onClick={close}
+            />
           </div>
           {children}
         </div>

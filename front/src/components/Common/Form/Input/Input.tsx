@@ -1,25 +1,20 @@
-import React, { useEffect, useRef } from 'react';
-import cn from 'classnames';
-import { debounce } from 'lodash';
+import React, { useEffect, useRef } from "react";
+import cn from "classnames";
+import { debounce } from "lodash";
 
-import styles from '../stylesForm.module.css';
+import styles from "../stylesForm.module.css";
 
 export type TextareaPropsType = {
-  className?: string,
-  selectAllOnMount?: boolean,
-  placeholder?: string,
-  onChange: (value: string) => void,
+  className?: string;
+  selectAllOnMount?: boolean;
+  placeholder?: string;
+  onChange: (value: string) => void;
 };
 
 const Input: React.FC<TextareaPropsType> = (props) => {
-  const {
-    className,
-    selectAllOnMount,
-    placeholder,
-    onChange,
-  } = props;
+  const { className, selectAllOnMount, placeholder, onChange } = props;
 
-  const inputRef = useRef<HTMLInputElement|null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (selectAllOnMount) {
@@ -29,13 +24,13 @@ const Input: React.FC<TextareaPropsType> = (props) => {
 
   return (
     <input
-      { ...props }
-      placeholder={ placeholder }
-      ref={ inputRef }
-      className={ cn(styles.input, className) }
-      onChange={ debounce((event) => {
-        onChange(event.target.value)
-      }, 100) }
+      {...props}
+      placeholder={placeholder}
+      ref={inputRef}
+      className={cn(styles.input, className)}
+      onChange={debounce((event) => {
+        onChange(event.target.value);
+      }, 100)}
     />
   );
 };

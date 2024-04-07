@@ -1,20 +1,20 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Film} from '@/api';
-import {Review} from '@/shared/types';
-import {Cinema} from "./model";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Film } from "@/api";
+import { Review } from "@/shared/types";
+import { Cinema } from "./model";
 
 type ReviewState = {
-  list: Review[],
-  filmId: string,
+  list: Review[];
+  filmId: string;
 };
 
 type Reviews = { [id: string]: Review[] };
 
 type FilmState = {
-  films: Film[],
-  cinemas: Cinema[],
-  reviews: Reviews,
-}
+  films: Film[];
+  cinemas: Cinema[];
+  reviews: Reviews;
+};
 
 const initialState: FilmState = {
   films: [],
@@ -23,7 +23,7 @@ const initialState: FilmState = {
 };
 
 const slice = createSlice({
-  name: 'films',
+  name: "films",
   initialState,
   reducers: {
     setFilms(state: FilmState, action: PayloadAction<Film[]>) {
@@ -34,8 +34,8 @@ const slice = createSlice({
     },
     setReviews(state: FilmState, action: PayloadAction<ReviewState>) {
       const { filmId, list } = action.payload;
-      state.reviews[filmId] = list
-    }
+      state.reviews[filmId] = list;
+    },
   },
 });
 

@@ -1,17 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import {Entity, getById, reply} from '@/pages/api/utils';
-import {movies, reviews, ReviewType} from '@/pages/api/mock';
-import {Film} from "@/api";
+import { Entity, getById, reply } from "@/pages/api/utils";
+import { movies, reviews, ReviewType } from "@/pages/api/mock";
+import { Film } from "@/api";
 
 type ResponseData = {
-  message: string
-}
-
+  message: string;
+};
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   const { movieId } = req.query;
 
@@ -20,7 +19,9 @@ export default function handler(
   if (movieId) {
     const movie = getById(movies)(movieId as string) as Film;
     if (movie) {
-      result = movie.reviewIds.map(id => getById(result as Entity[])(id) as ReviewType);
+      result = movie.reviewIds.map(
+        (id) => getById(result as Entity[])(id) as ReviewType,
+      );
     }
   }
 

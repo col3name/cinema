@@ -1,1 +1,1 @@
-export { default } from './DataHOC';
+export { default } from "./DataHOC";

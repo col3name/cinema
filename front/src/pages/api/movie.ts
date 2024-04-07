@@ -1,26 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import {getById, reply} from '@/pages/api/utils';
-import {movies} from '@/pages/api/mock';
-import {Film} from "@/api";
+import { getById, reply } from "@/pages/api/utils";
+import { movies } from "@/pages/api/mock";
+import { Film } from "@/api";
 
 type ResponseData = {
-  message: string
-}
+  message: string;
+};
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   const { movieId } = req.query;
-  let result: Film|undefined = undefined;
+  let result: Film | undefined = undefined;
 
   if (movieId) {
-    result = getById(movies)(movieId as string) as Film|undefined;
+    result = getById(movies)(movieId as string) as Film | undefined;
   }
   if (!result) {
     reply(res, {}, 1000, 404);
-    return
+    return;
   }
   reply(res, result, 1000, 404);
 }

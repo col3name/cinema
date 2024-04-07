@@ -41,7 +41,10 @@
 .modalContentHeaderTitle {
   letter-spacing: 0;
   text-align: left;
-  font: 600 20px/20px 'Roboto', Arial, sans-serif;
+  font:
+    600 20px/20px "Roboto",
+    Arial,
+    sans-serif;
 }
 
 .modalContentHeaderButton {

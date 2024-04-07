@@ -3,13 +3,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'i.postimg.cc',
-        port: '',
-        pathname: '/*/*',
+        protocol: "https",
+        hostname: "i.postimg.cc",
+        port: "",
+        pathname: "/*/*",
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

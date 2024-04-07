@@ -1,19 +1,19 @@
-'use client';
-import React, {MouseEvent} from 'react';
+"use client";
+import React, { MouseEvent } from "react";
 
-import FilmCounter from './FilmCounter';
-import FilmIncrementButton from './FilmIncrementButton';
-import FilmDecrementButton from './FilmDecrementButton';
-import CloseIcon from '@/components/Common/icons/close';
+import FilmCounter from "./FilmCounter";
+import FilmIncrementButton from "./FilmIncrementButton";
+import FilmDecrementButton from "./FilmDecrementButton";
+import CloseIcon from "@/components/Common/icons/close";
 
-import styles from './stylesFilmAction.module.css';
+import styles from "./stylesFilmAction.module.css";
 
-import {Film} from '@/api';
-import {useRemoveFromCart} from '@/redux/features/cart/hooks';
+import { Film } from "@/api";
+import { useRemoveFromCart } from "@/redux/features/cart/hooks";
 
 export type FilmActionPropsType = {
-  film: Film,
-  enableRemove?: boolean,
+  film: Film;
+  enableRemove?: boolean;
 };
 
 const FilmActions: React.FC<FilmActionPropsType> = ({
@@ -21,16 +21,23 @@ const FilmActions: React.FC<FilmActionPropsType> = ({
   enableRemove = false,
 }) => {
   const removeFromCart = useRemoveFromCart();
-  const onRemoveFromOrder = (event: MouseEvent<HTMLButtonElement|SVGSVGElement>) => {
+  const onRemoveFromOrder = (
+    event: MouseEvent<HTMLButtonElement | SVGSVGElement>,
+  ) => {
     event.stopPropagation();
-    removeFromCart(film.id)
+    removeFromCart(film.id);
   };
   return (
-    <div className={ styles.filmActions }>
-      <FilmDecrementButton filmId={ film.id } />
-      <FilmCounter key={ film.id } filmId={ film.id } />
-      <FilmIncrementButton film={ film }/>
-      { enableRemove && <CloseIcon className={ styles.filmRemoveButton } onClick={ onRemoveFromOrder } />}
+    <div className={styles.filmActions}>
+      <FilmDecrementButton filmId={film.id} />
+      <FilmCounter key={film.id} filmId={film.id} />
+      <FilmIncrementButton film={film} />
+      {enableRemove && (
+        <CloseIcon
+          className={styles.filmRemoveButton}
+          onClick={onRemoveFromOrder}
+        />
+      )}
     </div>
   );
 };

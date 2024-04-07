@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import { cartReducer } from './features/cart/slice';
-import { filterReducer }  from './features/filmFilter/filterSlice';
-import filmReducer from './features/film/slice';
+import { cartReducer } from "./features/cart/slice";
+import { filterReducer } from "./features/filmFilter/filterSlice";
+import filmReducer from "./features/film/slice";
 
 const store = configureStore({
   reducer: {

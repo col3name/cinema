@@ -1,45 +1,52 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {Film} from '@/api';
+import { Film } from "@/api";
 
 export type FilmOnCart = Film & {
-  quantity: number,
-}
+  quantity: number;
+};
 
 type ConfirmPopupData = {
-  opened: boolean,
-  filmId: string|undefined
-}
+  opened: boolean;
+  filmId: string | undefined;
+};
 
 type CartState = {
-  films: FilmOnCart[],
-  isFull: boolean,
-  confirmPopup: ConfirmPopupData
-}
+  films: FilmOnCart[];
+  isFull: boolean;
+  confirmPopup: ConfirmPopupData;
+};
 
 const initialState: CartState = {
   films: [],
   isFull: false,
-  confirmPopup: { opened: false, filmId: undefined } as ConfirmPopupData
-}
+  confirmPopup: { opened: false, filmId: undefined } as ConfirmPopupData,
+};
 
-const findFilm = (films: FilmOnCart[], filmId: string): FilmOnCart|undefined => films.find((film: FilmOnCart) => film.id === filmId);
+const findFilm = (
+  films: FilmOnCart[],
+  filmId: string,
+): FilmOnCart | undefined =>
+  films.find((film: FilmOnCart) => film.id === filmId);
 
 const slice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState: initialState,
   reducers: {
     addToCart: (state: CartState, action: PayloadAction<Film>) => {
-      const count = state.films.reduce((acc: number, film: FilmOnCart) => acc + film.quantity, 0);
+      const count = state.films.reduce(
+        (acc: number, film: FilmOnCart) => acc + film.quantity,
+        0,
+      );
       if (count >= 30) {
         return;
       }
       if (count === 29) {
         state.isFull = true;
       }
-      const itemExists = findFilm(state.films, action.payload.id)
+      const itemExists = findFilm(state.films, action.payload.id);
       if (itemExists) {
-        if (itemExists.quantity >= 30)  {
+        if (itemExists.quantity >= 30) {
           return;
         }
         itemExists.quantity++;
@@ -48,7 +55,10 @@ const slice = createSlice({
       }
     },
     incrementQuantity: (state: CartState, action: PayloadAction<string>) => {
-      const item: FilmOnCart|undefined = findFilm(state.films, action.payload)
+      const item: FilmOnCart | undefined = findFilm(
+        state.films,
+        action.payload,
+      );
       if (!item) {
         return;
       }
@@ -56,7 +66,7 @@ const slice = createSlice({
     },
     decrementQuantity: (state: CartState, action: PayloadAction<string>) => {
       const filmId = action.payload;
-      const item: FilmOnCart|undefined = findFilm(state.films, filmId)
+      const item: FilmOnCart | undefined = findFilm(state.films, filmId);
       if (!item) {
         return;
       }
@@ -72,12 +82,12 @@ const slice = createSlice({
     },
     removeFromCart: (state: CartState, action: PayloadAction<string>) => {
       const filmId = action.payload;
-      const item: FilmOnCart|undefined = findFilm(state.films, filmId)
+      const item: FilmOnCart | undefined = findFilm(state.films, filmId);
       if (!item) {
         return;
       }
       if (state.confirmPopup.opened && state.confirmPopup.filmId === filmId) {
-        return
+        return;
       }
       state.confirmPopup.opened = true;
       state.confirmPopup.filmId = filmId;
@@ -87,7 +97,9 @@ const slice = createSlice({
       if (!filmId) {
         return;
       }
-      const index = state.films.findIndex((film: FilmOnCart) => film.id === filmId);
+      const index = state.films.findIndex(
+        (film: FilmOnCart) => film.id === filmId,
+      );
       state.films.splice(index, 1);
       if (state.isFull) {
         state.isFull = false;

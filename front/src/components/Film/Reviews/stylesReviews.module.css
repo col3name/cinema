@@ -31,8 +31,11 @@
 }
 
 .reviewRating {
-  font: 400 20px/32px 'Roboto', Arial, sans-serif;
+  font:
+    400 20px/32px "Roboto",
+    Arial,
+    sans-serif;
   letter-spacing: 0;
   text-align: left;
-  color: #1B1F23;
+  color: #1b1f23;
 }

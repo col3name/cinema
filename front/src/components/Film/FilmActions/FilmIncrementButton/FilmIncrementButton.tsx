@@ -1,18 +1,21 @@
-import React, {MouseEvent} from 'react';
-import cn from 'classnames';
+import React, { MouseEvent } from "react";
+import cn from "classnames";
 
-import Button from '@/components/Common/Button';
-import PlusIcon from '@/components/Common/icons/plus';
+import Button from "@/components/Common/Button";
+import PlusIcon from "@/components/Common/icons/plus";
 
-import {Film} from '@/api';
-import {useAddFilmToCart, useCartIsFull} from '@/redux/features/cart/selector';
+import { Film } from "@/api";
+import {
+  useAddFilmToCart,
+  useCartIsFull,
+} from "@/redux/features/cart/selector";
 
-import styles from '@/components/Film/FilmActions/stylesFilmAction.module.css';
+import styles from "@/components/Film/FilmActions/stylesFilmAction.module.css";
 
 type FilmIncrementButtonPropsType = {
-  film: Film,
-  children?: React.ReactNode,
-}
+  film: Film;
+  children?: React.ReactNode;
+};
 
 const FilmIncrementButton: React.FC<FilmIncrementButtonPropsType> = ({
   film,
@@ -26,20 +29,20 @@ const FilmIncrementButton: React.FC<FilmIncrementButtonPropsType> = ({
       return;
     }
     event.stopPropagation();
-    addToCart(film)
+    addToCart(film);
   };
 
   return (
     <Button
-      className={ cn(styles.filmButton, {
-        [styles.filmButtonDisabled]: isFull
-      }) }
-      onClick={ onAddFilm }
+      className={cn(styles.filmButton, {
+        [styles.filmButtonDisabled]: isFull,
+      })}
+      onClick={onAddFilm}
     >
       <PlusIcon />
       {children && children}
     </Button>
-  )
-}
+  );
+};
 
 export default FilmIncrementButton;

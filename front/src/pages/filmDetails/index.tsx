@@ -1,1 +1,1 @@
-export {default} from './FilmDetails';
+export { default } from "./FilmDetails";

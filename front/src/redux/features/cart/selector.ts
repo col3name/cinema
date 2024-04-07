@@ -1,7 +1,7 @@
-import {RootState} from '@/redux/store';
-import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {addToCart, FilmOnCart} from './slice';
-import {Film} from '@/api';
+import { RootState } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToCart, FilmOnCart } from "./slice";
+import { Film } from "@/api";
 
 export const usePopupFilmRemoveOpened = (): boolean =>
   useAppSelector((state: RootState) => state.cart.confirmPopup.opened);
@@ -10,13 +10,22 @@ export const useCartFilmsSelector = (): FilmOnCart[] =>
   useAppSelector((state: RootState) => state.cart.films) || [];
 
 export const useFilmInCartNotExist = (filmId: string): boolean =>
-  useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId) === undefined);
+  useAppSelector(
+    (state: RootState) =>
+      state.cart.films.find((film: FilmOnCart) => film.id === filmId) ===
+      undefined,
+  );
 
-export const useCartFilm = (filmId: string): FilmOnCart|undefined =>
-  useAppSelector((state: RootState) => state.cart.films.find((film: FilmOnCart) => film.id === filmId));
+export const useCartFilm = (filmId: string): FilmOnCart | undefined =>
+  useAppSelector((state: RootState) =>
+    state.cart.films.find((film: FilmOnCart) => film.id === filmId),
+  );
 
 export const useTicketCount = (): number =>
-  useAppSelector((state: RootState) => state.cart.films).reduce((acc, it) => it.quantity + acc, 0) || 0;
+  useAppSelector((state: RootState) => state.cart.films).reduce(
+    (acc, it) => it.quantity + acc,
+    0,
+  ) || 0;
 
 export const useCartIsFull = (): boolean =>
   useAppSelector((state: RootState) => state.cart.isFull);

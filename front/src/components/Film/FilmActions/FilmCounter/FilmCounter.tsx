@@ -1,19 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import {useCartFilm} from '@/redux/features/cart/selector';
+import { useCartFilm } from "@/redux/features/cart/selector";
 
 export type FilmCounterPropsType = {
-  filmId: string,
-  className?: string,
-}
+  filmId: string;
+  className?: string;
+};
 
 const FilmCounter: React.FC<FilmCounterPropsType> = ({
   filmId,
-  className = ''
+  className = "",
 }) => {
-  const filmOnCart = useCartFilm(filmId)
-  return <p className={className}>{ filmOnCart && filmOnCart?.quantity || 0 } </p>
-}
+  const filmOnCart = useCartFilm(filmId);
+  return (
+    <p className={className}>{(filmOnCart && filmOnCart?.quantity) || 0} </p>
+  );
+};
 
 export default FilmCounter;
-

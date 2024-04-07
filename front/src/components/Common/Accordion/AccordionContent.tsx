@@ -1,24 +1,22 @@
-import React, {useContext} from 'react';
+import React, { useContext } from "react";
 
-import styles from './stylesAccordion.module.css';
+import styles from "./stylesAccordion.module.css";
 
-import {AccordionContext} from './Accordion.props';
+import { AccordionContext } from "./Accordion.props";
 
 export type AccordionContentPropsType = {
-  children: React.ReactNode,
-}
+  children: React.ReactNode;
+};
 
 const AccordionContent: React.FC<AccordionContentPropsType> = ({
   children,
 }) => {
-  const { isActive } = useContext(AccordionContext)
+  const { isActive } = useContext(AccordionContext);
   if (!isActive) {
-    return null
+    return null;
   }
 
-  return <div className={ styles.accordionContent }>
-    { children }
-  </div>;
-}
+  return <div className={styles.accordionContent}>{children}</div>;
+};
 
 export default AccordionContent;

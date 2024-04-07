@@ -1,19 +1,25 @@
-import {useEffect} from 'react';
-import useSWR from 'swr';
+import { useEffect } from "react";
+import useSWR from "swr";
 
-import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {RootState} from '@/redux/store';
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
-import {fetchCinemas, fetchMovie, fetchMovies, fetchReview, Film} from '@/api';
+import {
+  fetchCinemas,
+  fetchMovie,
+  fetchMovies,
+  fetchReview,
+  Film,
+} from "@/api";
 
-import {setCinemas, setFilms, setReviews} from './slice';
-import {Cinema} from './model';
-import {Review} from '@/shared/types';
+import { setCinemas, setFilms, setReviews } from "./slice";
+import { Cinema } from "./model";
+import { Review } from "@/shared/types";
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
 
-  const {data, isLoading, error} = useSWR('/api/cinemas', fetchCinemas);
+  const { data, isLoading, error } = useSWR("/api/cinemas", fetchCinemas);
 
   useEffect(() => {
     if (data) {
@@ -22,18 +28,20 @@ export const useFetchCinemas = () => {
   }, [data, dispatch]);
 
   return {
-    cinemas: data, isLoading, error
+    cinemas: data,
+    isLoading,
+    error,
   };
-}
+};
 
 export const useFetchMovies = () => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR('/api/movies', fetchMovies)
+  const { data, isLoading, error } = useSWR("/api/movies", fetchMovies);
 
   useEffect(() => {
     if (data) {
-      dispatch(setFilms(data))
+      dispatch(setFilms(data));
     }
   }, [dispatch, data]);
 
@@ -47,7 +55,10 @@ export const useFetchMovies = () => {
 export const useFetchMovie = (filmId: string) => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR(`/api/movie?movieId=${filmId}`, fetchMovie(filmId))
+  const { data, isLoading, error } = useSWR(
+    `/api/movie?movieId=${filmId}`,
+    fetchMovie(filmId),
+  );
 
   useEffect(() => {
     if (data) {
@@ -65,11 +76,14 @@ export const useFetchMovie = (filmId: string) => {
 export const useFilmReviews = (filmId: string) => {
   const dispatch = useAppDispatch();
 
-  const {data, isLoading, error} = useSWR(`/api/reviews?movieId=${filmId}`, fetchReview(filmId));
+  const { data, isLoading, error } = useSWR(
+    `/api/reviews?movieId=${filmId}`,
+    fetchReview(filmId),
+  );
 
   useEffect(() => {
     if (data) {
-      dispatch(setReviews({filmId, list: data}))
+      dispatch(setReviews({ filmId, list: data }));
     }
   }, [filmId, data, isLoading, error, dispatch]);
 
@@ -81,8 +95,10 @@ export const useFilmReviews = (filmId: string) => {
 };
 
 export const useFindFilmSelector = (filmId: string): Film | undefined => {
-  return useAppSelector((state: RootState) => state.films.films.find((film: Film) => film.id === filmId));
-}
+  return useAppSelector((state: RootState) =>
+    state.films.films.find((film: Film) => film.id === filmId),
+  );
+};
 
 export const useFilmsSelector = (): Film[] =>
   useAppSelector((state: RootState) => state.films.films) || [];

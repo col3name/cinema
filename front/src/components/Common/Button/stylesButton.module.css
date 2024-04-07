@@ -8,15 +8,18 @@
   border: 1px solid white;
   letter-spacing: 0;
   text-align: center;
-  font: 500 14px/20px 'Roboto', Arial, sans-serif;
+  font:
+    500 14px/20px "Roboto",
+    Arial,
+    sans-serif;
   color: white;
-  background: #FF5500;
+  background: #ff5500;
 }
 
 .buttonDone {
-  border: 1px solid #FF5500;
-  color: #FF5500;
-  background: #FFF;
+  border: 1px solid #ff5500;
+  color: #ff5500;
+  background: #fff;
 }
 
 .button:hover {

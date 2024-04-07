@@ -1,14 +1,14 @@
-'use client';
-import React, {useCallback, useState} from 'react';
-import cn from 'classnames';
+"use client";
+import React, { useCallback, useState } from "react";
+import cn from "classnames";
 
-import AccordionTitle from './AccordionTitle';
-import AccordionContent from './AccordionContent';
-import Paragraph from '@/components/Common/Paragraph';
+import AccordionTitle from "./AccordionTitle";
+import AccordionContent from "./AccordionContent";
+import Paragraph from "@/components/Common/Paragraph";
 
-import styles from './stylesAccordion.module.css';
+import styles from "./stylesAccordion.module.css";
 
-import {AccordionContext, AccordionItemPropsType} from './Accordion.props';
+import { AccordionContext, AccordionItemPropsType } from "./Accordion.props";
 
 const AccordionItem: React.FC<AccordionItemPropsType> = ({
   className,
@@ -17,20 +17,20 @@ const AccordionItem: React.FC<AccordionItemPropsType> = ({
 }) => {
   const [isActive, setIsActive] = useState(false);
 
-  const toggle = useCallback( () => {
+  const toggle = useCallback(() => {
     setIsActive((value: boolean) => !value);
   }, []);
 
   return (
-    <div className={ cn(styles.accordionItem, className)}>
-      <AccordionContext.Provider value={ { isActive, toggle } }>
-        <AccordionTitle text={ title } />
+    <div className={cn(styles.accordionItem, className)}>
+      <AccordionContext.Provider value={{ isActive, toggle }}>
+        <AccordionTitle text={title} />
         <AccordionContent>
-          <Paragraph text={ description } />
+          <Paragraph text={description} />
         </AccordionContent>
       </AccordionContext.Provider>
     </div>
   );
-}
+};
 
 export default AccordionItem;

@@ -1,1 +1,1 @@
-export {default} from './FilmDecrementButton';
+export { default } from "./FilmDecrementButton";

@@ -2,7 +2,10 @@
   letter-spacing: 0;
   text-align: left;
   color: white;
-  font: 400 20px/23px 'Roboto', Arial, sans-serif;
+  font:
+    400 20px/23px "Roboto",
+    Arial,
+    sans-serif;
 }
 
 .linkTextLarge {

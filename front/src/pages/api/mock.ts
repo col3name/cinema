@@ -1,5 +1,5 @@
-import {Review} from "@/shared/types/types";
-import {Cinema} from "@/redux/features/film/model";
+import { Review } from "@/shared/types/types";
+import { Cinema } from "@/redux/features/film/model";
 
 export const cinemas: Cinema[] = [
   {
@@ -182,8 +182,8 @@ export const movies = [
 ];
 
 export type ReviewType = Review & {
-  id: string
-}
+  id: string;
+};
 
 export const reviews: ReviewType[] = [
   {
@@ -391,4 +391,3 @@ export const reviews: ReviewType[] = [
     rating: 4,
   },
 ];
-

@@ -1,41 +1,41 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {FilmGenre} from "@/api";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { FilmGenre } from "@/api";
 
 export type FilmFilter = {
-  cinema: string,
-  genre: string,
-  name: string
-}
+  cinema: string;
+  genre: string;
+  name: string;
+};
 type FilmFilterState = FilmFilter;
 
 const initialState: FilmFilterState = {
-  cinema: '',
-  genre: '',
-  name: '',
+  cinema: "",
+  genre: "",
+  name: "",
 };
 
 const filterSlice = createSlice({
-  name: 'filter',
+  name: "filter",
   initialState,
   reducers: {
     setGenre(state: FilmFilterState, action: PayloadAction<FilmGenre>) {
       const newValue = action.payload;
       if (state.genre === newValue) {
-        return
+        return;
       }
       state.genre = newValue;
     },
     setFilmName(state: FilmFilterState, action: PayloadAction<string>) {
       const newValue = action.payload;
       if (state.name === newValue) {
-        return
+        return;
       }
       state.name = newValue;
     },
     setCinema(state: FilmFilterState, action: PayloadAction<string>) {
       const newValue = action.payload;
       if (state.cinema === newValue) {
-        return
+        return;
       }
       state.cinema = newValue;
     },
@@ -44,6 +44,4 @@ const filterSlice = createSlice({
 
 export const filterReducer = filterSlice.reducer;
 
-export const {
-  setFilmName, setGenre, setCinema
-} = filterSlice.actions;
+export const { setFilmName, setGenre, setCinema } = filterSlice.actions;

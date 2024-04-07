@@ -1,1 +1,1 @@
-export {default} from './PopupFilmRemove';
+export { default } from "./PopupFilmRemove";

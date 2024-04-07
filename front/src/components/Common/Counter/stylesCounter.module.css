@@ -1,5 +1,5 @@
 .counter {
-  background: #FF5500;
+  background: #ff5500;
   width: 28px;
   height: 28px;
   padding: 4px;
@@ -7,5 +7,8 @@
   letter-spacing: 0;
   color: white;
   text-align: center;
-  font: 600 14px/20px 'Roboto', Arial, sans-serif;
+  font:
+    600 14px/20px "Roboto",
+    Arial,
+    sans-serif;
 }

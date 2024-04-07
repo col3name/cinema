@@ -1,1 +1,1 @@
-export {default} from './FilmFilter';
+export { default } from "./FilmFilter";
