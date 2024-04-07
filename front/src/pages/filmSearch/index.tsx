@@ -10,7 +10,6 @@ import PopupFilmRemove from '@/components/Cart/popups/PopupFilmRemove';
 import styles from './stylesFilm.module.css';
 
 const FilmSearch = () => {
-
   return (
     <PageContent className={ styles.filmContainer } isFlex>
       <FilmFilter />

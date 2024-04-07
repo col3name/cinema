@@ -1,13 +1,23 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 
 import {useFilmFilter} from '@/redux/features/filmFilter/hooks';
 import {getUrlParameter, replaceUrlParam} from '@/shared/lib/url';
 import {TextToGenre} from '@/shared/lib/translator';
 import {Cinema} from '@/redux/features/film/model';
+import {useCinemasSelector, useFetchCinemas, useFetchMovies, useFilmsSelector} from '@/redux/features/film/hooks';
+import {FilmGenre} from '@/api';
 
 const DEFAULT_VALUE = 'Все';
 
-export const useFilmFilterActions = ({cinemas}) => {
+export const useFilmFilterActions = () => {
+  const cinemas = useCinemasSelector();
+  useFetchCinemas();
+
+  const {isLoading, error} = useFetchMovies();
+
+  const films = useFilmsSelector()
+  const genres: FilmGenre[] = useMemo(() => Array.from(new Set(films.map(film => film.genre)).values()), [films]);
+
   const {
     updateCinemaFilter,
     updateGenreFilter,
@@ -50,6 +60,10 @@ export const useFilmFilterActions = ({cinemas}) => {
   };
 
   return {
+    isLoading,
+    error,
+    cinemas,
+    genres,
     onChangeFilmName,
     onSelectFilmGenre,
     onSelectCinema,

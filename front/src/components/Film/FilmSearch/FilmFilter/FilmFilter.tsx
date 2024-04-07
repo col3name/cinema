@@ -1,5 +1,5 @@
 'use client';
-import React, {useMemo} from 'react';
+import React from 'react';
 import cn from 'classnames';
 
 import FilterTitle from './FilterTitle';
@@ -9,9 +9,7 @@ import Dropdown from '@/components/Common/Dropdown';
 
 import styles from './stylesFilmFilter.module.css';
 
-import {useCinemasSelector, useFetchCinemas, useFetchMovies, useFilmsSelector} from '@/redux/features/film/hooks';
 import {useFilmFilterActions} from '@/components/Film/FilmSearch/FilmFilter/hooks';
-import {FilmGenre} from '@/api';
 import {GenreToText} from '@/shared/lib/translator';
 
 export type FilmFilterPropsType = {
@@ -21,18 +19,15 @@ export type FilmFilterPropsType = {
 const FilmFilter: React.FC<FilmFilterPropsType> = ({
   className,
 }) => {
-  const {isLoading, error} = useFetchMovies();
-  useFetchCinemas();
-
-  const films = useFilmsSelector()
-  const genres: FilmGenre[] = useMemo(() => Array.from(new Set(films.map(film => film.genre)).values()), [films]);
-  const cinemas = useCinemasSelector();
-
   const {
+    cinemas,
+    genres,
+    isLoading,
+    error,
     onChangeFilmName,
     onSelectFilmGenre,
     onSelectCinema,
-  } = useFilmFilterActions({cinemas});
+  } = useFilmFilterActions();
 
   return (
     <div className={cn(styles.filmFilter, className)}>
