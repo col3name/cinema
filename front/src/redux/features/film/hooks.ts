@@ -41,7 +41,7 @@ export const useFetchMovies = (page: number) => {
 
   const { data, isLoading, error } = useSWR(
     `/api/movies?page=${page}`,
-    fetcher
+    fetcher,
   );
 
   useEffect(() => {

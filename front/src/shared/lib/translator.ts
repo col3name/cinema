@@ -9,8 +9,8 @@ export const GenreToText: Record<FilmGenre, string> = {
 };
 
 export const TextToGenre: Record<string, FilmGenre> = {
-  'Фэнтези': "fantasy",
-  'Хоррор': "horror",
-  'Боевик': "action",
-  'Комедия': "comedy",
+  Фэнтези: "fantasy",
+  Хоррор: "horror",
+  Боевик: "action",
+  Комедия: "comedy",
 };
