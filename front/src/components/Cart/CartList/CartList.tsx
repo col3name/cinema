@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import cn from "classnames";
-
+import Link from "next/link";
 import FilmInfo from "@/components/Film/FilmSearch/FilmInfo";
 
 import styles from "./stylesCartList.module.css";
@@ -15,6 +15,13 @@ export type CartListPropsType = {
 
 const CartList: React.FC<CartListPropsType> = ({ className }) => {
   const films = useCartFilmsSelector();
+
+  if (films.length === 0) {
+    return <div>
+      <p>Empty cart</p>
+      <Link href="/"><h3>Catalog</h3></Link>
+    </div>;
+  }
 
   return (
     <div className={cn(styles.cartContainer, className)}>
