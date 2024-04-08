@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 import Modal from "@/components/Common/Modal";
 import Button from "@/components/Common/Button";
@@ -6,12 +6,12 @@ import { ModalRow } from "@/components/Common/Modal";
 
 import { useConfirmPopup } from "@/redux/features/cart/hooks";
 
-import {usePopupKeyboard} from './hooks/usePopupKeyboard';
+import { usePopupKeyboard } from "./hooks/usePopupKeyboard";
 
 const PopupFilmRemove = () => {
   const { opened, close, remove } = useConfirmPopup();
 
-  usePopupKeyboard({opened, onConfirm: remove, onCancel: close})
+  usePopupKeyboard({ opened, onConfirm: remove, onCancel: close });
 
   return (
     <Modal active={opened} close={close} title={"Удаление билета"}>

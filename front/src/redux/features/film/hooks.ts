@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -14,6 +14,7 @@ import {
 import { setCinemas, setFilms, appendFilms, setReviews } from "./slice";
 import { Cinema } from "./model";
 import { Review } from "@/shared/types";
+import { setHttpClientAndAgentOptions } from "next/dist/server/config";
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
@@ -82,6 +83,38 @@ export const useFetchMovie = (filmId: string) => {
   };
 };
 
+export const useFetchBook = (filmId: string) => {
+  const dispatch = useAppDispatch();
+
+  const [page, setPage] = useState(0);
+  const { data, isLoading, error } = useSWR(
+    `/api/books?movieId=${filmId}&page=${page}`,
+    fetcher,
+  );
+
+  const nextPage = () => {
+    setPage((prev) => prev + 2);
+  };
+
+  const prevPage = () => {
+    setPage((prev) => prev - 2);
+  };
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setFilms([data]));
+    }
+  }, [data, dispatch]);
+
+  return {
+    book: data,
+    isLoading,
+    error,
+    page,
+    nextPage,
+    prevPage,
+  };
+};
 export const useFilmReviews = (filmId: string) => {
   const dispatch = useAppDispatch();
 

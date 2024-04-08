@@ -17,10 +17,14 @@ const CartList: React.FC<CartListPropsType> = ({ className }) => {
   const films = useCartFilmsSelector();
 
   if (films.length === 0) {
-    return <div>
-      <p>Empty cart</p>
-      <Link href="/"><h3>Catalog</h3></Link>
-    </div>;
+    return (
+      <div>
+        <p>Empty cart</p>
+        <Link href="/">
+          <h3>Catalog</h3>
+        </Link>
+      </div>
+    );
   }
 
   return (
