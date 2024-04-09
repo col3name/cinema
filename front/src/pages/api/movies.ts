@@ -73,7 +73,6 @@ export default function handler(
     console.log("-----");
     for (let i = 0; i < 12; i++) {
       const movie = generateMovie(reviewIds);
-      // console.log({ movie });
       addMovieToCinema(movie.id);
       movies.push(movie);
     }
