@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {EventHandler, useCallback, useState} from "react";
 
 import DropdownItem from "./DropdownItem";
 import DropdownContent from "./DropdownContent";
@@ -29,12 +29,13 @@ const Dropdown: React.FC<DropdownPropsType> = ({
   // eslint-disable-next-line
   // @ts-ignore
   const onSelect = useCallback(
-    (e) => {
-      // eslint-disable-line
-      const { textContent } = e.target;
-      const newValue = (
-        textContent === defaultText ? defaultValue : textContent
-      ).trim();
+    (textContent: string | undefined) => {
+      let newValue = defaultValue;
+      if (textContent) {
+          newValue = (
+              textContent === defaultText ? defaultValue : textContent
+          ).trim();
+      }
       onSelected(newValue);
       setIsSelected(newValue);
       toggle();

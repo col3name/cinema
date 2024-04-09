@@ -7,7 +7,6 @@ import { Cinema } from "@/redux/features/film/model";
 import {
   useCinemasSelector,
   useFetchCinemas,
-  useFetchMovies,
   useFilmsSelector,
 } from "@/redux/features/film/hooks";
 import { FilmGenre } from "@/api";
@@ -22,7 +21,12 @@ export const useFilmFilterActions = () => {
 
   const films = useFilmsSelector();
   const genres: FilmGenre[] = useMemo(
-    () => Array.from(new Set(films.filter(it => it !== null).map((film) => film?.genre)).values()),
+    () =>
+      Array.from(
+        new Set(
+          films.filter((it) => it !== null).map((film) => film?.genre),
+        ).values(),
+      ),
     [films],
   );
 

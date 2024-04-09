@@ -12,8 +12,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <meta charSet="utf-8" />
-      <body className={inter.className}>
+    <head>
+        <meta charSet="utf-8"/>
+        <title>Title</title>
+    </head>
+    <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

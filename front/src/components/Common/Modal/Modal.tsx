@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import cn from "classnames";
 
 import Portal from "@/components/Common/Portal";
@@ -21,16 +21,17 @@ export const Modal: React.FC<ModalProps> = ({
   close,
   children,
 }) => {
+  const onClose = useCallback(() => {
+    clearState && clearState();
+    close();
+  }, [clearState, close]);
   return (
     <Portal>
       <div
         className={cn(styles.modal, {
           [styles.active]: active,
         })}
-        onClick={() => {
-          clearState && clearState();
-          close();
-        }}
+        onClick={onClose}
       >
         <div
           className={styles.modalContent}

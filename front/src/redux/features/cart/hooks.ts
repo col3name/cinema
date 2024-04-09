@@ -7,7 +7,7 @@ import {
   removeFromCart,
 } from "./slice";
 
-export const useConfirmPopupOpened = () => {
+export const useConfirmPopup = () => {
   const opened = usePopupFilmRemoveOpened();
   const dispatch = useAppDispatch();
   const close = () => {

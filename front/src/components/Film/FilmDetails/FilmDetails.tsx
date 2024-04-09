@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { lazy, useState } from "react";
 import Image from "next/image";
 
 import DataHOC from "@/components/Common/DataHOC";
@@ -8,6 +8,9 @@ import Title from "@/components/Common/Tite";
 import Paragraph from "@/components/Common/Paragraph";
 import FilmDescriptionItem from "./FilmDescriptionItem";
 import FilmActionsWrapper from "@/components/Film/FilmDetails/FilmActionsWrapper";
+// import Button from "@/components/Common/Button";
+
+const BookEditor = lazy(() => import('./BookEditor'));
 
 import styles from "./stylesFilmDetail.module.css";
 
@@ -24,9 +27,13 @@ export type FilmCardPropsType = {
 
 interface FilmDataProps {
   film: Film;
+  onReadBook: (filmId: string) => void;
 }
 
-const FilmData: React.FC<FilmDataProps> = ({ film }: { film: Film }) => {
+const FilmData: React.FC<FilmDataProps> = ({
+  film,
+  // onReadBook,
+}: FilmDataProps) => {
   return (
     <div className={styles.filmDetailsContainer}>
       <div className={styles.filmContainer}>
@@ -54,6 +61,7 @@ const FilmData: React.FC<FilmDataProps> = ({ film }: { film: Film }) => {
           <FilmDescriptionItem title="Режиссер: " description={film.director} />
           <FilmDescriptionItem title="Описание: " />
           <Paragraph text={film.description} />
+          {/*<Button onClick={() => onReadBook(film.id)}>Read</Button>*/}
         </div>
       </div>
     </div>
@@ -62,11 +70,21 @@ const FilmData: React.FC<FilmDataProps> = ({ film }: { film: Film }) => {
 
 const FilmDetails: React.FC<FilmCardPropsType> = ({ filmId }) => {
   const film = useFindFilmSelector(filmId) as Film;
+  // const [isEditor, setIsEditor] = useState<boolean>(false);
   const { isLoading, error } = useFetchMovie(filmId);
+  //
+  // if (isEditor) {
+  //   return <BookEditor filmId={filmId} onClose={() => setIsEditor(false)} />;
+  // }
 
   return (
     <DataHOC data={film} isLoading={isLoading} loaderText="movie" error={error}>
-      <FilmData film={film} />
+      <FilmData
+        film={film}
+        onReadBook={(_: string) => {
+          // setIsEditor(true);
+        }}
+      />
     </DataHOC>
   );
 };

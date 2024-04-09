@@ -1,0 +1,8 @@
+.bookEditorContainer {
+  display: flex;
+  justify-content: column;
+}
+
+.bookPage {
+  flex: 1;
+}

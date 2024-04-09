@@ -1,8 +1,8 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 
 export type DropdownItemPropsType = {
   children: React.ReactNode;
-  onSelect: MouseEventHandler<HTMLDivElement> | undefined;
+  onSelect: (value: string|undefined) => void;
 };
 
 export type DropdownOption = {
