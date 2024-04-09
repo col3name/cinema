@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {EventHandler, MouseEvent, MouseEventHandler, useEffect} from "react";
 
 interface PopupKeyboardProps {
   opened: boolean;
@@ -10,13 +10,13 @@ export const usePopupKeyboard = ({
   opened,
   onCancel,
   onConfirm,
-}: PopupKeyboardProps) => {
+}: PopupKeyboardProps): void => {
   useEffect(() => {
     if (!opened) {
       return;
     }
 
-    const handleKeyboard = (e) => {
+    const handleKeyboard = (e : KeyboardEvent) => {
       switch (e.key) {
         case "Escape": {
           onCancel?.();
@@ -34,5 +34,5 @@ export const usePopupKeyboard = ({
     return () => {
       window.removeEventListener("keydown", handleKeyboard);
     };
-  }, [opened]);
+  }, [opened, onCancel, onConfirm]);
 };

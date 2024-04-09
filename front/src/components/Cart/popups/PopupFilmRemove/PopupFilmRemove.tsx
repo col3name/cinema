@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import Modal from "@/components/Common/Modal";
 import Button from "@/components/Common/Button";

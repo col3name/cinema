@@ -2,34 +2,33 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { promises as fs } from "fs";
 
 import { reply } from "@/pages/api/utils";
-import { cinemas } from "@/pages/api/mock";
 type ResponseData = {
   message: string;
 };
 
-const cache = {};
+const cache = new Map<number, string>();
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
-) {
+): Promise<void> {
   const { movieId, page } = req.query;
 
   let text;
   const cur = Number(page)
-  if (!cache[cur]) {
+  if (!cache.has(cur)) {
     console.log('mis')
-    cache[cur] = await fs.readFile(`./books/${page}.txt`, "utf8");
+    cache.set(cur, await fs.readFile(`./books/${page}.txt`, "utf8"));
   } else {
     console.log('mis')
-    text = cache[cur];
+    text = cache.get(cur);
   }
 
   let text2;
   const nextPage = Number(page)+ 1;
-  if (!cache[nextPage]) {
-    cache[nextPage] = await fs.readFile(`./books/${nextPage}.txt`, "utf8");
+  if (!cache.has(nextPage)) {
+    cache.set(nextPage, await fs.readFile(`./books/${nextPage}.txt`, "utf8"));
   } else {
-    text2 = cache[nextPage];
+    text2 = cache.get(nextPage);
   }
   const book = {
     meta: {

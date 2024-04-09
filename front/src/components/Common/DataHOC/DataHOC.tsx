@@ -5,6 +5,7 @@ import Paragraph from "@/components/Common/Paragraph";
 const Loader = ({ text = "" }: { text: string }) => (
   <div>Loading {text}...</div>
 );
+
 const Error = ({ error }: { error: string }) => <div>Error: {error}</div>;
 
 interface DataHOCProps {
@@ -28,11 +29,13 @@ const DataHOC: React.FC<DataHOCProps> = ({
 }) => {
   if (isLoading) {
     const LoaderComponent = loaderComponent;
+    // @ts-ignore
     return <LoaderComponent text={loaderText} />;
   }
 
   if (error) {
     const ErrorComponent = errorComponent;
+    // @ts-ignore
     return <ErrorComponent error={error} />;
   }
 

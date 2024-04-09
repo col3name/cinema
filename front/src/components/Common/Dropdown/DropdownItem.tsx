@@ -1,4 +1,4 @@
-import React from "react";
+import React, {MouseEventHandler} from "react";
 
 import styles from "./Dropdown.module.css";
 
@@ -9,7 +9,13 @@ const DropdownItem: React.FC<DropdownItemPropsType> = ({
   onSelect,
 }) => {
   return (
-    <div className={styles.item} onClick={onSelect}>
+    <div className={styles.item} onClick={(e):void => {
+      const { target } = e;
+      if (target instanceof HTMLDivElement) {
+        let value = target.textContent as string | undefined;
+        onSelect(value)
+      }
+    }}>
       {children}
     </div>
   );

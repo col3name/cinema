@@ -9,7 +9,7 @@ interface BookEditorProps {
 }
 
 const BookEditor: React.FC<BookEditorProps> = ({ filmId, onClose }) => {
-  const { book, isLoading, error, page, nextPage, prevPage } = useFetchBook(filmId);
+  const { book, isLoading, nextPage, prevPage } = useFetchBook(filmId);
 
   return (
     <div>
@@ -22,12 +22,12 @@ const BookEditor: React.FC<BookEditorProps> = ({ filmId, onClose }) => {
       { isLoading && (
         <div>Loading page</div>
       )}
-      { book && (
+      {/* { book && ( */}
         <div className={styles.bookEditorContainer}>
           <div className={styles.bookPage}>{book.text}</div>
           <div className={styles.bookPage}>{book.text2}</div>
         </div>
-      )}
+      {/* )} */}
       <button onClick={onClose}>X</button>
     </div>
   );

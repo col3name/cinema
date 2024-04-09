@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import cn from "classnames";
 
 import Portal from "@/components/Common/Portal";
@@ -28,10 +28,6 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <Portal>
       <div
-        onKeyDown={(e) => {
-          const { key } = e;
-          console.log(key);
-        }}
         className={cn(styles.modal, {
           [styles.active]: active,
         })}

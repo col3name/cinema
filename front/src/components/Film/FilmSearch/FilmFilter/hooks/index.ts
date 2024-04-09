@@ -7,7 +7,6 @@ import { Cinema } from "@/redux/features/film/model";
 import {
   useCinemasSelector,
   useFetchCinemas,
-  useFetchMovies,
   useFilmsSelector,
 } from "@/redux/features/film/hooks";
 import { FilmGenre } from "@/api";

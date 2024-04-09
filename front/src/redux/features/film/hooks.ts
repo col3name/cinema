@@ -6,7 +6,6 @@ import { RootState } from "@/redux/store";
 import {
   fetchCinemas,
   fetchMovie,
-  fetchMovies,
   fetchReview,
   Film,
 } from "@/api";
@@ -14,18 +13,17 @@ import {
 import { setCinemas, setFilms, appendFilms, setReviews } from "./slice";
 import { Cinema } from "./model";
 import { Review } from "@/shared/types";
-import { setHttpClientAndAgentOptions } from "next/dist/server/config";
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
 
-  const films = useFilmsSelector();
+  const cinemas: Cinema[] = useCinemasSelector();
 
   const { data, isLoading, error } = useSWR("/api/cinemas", fetchCinemas);
 
   useEffect(() => {
     if (data) {
-      dispatch(setCinemas([...films, ...data]));
+      dispatch(setCinemas([...cinemas, ...data]));
     }
   }, [data, dispatch]);
 
@@ -53,7 +51,7 @@ export const useFetchMovies = (page: number) => {
         dispatch(appendFilms(data));
       }
     }
-  }, [dispatch, data]);
+  }, [dispatch, data, page]);
 
   return {
     movies: data,
@@ -86,7 +84,7 @@ export const useFetchMovie = (filmId: string) => {
 export const useFetchBook = (filmId: string) => {
   const dispatch = useAppDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<number>(0);
   const { data, isLoading, error } = useSWR(
     `/api/books?movieId=${filmId}&page=${page}`,
     fetcher,
