@@ -28,6 +28,16 @@ export const FilmInfoSkeleton = () => {
     )
 };
 
+import { FilmGenre } from "@/api";
+
+type FilmGenreProps = {
+    genre: FilmGenre
+}
+const FilmGenre: React.FC<FilmGenreProps> = ({
+    genre
+}) => {
+    return (<p>{GenreToText[genre]}</p>)
+}
 const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,
   film,
@@ -45,9 +55,9 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
       <div className={styles.filmContent}>
         <div>
           <Link href={`/film/${film?.id}`}>
-            <h2>{film.title}</h2>
+            <h2>{film?.title}</h2>
           </Link>
-          <p>{GenreToText[film.genre]}</p>
+            <FilmGenre genre={film?.genre}/>
         </div>
         {film && (
           <FilmActions
