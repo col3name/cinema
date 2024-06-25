@@ -1,6 +1,6 @@
 .bookEditorContainer {
   display: flex;
-  justify-content: column;
+  flex-direction: column;
 }
 
 .bookPage {
