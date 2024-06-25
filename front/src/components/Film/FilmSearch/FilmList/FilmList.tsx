@@ -44,7 +44,7 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
       (filter.cinema !== ""
         ? cinemas
             ?.find((cinema) => cinema.id === filter.cinema)
-            ?.movieIds?.includes(film.id)
+            ?.movieIds?.includes(film?.id)
         : true) &&
       (filter.genre !== ""
         ? film.genre.toLowerCase().includes(filter.genre?.toLowerCase())
@@ -101,8 +101,8 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
         error={error}
       > */}
       <ul>
-        {filmsList.map((film: Film) => (
-          <FilmInfo key={film.id} film={film} />
+        {filmsList?.map((film: Film) => (
+          <FilmInfo key={film?.id} film={film} />
         ))}
       </ul>
       {isLoading && <div>Loading...</div>}

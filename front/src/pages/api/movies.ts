@@ -49,7 +49,7 @@ const generateMovie = (reviewIds: string[]): Movie => {
   } as Movie;
 };
 
-const reviewIds: string[] = reviews.map((review: ReviewType) => review.id);
+const reviewIds: string[] = reviews?.map((review: ReviewType) => review?.id);
 
 const addMovieToCinema = (movieId: string): void => {
   const countCinema = cinemas.length;
@@ -73,7 +73,7 @@ export default function handler(
     console.log("-----");
     for (let i = 0; i < 12; i++) {
       const movie = generateMovie(reviewIds);
-      addMovieToCinema(movie.id);
+      addMovieToCinema(movie?.id);
       movies.push(movie);
     }
   }

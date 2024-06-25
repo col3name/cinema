@@ -15,7 +15,7 @@ interface FilmPageProps {
 }
 
 const FilmPage: React.FC<FilmPageProps> = ({ params }) => {
-  const filmId = params.id;
+  const filmId = params?.id;
 
   return (
     <Layout>

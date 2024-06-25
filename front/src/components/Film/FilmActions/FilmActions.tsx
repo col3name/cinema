@@ -29,8 +29,8 @@ const FilmActions: React.FC<FilmActionPropsType> = ({
   };
   return (
     <div className={styles.filmActions}>
-      <FilmDecrementButton filmId={film.id} />
-      <FilmCounter key={film.id} filmId={film.id} />
+      <FilmDecrementButton filmId={film?.id} />
+      <FilmCounter key={film?.id} filmId={film?.id} />
       <FilmIncrementButton film={film} />
       {enableRemove && (
         <CloseIcon

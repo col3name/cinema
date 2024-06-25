@@ -14,4 +14,4 @@ export type Entity = { id: string };
 export const getById =
   (entities: Entity[]) =>
   (id: string): Entity | undefined =>
-    entities.find((entity) => entity.id === id);
+    entities?.find((entity) => entity?.id === id);

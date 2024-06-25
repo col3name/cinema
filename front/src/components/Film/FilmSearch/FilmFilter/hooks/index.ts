@@ -64,8 +64,8 @@ export const useFilmFilterActions = () => {
       updateCinemaFilter("");
       return;
     }
-    updateCinemaFilter(cinema.id);
-    replaceUrlParam("cinema", cinema.id);
+    updateCinemaFilter(cinema?.id);
+    replaceUrlParam("cinema", cinema?.id);
   };
 
   return {

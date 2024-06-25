@@ -31,7 +31,7 @@ const CartList: React.FC<CartListPropsType> = ({ className }) => {
     <div className={cn(styles.cartContainer, className)}>
       {films.map((film: FilmOnCart) => (
         <FilmInfo
-          key={film.id}
+          key={film?.id}
           film={{ ...film, quantity: undefined }}
           enableRemove={true}
         />
