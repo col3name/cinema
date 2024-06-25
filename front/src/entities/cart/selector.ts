@@ -1,5 +1,5 @@
-import { RootState } from "@/redux/store";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/shared/redux/store";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { addToCart, FilmOnCart } from "./slice";
 import { Film } from "@/api";
 

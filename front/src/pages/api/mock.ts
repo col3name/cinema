@@ -1,5 +1,5 @@
 import { Review } from "@/shared/types/types";
-import { Cinema } from "@/redux/features/film/model";
+import { Cinema } from "@/entities/film";
 
 export const cinemas: Cinema[] = [
   {

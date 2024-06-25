@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Providers } from "@/redux/provider";
+import { Providers } from "@/shared/redux/provider";
 import Footer from "@/components/Footer";
 
 import styles from "@/app/page.module.css";

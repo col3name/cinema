@@ -18,8 +18,8 @@ import {
   useFetchMovies,
   useFetchCinemas,
   useFilmsSelector,
-} from "@/redux/features/film/hooks";
-import { useFilmFilter } from "@/redux/features/filmFilter/selector";
+} from "@/entities/film";
+import { useFilmFilter } from "@/entities/filmFilter";
 import throttle from "lodash/throttle";
 import {FilmInfoSkeleton} from "@/components/Film/FilmSearch/FilmInfo/FilmInfo";
 import Button from "@/shared/ui/Button";

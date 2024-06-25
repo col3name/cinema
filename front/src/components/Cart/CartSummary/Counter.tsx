@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useTicketCount } from "@/redux/features/cart/selector";
-
 import Paragraph from "@/shared/ui/Paragraph";
+
+import { useTicketCount } from "@/entities/cart";
 
 export const Counter = () => {
   const count = useTicketCount();

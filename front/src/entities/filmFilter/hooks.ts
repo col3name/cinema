@@ -1,5 +1,5 @@
-import { useAppDispatch } from "@/redux/hooks";
-import { setCinema, setGenre, setFilmName } from "./filterSlice";
+import { useAppDispatch } from "@/shared/redux/hooks";
+import { setCinema, setGenre, setFilmName } from "./slice";
 import { FilmGenre } from "@/api";
 
 export const useFilmFilter = () => {

@@ -14,7 +14,7 @@ const initialState: FilmFilterState = {
   name: "",
 };
 
-const filterSlice = createSlice({
+const slice = createSlice({
   name: "filter",
   initialState,
   reducers: {
@@ -42,6 +42,6 @@ const filterSlice = createSlice({
   },
 });
 
-export const filterReducer = filterSlice.reducer;
+export const filterReducer = slice.reducer;
 
-export const { setFilmName, setGenre, setCinema } = filterSlice.actions;
+export const { setFilmName, setGenre, setCinema } = slice.actions;

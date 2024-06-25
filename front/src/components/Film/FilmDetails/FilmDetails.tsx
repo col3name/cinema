@@ -8,13 +8,13 @@ import Paragraph from "@/shared/ui/Paragraph";
 import FilmDescriptionItem from "./FilmDescriptionItem";
 import FilmActionsWrapper from "@/components/Film/FilmDetails/FilmActionsWrapper";
 import DataHOC from "@/shared/ui/DataHOC/DataHOC";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 import styles from "./stylesFilmDetail.module.css";
 
 import {Film} from "@/api";
 import {GenreToText} from "@/shared/lib/translator";
-import {useFetchMovie, useFindFilmSelector,} from "@/redux/features/film/hooks";
-import {Skeleton} from "@/shared/ui/Skeleton";
+import {useFetchMovie, useFindFilmSelector,} from "@/entities/film";
 
 const BookEditor = lazy(() => import('./BookEditor'));
 

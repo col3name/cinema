@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
+import { RootState } from "@/shared/redux/store";
 
 import {
   fetchCinemas,

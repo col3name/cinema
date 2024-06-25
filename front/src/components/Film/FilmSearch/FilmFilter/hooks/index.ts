@@ -1,14 +1,14 @@
 import { useEffect, useMemo } from "react";
 
-import { useFilmFilter } from "@/redux/features/filmFilter/hooks";
+import { useFilmFilter } from "@/entities/filmFilter";
 import { getUrlParameter, replaceUrlParam } from "@/shared/lib/url";
 import { TextToGenre } from "@/shared/lib/translator";
-import { Cinema } from "@/redux/features/film/model";
+import { Cinema } from "@/entities/film";
 import {
   useCinemasSelector,
   useFetchCinemas,
   useFilmsSelector,
-} from "@/redux/features/film/hooks";
+} from "@/entities/film";
 import { FilmGenre } from "@/api";
 
 const DEFAULT_VALUE = "Все";

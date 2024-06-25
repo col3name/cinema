@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { randomUUID } from "crypto";
 
 import { Entity, getById, reply } from "@/pages/api/utils";
 import {cinemas, Movie, movies, reviews, ReviewType} from "@/pages/api/mock";
-import { Cinema } from "@/redux/features/film/model";
+import { Cinema } from "@/entities/film";
 import { Film } from "@/api";
-import { randomUUID } from "crypto";
 
 type ResponseData = {
   message: string;

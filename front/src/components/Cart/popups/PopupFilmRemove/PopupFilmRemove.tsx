@@ -4,7 +4,7 @@ import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { ModalRow } from "@/shared/ui/Modal";
 
-import { useConfirmPopup } from "@/redux/features/cart/hooks";
+import { useConfirmPopup } from "@/entities/cart";
 
 import { usePopupKeyboard } from "./hooks/usePopupKeyboard";
 

@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/shared/redux/hooks";
 import { usePopupFilmRemoveOpened } from "./selector";
 import {
   closeRemoveConfirmPopup,

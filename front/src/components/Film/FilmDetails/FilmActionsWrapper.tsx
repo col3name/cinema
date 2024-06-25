@@ -3,7 +3,7 @@ import type { FC } from "react";
 
 import FilmActions from "@/components/Film/FilmActions/FilmActions";
 
-import { useFilmInCartNotExist } from "@/redux/features/cart/selector";
+import { useFilmInCartNotExist } from "@/entities/cart";
 import { Film } from "@/api";
 
 export interface FilmActionsWrapperProps {

@@ -5,12 +5,12 @@ import FilmCounter from "./FilmCounter";
 import FilmIncrementButton from "./FilmIncrementButton";
 import FilmDecrementButton from "./FilmDecrementButton";
 import CloseIcon from "@/shared/ui/icons/close";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 import styles from "./stylesFilmAction.module.css";
 
 import { Film } from "@/api";
-import { useRemoveFromCart } from "@/redux/features/cart/hooks";
-import {Skeleton} from "@/shared/ui/Skeleton";
+import { useRemoveFromCart } from "@/entities/cart";
 
 export type FilmActionPropsType = {
   film: Film;

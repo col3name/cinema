@@ -9,7 +9,7 @@ import styles from "./stylesReviews.module.css";
 
 import {Review} from "@/shared/types";
 
-import {useFilmReviews, useFilmReviewsSelector,} from "@/redux/features/film/hooks";
+import {useFilmReviews, useFilmReviewsSelector,} from "@/entities/film";
 
 export type ReviewsPropsType = {
     className?: string;

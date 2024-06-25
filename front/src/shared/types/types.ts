@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
 
 import { Film, FilmGenre } from "@/api";
-import { FilmOnCart } from "@/redux/features/cart/slice";
+import { FilmOnCart } from "@/entities/cart";
 
 export type IconPropsType = {
   className?: string;

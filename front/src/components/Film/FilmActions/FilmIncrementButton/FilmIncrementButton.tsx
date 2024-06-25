@@ -8,7 +8,7 @@ import { Film } from "@/api";
 import {
   useAddFilmToCart,
   useCartIsFull,
-} from "@/redux/features/cart/selector";
+} from "@/entities/cart/selector";
 
 import styles from "@/components/Film/FilmActions/stylesFilmAction.module.css";
 

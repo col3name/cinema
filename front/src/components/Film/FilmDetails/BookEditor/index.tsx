@@ -1,5 +1,6 @@
 import React from "react";
-import { useFetchBook } from "@/redux/features/film/hooks";
+
+import { useFetchBook } from "@/entities/film";
 
 import styles from "./stylesBookEditor.module.css";
 

@@ -6,8 +6,10 @@ import MinusIcon from "@/shared/ui/icons/minus";
 
 import styles from "@/components/Film/FilmActions/stylesFilmAction.module.css";
 
-import { useFilmInCartNotExist } from "@/redux/features/cart/selector";
-import { useDecrementFilmInCart } from "@/redux/features/cart/hooks";
+import {
+  useFilmInCartNotExist,
+  useDecrementFilmInCart,
+} from "@/entities/cart";
 
 type FilmRemoveButtonPropsType = {
   children?: React.ReactNode;

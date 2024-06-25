@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useCartFilm } from "@/redux/features/cart/selector";
+import { useCartFilm } from "@/entities/cart";
 
 export type FilmCounterPropsType = {
   filmId: string;
