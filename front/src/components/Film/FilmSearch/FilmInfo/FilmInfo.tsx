@@ -22,8 +22,8 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
         className={styles.filmInfoSmallPoster}
         src={film.posterUrl}
         alt="film poster"
-        width={320}
-        height={240}
+        width={100}
+        height={120}
       />
       <div className={styles.filmContent}>
         <div>

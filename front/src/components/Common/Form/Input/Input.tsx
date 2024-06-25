@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import cn from "classnames";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 import styles from "../stylesForm.module.css";
 

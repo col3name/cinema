@@ -20,7 +20,7 @@ import {
   useFilmsSelector,
 } from "@/redux/features/film/hooks";
 import { useFilmFilter } from "@/redux/features/filmFilter/selector";
-import { throttle } from "lodash";
+import throttle from "lodash/throttle";
 
 export type FilmListPropsType = {
   className?: string;
@@ -76,24 +76,24 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
 
   return (
     <div className={cn(styles.filmList, className)}>
-      <div>
-        <button
-          onClick={() => {
-            if (page > 0) {
-              setPage((prev) => prev - 1);
-            }
-          }}
-        >
-          prev
-        </button>
-        <button
-          onClick={() => {
-            setPage((prev: number) => prev + 1);
-          }}
-        >
-          next
-        </button>
-      </div>
+      {/*<div>*/}
+      {/*  <button*/}
+      {/*    onClick={() => {*/}
+      {/*      if (page > 0) {*/}
+      {/*        setPage((prev) => prev - 1);*/}
+      {/*      }*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    prev*/}
+      {/*  </button>*/}
+      {/*  <button*/}
+      {/*    onClick={() => {*/}
+      {/*      setPage((prev: number) => prev + 1);*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    next*/}
+      {/*  </button>*/}
+      {/*</div>*/}
       {/* <DataHOC
         data={filmsList}
         isLoading={isLoading}
@@ -101,7 +101,7 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
         error={error}
       > */}
       <ul>
-        {filmsList.map((film) => (
+        {filmsList.map((film: Film) => (
           <FilmInfo key={film.id} film={film} />
         ))}
       </ul>
