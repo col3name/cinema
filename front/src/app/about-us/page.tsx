@@ -1,9 +1,9 @@
 import React from "react";
 
-import Layout from "@/components/Layout";
-import PageContent from "@/components/Common/PageContent";
-import Paragraph from "@/components/Common/Paragraph";
-import Title from "@/components/Common/Tite";
+import Layout from "@/shared/ui/Layout";
+import PageContent from "@/shared/ui/PageContent";
+import Paragraph from "@/shared/ui/Paragraph";
+import Title from "@/shared/ui/Tite";
 
 import styles from "./stylesAboutUs.module.css";
 

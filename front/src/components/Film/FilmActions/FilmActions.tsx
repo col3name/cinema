@@ -4,13 +4,13 @@ import React, { MouseEvent } from "react";
 import FilmCounter from "./FilmCounter";
 import FilmIncrementButton from "./FilmIncrementButton";
 import FilmDecrementButton from "./FilmDecrementButton";
-import CloseIcon from "@/components/Common/icons/close";
+import CloseIcon from "@/shared/ui/icons/close";
 
 import styles from "./stylesFilmAction.module.css";
 
 import { Film } from "@/api";
 import { useRemoveFromCart } from "@/redux/features/cart/hooks";
-import {Skeleton} from "@/components/Common/Skeleton";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 export type FilmActionPropsType = {
   film: Film;

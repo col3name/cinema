@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import cn from "classnames";
 
-import Arrow from "@/components/Common/icons/arrow";
+import Arrow from "@/shared/ui/icons/arrow";
 
 import styles from "./Dropdown.module.css";
 

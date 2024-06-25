@@ -1,6 +1,6 @@
 import React from "react";
 
-import Paragraph from "@/components/Common/Paragraph";
+import Paragraph from "@/shared/ui/Paragraph";
 
 export const Loader = ({ text = "" }: { text: string }) => (
   <div>Loading {text}...</div>

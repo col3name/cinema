@@ -8,7 +8,7 @@ import React, {
 import cn from "classnames";
 
 import FilmInfo from "@/components/Film/FilmSearch/FilmInfo";
-// import DataHOC from "@/components/Common/DataHOC/DataHOC";
+// import DataHOC from "@/shared/ui/DataHOC/DataHOC";
 
 import styles from "./stylesFilmList.module.css";
 
@@ -22,7 +22,7 @@ import {
 import { useFilmFilter } from "@/redux/features/filmFilter/selector";
 import throttle from "lodash/throttle";
 import {FilmInfoSkeleton} from "@/components/Film/FilmSearch/FilmInfo/FilmInfo";
-import Button from "@/components/Common/Button";
+import Button from "@/shared/ui/Button";
 
 export type FilmListPropsType = {
   className?: string;

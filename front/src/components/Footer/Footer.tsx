@@ -1,6 +1,6 @@
 import React from "react";
 
-import LinkText from "@/components/Common/LinkText";
+import LinkText from "@/shared/ui/LinkText";
 
 import styles from "./styleslFooter.module.css";
 

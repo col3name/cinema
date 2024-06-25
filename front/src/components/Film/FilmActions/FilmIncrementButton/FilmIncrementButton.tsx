@@ -1,8 +1,8 @@
 import React, { MouseEvent } from "react";
 import cn from "classnames";
 
-import Button from "@/components/Common/Button";
-import PlusIcon from "@/components/Common/icons/plus";
+import Button from "@/shared/ui/Button";
+import PlusIcon from "@/shared/ui/icons/plus";
 
 import { Film } from "@/api";
 import {

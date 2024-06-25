@@ -2,18 +2,14 @@ import React, {useMemo} from "react";
 import cn from "classnames";
 
 import ReviewItem from "@/components/Film/Reviews/ReviewItem";
+import DataHOC from "@/shared/ui/DataHOC";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 import styles from "./stylesReviews.module.css";
 
 import {Review} from "@/shared/types";
-import {
-    useFilmReviews,
-    useFilmReviewsSelector,
-} from "@/redux/features/film/hooks";
-import DataHOC from "@/components/Common/DataHOC";
-import {Skeleton} from "@/components/Common/Skeleton";
-import Title from "@/components/Common/Tite";
-import Paragraph from "@/components/Common/Paragraph";
+
+import {useFilmReviews, useFilmReviewsSelector,} from "@/redux/features/film/hooks";
 
 export type ReviewsPropsType = {
     className?: string;
@@ -53,7 +49,6 @@ const ReviewsSkeleton: React.FC<ReviewsSkeletonProps> = ({
 
 const Reviews: React.FC<ReviewsPropsType> = ({className, filmId}) => {
     const {isLoading, error} = useFilmReviews(filmId);
-    // const { error} = useFilmReviews(filmId); const isLoading = true;
 
     const reviews: Review[] = useFilmReviewsSelector(filmId);
 

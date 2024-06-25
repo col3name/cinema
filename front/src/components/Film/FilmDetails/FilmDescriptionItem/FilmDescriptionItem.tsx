@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import Paragraph from "@/components/Common/Paragraph";
+import Paragraph from "@/shared/ui/Paragraph";
 
 import styles from "../stylesFilmDetail.module.css";
 

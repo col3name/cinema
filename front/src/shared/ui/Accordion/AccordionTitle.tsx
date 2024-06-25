@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import cn from "classnames";
 
-import Button from "@/components/Common/Button";
-import ArrowIcon from "@/components/Common/icons/arrow";
+import Button from "@/shared/ui/Button";
+import ArrowIcon from "@/shared/ui/icons/arrow";
 
 import styles from "./stylesAccordion.module.css";
 

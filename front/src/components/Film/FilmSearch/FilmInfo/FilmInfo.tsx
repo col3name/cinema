@@ -10,7 +10,7 @@ import styles from "./stylesFilmDetails.module.css";
 import { FilmInfoPropsType } from "@/shared/types";
 import { Film } from "@/api";
 import { GenreToText } from "@/shared/lib/translator";
-import {Skeleton} from "@/components/Common/Skeleton";
+import {Skeleton} from "@/shared/ui/Skeleton";
 import {FilmActionsSkeleton} from "@/components/Film/FilmActions/FilmActions";
 
 export const FilmInfoSkeleton = () => {

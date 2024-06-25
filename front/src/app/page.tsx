@@ -1,6 +1,6 @@
 import React from "react";
 
-import Layout from "@/components/Layout";
+import Layout from "@/shared/ui/Layout";
 import FilmSearch from "@/pages/filmSearch";
 
 export default function Home() {

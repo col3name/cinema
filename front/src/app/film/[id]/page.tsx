@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import Layout from "@/components/Layout";
-import PageContent from "@/components/Common/PageContent";
+import Layout from "@/shared/ui/Layout";
+import PageContent from "@/shared/ui/PageContent";
 import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
 import FilmDetails from "@/pages/filmDetails";
 

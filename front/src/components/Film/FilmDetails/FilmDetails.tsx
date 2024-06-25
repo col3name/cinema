@@ -3,18 +3,18 @@
 import React, {lazy} from "react";
 import Image from "next/image";
 
-import Title from "@/components/Common/Tite";
-import Paragraph from "@/components/Common/Paragraph";
+import Title from "@/shared/ui/Tite";
+import Paragraph from "@/shared/ui/Paragraph";
 import FilmDescriptionItem from "./FilmDescriptionItem";
 import FilmActionsWrapper from "@/components/Film/FilmDetails/FilmActionsWrapper";
-import DataHOC from "@/components/Common/DataHOC/DataHOC";
+import DataHOC from "@/shared/ui/DataHOC/DataHOC";
 
 import styles from "./stylesFilmDetail.module.css";
 
 import {Film} from "@/api";
 import {GenreToText} from "@/shared/lib/translator";
 import {useFetchMovie, useFindFilmSelector,} from "@/redux/features/film/hooks";
-import {Skeleton} from "@/components/Common/Skeleton";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 const BookEditor = lazy(() => import('./BookEditor'));
 

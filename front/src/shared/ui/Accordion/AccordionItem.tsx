@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import AccordionTitle from "./AccordionTitle";
 import AccordionContent from "./AccordionContent";
-import Paragraph from "@/components/Common/Paragraph";
+import Paragraph from "@/shared/ui/Paragraph";
 
 import styles from "./stylesAccordion.module.css";
 

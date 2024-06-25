@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 
-import PageContent from "@/components/Common/PageContent";
+import PageContent from "@/shared/ui/PageContent";
 import CartSummary from "@/components/Cart/CartSummary";
 import CartList from "@/components/Cart/CartList";
-import Layout from "@/components/Layout";
+import Layout from "@/shared/ui/Layout";
 import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
 
 export type CartPagePropsType = {};

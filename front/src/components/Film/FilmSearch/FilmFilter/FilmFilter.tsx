@@ -3,9 +3,9 @@ import React from "react";
 import cn from "classnames";
 
 import FilterTitle from "./FilterTitle";
-import Input from "@/components/Common/Form/Input";
-import Label from "@/components/Common/Form/Label";
-import Dropdown from "@/components/Common/Dropdown";
+import Input from "@/shared/ui/Form/Input";
+import Label from "@/shared/ui/Form/Label";
+import Dropdown from "@/shared/ui/Dropdown";
 
 import styles from "./stylesFilmFilter.module.css";
 

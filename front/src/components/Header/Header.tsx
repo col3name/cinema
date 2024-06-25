@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 
-import BasketIcon from "@/components/Common/icons/basket/index";
-import Counter from "@/components/Common/Counter";
-import LinkText from "@/components/Common/LinkText";
+import BasketIcon from "@/shared/ui/icons/basket/index";
+import Counter from "@/shared/ui/Counter";
+import LinkText from "@/shared/ui/LinkText";
 
 import styles from "./stylesHeader.module.css";
 

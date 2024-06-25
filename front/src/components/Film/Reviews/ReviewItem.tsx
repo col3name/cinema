@@ -2,9 +2,9 @@ import React from "react";
 import cn from "classnames";
 import Image from "next/image";
 
-import Title from "@/components/Common/Tite";
-import Paragraph from "@/components/Common/Paragraph";
-import PhotoIcon from "@/components/Common/icons/photo";
+import Title from "@/shared/ui/Tite";
+import Paragraph from "@/shared/ui/Paragraph";
+import PhotoIcon from "@/shared/ui/icons/photo";
 
 import styles from "./stylesReviews.module.css";
 

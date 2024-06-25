@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import PageContent from "@/components/Common/PageContent";
+import PageContent from "@/shared/ui/PageContent";
 import FilmFilter from "@/components/Film/FilmSearch/FilmFilter";
 import FilmList from "@/components/Film/FilmSearch/FilmList";
 import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";

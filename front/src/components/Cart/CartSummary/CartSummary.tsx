@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import Paragraph from "@/components/Common/Paragraph";
+import Paragraph from "@/shared/ui/Paragraph";
 import { Counter } from "@/components/Cart/CartSummary/Counter";
 
 import styles from "./stylesCartSummary.module.css";

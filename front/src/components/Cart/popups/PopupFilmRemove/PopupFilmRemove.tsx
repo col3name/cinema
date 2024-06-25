@@ -1,8 +1,8 @@
 import React from "react";
 
-import Modal from "@/components/Common/Modal";
-import Button from "@/components/Common/Button";
-import { ModalRow } from "@/components/Common/Modal";
+import Modal from "@/shared/ui/Modal";
+import Button from "@/shared/ui/Button";
+import { ModalRow } from "@/shared/ui/Modal";
 
 import { useConfirmPopup } from "@/redux/features/cart/hooks";
 

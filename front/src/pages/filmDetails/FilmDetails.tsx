@@ -4,7 +4,7 @@ import React from "react";
 
 import FilmDetailsItem from "@/components/Film/FilmDetails";
 import Reviews from "@/components/Film/Reviews";
-import {Skeleton} from "@/components/Common/Skeleton";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 export type FilmDetailsPropsType = {
   filmId: string;

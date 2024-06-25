@@ -1,8 +1,8 @@
 import React, { MouseEvent } from "react";
 import cn from "classnames";
 
-import Button from "@/components/Common/Button";
-import MinusIcon from "@/components/Common/icons/minus";
+import Button from "@/shared/ui/Button";
+import MinusIcon from "@/shared/ui/icons/minus";
 
 import styles from "@/components/Film/FilmActions/stylesFilmAction.module.css";
 

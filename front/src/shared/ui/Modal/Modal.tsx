@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import cn from "classnames";
 
-import Portal from "@/components/Common/Portal";
-import CloseIcon from "@/components/Common/icons/close";
+import Portal from "@/shared/ui/Portal";
+import CloseIcon from "@/shared/ui/icons/close";
 
 import styles from "./Modal.module.css";
 
