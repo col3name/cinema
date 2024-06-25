@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import Header from "@/components/Header";
+import Header from "@/widgets/Header";
 
 import styles from "./stylesPageContent.module.css";
 

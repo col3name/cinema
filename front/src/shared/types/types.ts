@@ -1,7 +1,6 @@
-import { MouseEventHandler } from "react";
+import {MouseEventHandler} from "react";
 
-import { Film, FilmGenre } from "@/api";
-import { FilmOnCart } from "@/entities/cart";
+import {FilmGenre} from "@/api";
 
 export type IconPropsType = {
   className?: string;
@@ -26,8 +25,3 @@ export type FilmData = {
   description: string;
 };
 
-export type FilmInfoPropsType = {
-  className?: string;
-  film: FilmData | FilmOnCart | Film;
-  enableRemove?: boolean;
-};

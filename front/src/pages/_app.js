@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 
-import store from "@/redux/store";
+import store from "@/shared/redux/store";
 
 export default function App({ Component, pageProps }) {
   return (

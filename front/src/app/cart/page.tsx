@@ -2,10 +2,10 @@
 import React from "react";
 
 import PageContent from "@/shared/ui/PageContent";
-import CartSummary from "@/components/Cart/CartSummary";
-import CartList from "@/components/Cart/CartList";
+import CartSummary from "@/widgets/Cart/CartSummary";
+import CartList from "@/widgets/Cart/CartList";
 import Layout from "@/shared/ui/Layout";
-import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
+import PopupFilmRemoveConfirm from "@/widgets/Cart/popups/PopupFilmRemoveConfirm";
 
 export type CartPagePropsType = {};
 
@@ -15,7 +15,7 @@ const CartPage: React.FC<CartPagePropsType> = () => {
       <PageContent>
         <CartList />
         <CartSummary />
-        <PopupFilmRemove />
+        <PopupFilmRemoveConfirm />
       </PageContent>
     </Layout>
   );

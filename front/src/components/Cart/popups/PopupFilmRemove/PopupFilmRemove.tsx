@@ -5,8 +5,8 @@ import Button from "@/shared/ui/Button";
 import { ModalRow } from "@/shared/ui/Modal";
 
 import { useConfirmPopup } from "@/entities/cart";
+import {usePopupKeyboard} from "@/shared/hooks/usePopupKeyboard";
 
-import { usePopupKeyboard } from "./hooks/usePopupKeyboard";
 
 const PopupFilmRemove = () => {
   const { opened, close, remove } = useConfirmPopup();

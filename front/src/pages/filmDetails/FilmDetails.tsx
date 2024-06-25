@@ -2,9 +2,8 @@
 
 import React from "react";
 
-import FilmDetailsItem from "@/components/Film/FilmDetails";
-import Reviews from "@/components/Film/Reviews";
-import {Skeleton} from "@/shared/ui/Skeleton";
+import FilmDetailsItem from "@/widgets/Film/FilmDetails";
+import Reviews from "@/widgets/Film/Reviews";
 
 export type FilmDetailsPropsType = {
   filmId: string;

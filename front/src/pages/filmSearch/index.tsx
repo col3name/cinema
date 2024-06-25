@@ -3,18 +3,18 @@
 import React from "react";
 
 import PageContent from "@/shared/ui/PageContent";
-import FilmFilter from "@/components/Film/FilmSearch/FilmFilter";
-import FilmList from "@/components/Film/FilmSearch/FilmList";
-import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
+import FilmFilter from "@/features/film/FilmFilter";
+import FilmList from "@/widgets/Film/FilmSearch/FilmList";
 
 import styles from "./stylesFilm.module.css";
+import PopupFilmRemoveConfirm from "@/widgets/Cart/popups/PopupFilmRemoveConfirm";
 
 const FilmSearch = () => {
     return (
         <PageContent className={styles.filmContainer} isFlex>
             <FilmFilter/>
             <FilmList/>
-            <PopupFilmRemove/>
+            <PopupFilmRemoveConfirm/>
         </PageContent>
     );
 };

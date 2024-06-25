@@ -4,8 +4,8 @@ import React from "react";
 
 import Layout from "@/shared/ui/Layout";
 import PageContent from "@/shared/ui/PageContent";
-import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
 import FilmDetails from "@/pages/filmDetails";
+import PopupFilmRemoveConfirm from "@/widgets/Cart/popups/PopupFilmRemoveConfirm";
 
 interface FilmPageParams {
   id: string;
@@ -21,7 +21,7 @@ const FilmPage: React.FC<FilmPageProps> = ({ params }) => {
     <Layout>
       <PageContent>
         <FilmDetails filmId={filmId} />
-        <PopupFilmRemove />
+        <PopupFilmRemoveConfirm />
       </PageContent>
     </Layout>
   );
