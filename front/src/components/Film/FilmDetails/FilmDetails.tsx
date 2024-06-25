@@ -89,7 +89,6 @@ const FilmDetails: React.FC<FilmCardPropsType> = ({filmId}) => {
     const film = useFindFilmSelector(filmId) as Film;
     // const [isEditor, setIsEditor] = useState<boolean>(false);
     const {isLoading, error} = useFetchMovie(filmId);
-    // const {error} = useFetchMovie(filmId);const isLoading = true;
 
     return (
       <DataHOC
