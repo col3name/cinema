@@ -1,3 +1,13 @@
+.filmListContainerSkeleton {
+  margin-top: -20px;
+}
+.filmListContainerSkeleton,
+.filmListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .filmList {
   display: flex;
   flex-direction: column;

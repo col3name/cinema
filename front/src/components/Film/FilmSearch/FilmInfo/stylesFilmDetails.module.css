@@ -17,3 +17,9 @@
   display: flex;
   justify-content: space-between;
 }
+
+.filmContentLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}

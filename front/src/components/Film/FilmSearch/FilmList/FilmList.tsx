@@ -21,6 +21,8 @@ import {
 } from "@/redux/features/film/hooks";
 import { useFilmFilter } from "@/redux/features/filmFilter/selector";
 import throttle from "lodash/throttle";
+import {FilmInfoSkeleton} from "@/components/Film/FilmSearch/FilmInfo/FilmInfo";
+import Button from "@/components/Common/Button";
 
 export type FilmListPropsType = {
   className?: string;
@@ -28,10 +30,22 @@ export type FilmListPropsType = {
 
 const MAX_AUTO_SCROLL = 5;
 
+const FilmListSkeleton = () => {
+    return (
+        <ol className={cn(styles.filmListContainerSkeleton)}>
+            <FilmInfoSkeleton/>
+            <FilmInfoSkeleton/>
+            <FilmInfoSkeleton/>
+            <FilmInfoSkeleton/>
+        </ol>
+    );
+};
+
 const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
   const [page, setPage] = useState<number>(0);
 
   const { isLoading } = useFetchMovies(page);
+  // const isLoading = true;
   useFetchCinemas();
   const cinemas = useCinemasSelector();
   const filter = useFilmFilter();
@@ -76,38 +90,21 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
 
   return (
     <div className={cn(styles.filmList, className)}>
-      {/*<div>*/}
-      {/*  <button*/}
-      {/*    onClick={() => {*/}
-      {/*      if (page > 0) {*/}
-      {/*        setPage((prev) => prev - 1);*/}
-      {/*      }*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    prev*/}
-      {/*  </button>*/}
-      {/*  <button*/}
-      {/*    onClick={() => {*/}
-      {/*      setPage((prev: number) => prev + 1);*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    next*/}
-      {/*  </button>*/}
-      {/*</div>*/}
+
       {/* <DataHOC
         data={filmsList}
         isLoading={isLoading}
         loaderText="movies"
         error={error}
       > */}
-      <ul>
+      <ol className={styles.filmListContainer}>
         {filmsList?.map((film: Film) => (
           <FilmInfo key={film?.id} film={film} />
         ))}
-      </ul>
-      {isLoading && <div>Loading...</div>}
+      </ol>
+      {isLoading && <FilmListSkeleton/>}
       {!isLoading && page >= MAX_AUTO_SCROLL && (
-        <button onClick={() => setPage((prev) => prev + 1)}>next page</button>
+        <Button onClick={() => setPage((prev) => prev + 1)}>Загрузить еще</Button>
       )}
       {/* </DataHOC> */}
     </div>

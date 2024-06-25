@@ -19,9 +19,9 @@ const CartList: React.FC<CartListPropsType> = ({ className }) => {
   if (films.length === 0) {
     return (
       <div>
-        <p>Empty cart</p>
+        <p>Пустая корзина</p>
         <Link href="/">
-          <h3>Catalog</h3>
+          <h3>Каталог фильмов</h3>
         </Link>
       </div>
     );

@@ -5,6 +5,7 @@ import { IconPropsType } from "@/shared/types";
 const CloseIcon: React.FC<IconPropsType> = ({ className, onClick }) => {
   return (
     <svg
+        transform="scale(1.5)"
       className={className}
       onClick={onClick}
       width="20"

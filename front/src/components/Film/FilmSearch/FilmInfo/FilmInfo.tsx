@@ -10,6 +10,23 @@ import styles from "./stylesFilmDetails.module.css";
 import { FilmInfoPropsType } from "@/shared/types";
 import { Film } from "@/api";
 import { GenreToText } from "@/shared/lib/translator";
+import {Skeleton} from "@/components/Common/Skeleton";
+import {FilmActionsSkeleton} from "@/components/Film/FilmActions/FilmActions";
+
+export const FilmInfoSkeleton = () => {
+    return (
+        <div className={styles.filmInfo}>
+            <Skeleton width={100} height={120}/>
+            <div className={styles.filmContent}>
+                <div className={styles.filmContentLeft}>
+                    <Skeleton width={400} height={29}/>
+                    <Skeleton width={80} height={19}/>
+                </div>
+                <FilmActionsSkeleton/>
+            </div>
+        </div>
+    )
+};
 
 const FilmInfo: React.FC<FilmInfoPropsType> = ({
   className,
@@ -20,7 +37,7 @@ const FilmInfo: React.FC<FilmInfoPropsType> = ({
     <div className={cn(styles.filmInfo, className)}>
       <Image
         className={styles.filmInfoSmallPoster}
-        src={film.posterUrl}
+        src={film?.posterUrl}
         alt="film poster"
         width={100}
         height={120}

@@ -10,10 +10,17 @@ import styles from "./stylesFilmAction.module.css";
 
 import { Film } from "@/api";
 import { useRemoveFromCart } from "@/redux/features/cart/hooks";
+import {Skeleton} from "@/components/Common/Skeleton";
 
 export type FilmActionPropsType = {
   film: Film;
   enableRemove?: boolean;
+};
+
+export const FilmActionsSkeleton = () => {
+  return (
+      <Skeleton width={128} height={20}/>
+  );
 };
 
 const FilmActions: React.FC<FilmActionPropsType> = ({

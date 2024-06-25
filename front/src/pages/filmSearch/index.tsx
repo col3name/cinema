@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 
 import PageContent from "@/components/Common/PageContent";
 import FilmFilter from "@/components/Film/FilmSearch/FilmFilter";
@@ -10,15 +10,13 @@ import PopupFilmRemove from "@/components/Cart/popups/PopupFilmRemove";
 import styles from "./stylesFilm.module.css";
 
 const FilmSearch = () => {
-  return (
-    <PageContent className={styles.filmContainer} isFlex>
-      <FilmFilter />
-      <Suspense fallback={<div>Loading</div>}>
-        <FilmList />
-      </Suspense>
-      <PopupFilmRemove />
-    </PageContent>
-  );
+    return (
+        <PageContent className={styles.filmContainer} isFlex>
+            <FilmFilter/>
+            <FilmList/>
+            <PopupFilmRemove/>
+        </PageContent>
+    );
 };
 
 export default FilmSearch;

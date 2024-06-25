@@ -1,7 +1,7 @@
 .button {
   display: flex;
   gap: 8px;
-  width: 51px;
+  min-width: 51px;
   height: 40px;
   padding: 8px 16px 8px 16px;
   border-radius: 8px;

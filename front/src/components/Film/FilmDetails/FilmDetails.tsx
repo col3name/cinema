@@ -7,7 +7,7 @@ import Title from "@/components/Common/Tite";
 import Paragraph from "@/components/Common/Paragraph";
 import FilmDescriptionItem from "./FilmDescriptionItem";
 import FilmActionsWrapper from "@/components/Film/FilmDetails/FilmActionsWrapper";
-import DataHOC, {ErrorComp} from "@/components/Common/DataHOC/DataHOC";
+import DataHOC from "@/components/Common/DataHOC/DataHOC";
 
 import styles from "./stylesFilmDetail.module.css";
 
@@ -36,7 +36,7 @@ const FilmData: React.FC<FilmDataProps> = ({
             <div className={styles.filmContainer}>
                 <Image
                     className={styles.filmPoster}
-                    src={film.posterUrl}
+                    src={film?.posterUrl}
                     alt="film poster"
                     width={320}
                     height={240}

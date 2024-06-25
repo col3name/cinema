@@ -18,7 +18,7 @@ interface AccordionPropsType {
 
 const Accordion: FC<AccordionPropsType> = ({ items }) => {
   return (
-    <ul className={styles.accordionContainer} role="list">
+    <ol className={styles.accordionContainer} role="list">
       {items.map(({ id, ...data }) => (
         <AccordionRow
           key={id}
@@ -26,7 +26,7 @@ const Accordion: FC<AccordionPropsType> = ({ items }) => {
           description={data.description}
         />
       ))}
-    </ul>
+    </ol>
   );
 };
 
