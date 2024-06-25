@@ -2,11 +2,11 @@ import React from "react";
 
 import Paragraph from "@/components/Common/Paragraph";
 
-const Loader = ({ text = "" }: { text: string }) => (
+export const Loader = ({ text = "" }: { text: string }) => (
   <div>Loading {text}...</div>
 );
 
-const Error = ({ error }: { error: string }) => <div>Error: {error}</div>;
+export const ErrorComp = ({ error }: { error: string }) => <div>Error: {error}</div>;
 
 interface DataHOCProps {
   data: object;
@@ -14,8 +14,8 @@ interface DataHOCProps {
   children: React.ReactNode;
   loaderText?: string;
   error?: string;
-  loaderComponent?: React.ReactNode;
-  errorComponent?: React.ReactNode;
+  loaderComponent?: React.FC;
+  errorComponent?: React.FC;
 }
 
 const DataHOC: React.FC<DataHOCProps> = ({
@@ -25,7 +25,7 @@ const DataHOC: React.FC<DataHOCProps> = ({
   loaderText = "",
   error = "",
   loaderComponent = Loader,
-  errorComponent = Error,
+  errorComponent = ErrorComp,
 }) => {
   if (isLoading) {
     const LoaderComponent = loaderComponent;

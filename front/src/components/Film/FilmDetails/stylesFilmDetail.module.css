@@ -15,7 +15,7 @@
 }
 
 .filmPoster {
-  width: 400px;
+  width: 333px;
   height: 500px;
   border-radius: 8px;
 }
@@ -26,6 +26,9 @@
 }
 
 .filmContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .filmDescriptionHeader {
