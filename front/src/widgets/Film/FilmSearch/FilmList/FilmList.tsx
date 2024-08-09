@@ -14,6 +14,7 @@ import {useCinemasSelector, useFetchCinemas, useFetchMovies, useFilmsSelector,} 
 import {useFilmFilterSelector} from "@/entities/filmFilter";
 import {MAX_AUTO_SCROLL, useLoadOnScrollEnd} from "@/shared/hooks";
 import FilmActions from "@/features/film/FilmActions/FilmActions";
+import {fi} from "@faker-js/faker";
 
 export type FilmListPropsType = {
   className?: string;
@@ -32,9 +33,8 @@ const FilmListSkeleton = () => {
 
 const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
   const { page, setPage, } = useLoadOnScrollEnd()
-  const { isLoading } = useFetchMovies(page);
+  const { movies, isLoading } = useFetchMovies(page);
   // const isLoading = true;
-  useFetchCinemas();
   const cinemas = useCinemasSelector();
   const filter = useFilmFilterSelector();
 
@@ -54,8 +54,7 @@ const FilmList: React.FC<FilmListPropsType> = ({ className }) => {
     [filter, cinemas],
   );
 
-  const films = useFilmsSelector();
-  const filmsList = films.filter(filterFilms);
+  const filmsList: Film[]|undefined = movies?.filter(filterFilms);
 
   return (
     <div className={cn(styles.filmList, className)}>

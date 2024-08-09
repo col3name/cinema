@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useFetchBook } from "@/entities/film";
+import {useFetchBook} from "@/entities/film/useFetchBook";
 
 import styles from "./stylesBookEditor.module.css";
 
@@ -15,7 +15,7 @@ const BookEditor: React.FC<BookEditorProps> = ({ filmId, onClose }) => {
   return (
     <div>
       book editor
-     
+
       <div>{book?.page}</div>
       <div>{JSON.stringify(book?.meta || {})}</div>
       <button onClick={prevPage}>prev]</button>

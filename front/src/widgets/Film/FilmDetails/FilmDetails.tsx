@@ -86,10 +86,26 @@ const FilmSkeleton = () => {
 };
 
 const FilmDetails: React.FC<FilmCardPropsType> = ({filmId}) => {
-    const film = useFindFilmSelector(filmId) as Film;
+    // const film = useFindFilmSelector(filmId) as Film;
     // const [isEditor, setIsEditor] = useState<boolean>(false);
-    const {isLoading, error} = useFetchMovie(filmId);
+    const { movie: film, isLoading, error} = useFetchMovie(filmId);
 
+    if (isLoading) {
+        return <FilmSkeleton />;
+    }
+
+    if (!film) {
+        return null;
+    }
+
+    return (
+        <FilmData
+            film={film}
+            onReadBook={(_: string) => {
+                // setIsEditor(true);
+            }}
+        />
+    );
     return (
       <DataHOC
           data={film}

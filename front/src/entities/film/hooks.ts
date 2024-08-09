@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
-import { RootState } from "@/shared/redux/store";
+import {useEffect, useLayoutEffect, useMemo} from "react";
+import {useQuery} from "@tanstack/react-query";
 
-import {
-  fetchCinemas,
-  fetchMovie,
-  fetchReview,
-  Film,
-} from "@/api";
+import {useAppDispatch, useAppSelector} from "@/shared/redux/hooks";
+import {RootState} from "@/shared/redux/store";
 
-import { setCinemas, setFilms, appendFilms, setReviews } from "./slice";
-import { Cinema } from "./model";
-import { Review } from "@/shared/types";
+import {fetchCinemas, fetchMovieById, fetchMovies, fetchReview, Film,} from "@/api";
+
+import {appendFilms, setCinemas, setFilms, setReviews} from "./slice";
+import {Cinema} from "./model";
+import {Review} from "@/shared/types";
+import {cinemasKey, getMovieKey, getMoviesKey} from "@/entities/film/const";
 
 export const useFetchCinemas = () => {
   const dispatch = useAppDispatch();
 
   const cinemas: Cinema[] = useCinemasSelector();
 
-  const { data, isLoading, error } = useSWR("/api/cinemas", fetchCinemas);
+  const {data, isLoading, error} = useQuery({
+    queryKey: [cinemasKey],
+    queryFn: fetchCinemas,
+  });
 
   useEffect(() => {
     if (data) {
@@ -33,17 +33,18 @@ export const useFetchCinemas = () => {
     error,
   };
 };
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useFetchMovies = (page: number) => {
+export const useFetchMovies = (page: number = 0) => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR(
-    `/api/movies?page=${page}`,
-    fetcher,
-  );
+  const key = getMoviesKey(page);
 
-  useEffect(() => {
+  const {data, isLoading, error} = useQuery({
+    queryKey: [key],
+    queryFn: fetchMovies(page)
+  });
+
+  useLayoutEffect(() => {
     if (data) {
       if (Number(page) === 0) {
         dispatch(setFilms(data));
@@ -63,12 +64,14 @@ export const useFetchMovies = (page: number) => {
 export const useFetchMovie = (filmId: string) => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR(
-    `/api/movie?movieId=${filmId}`,
-    fetchMovie(filmId),
-  );
+  const movieKey: string = getMovieKey(filmId);
 
-  useEffect(() => {
+  const {data, isLoading, error} = useQuery({
+    queryKey: [movieKey],
+    queryFn: fetchMovieById(filmId),
+  });
+
+  useLayoutEffect(() => {
     if (data) {
       dispatch(setFilms([data]));
     }
@@ -81,45 +84,13 @@ export const useFetchMovie = (filmId: string) => {
   };
 };
 
-export const useFetchBook = (filmId: string) => {
-  const dispatch = useAppDispatch();
-
-  const [page, setPage] = useState<number>(0);
-  const { data, isLoading, error } = useSWR(
-    `/api/books?movieId=${filmId}&page=${page}`,
-    fetcher,
-  );
-
-  const nextPage = () => {
-    setPage((prev) => prev + 2);
-  };
-
-  const prevPage = () => {
-    setPage((prev) => prev - 2);
-  };
-
-  useEffect(() => {
-    if (data) {
-      dispatch(setFilms([data]));
-    }
-  }, [data, dispatch]);
-
-  return {
-    book: data,
-    isLoading,
-    error,
-    page,
-    nextPage,
-    prevPage,
-  };
-};
 export const useFilmReviews = (filmId: string) => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, error } = useSWR(
-    `/api/reviews?movieId=${filmId}`,
-    fetchReview(filmId),
-  );
+  const {data, isLoading, error} = useQuery({
+    queryKey: [`/api/reviews?movieId=${filmId}`],
+    queryFn: fetchReview(filmId),
+  });
 
   useEffect(() => {
     if (data) {

@@ -1,30 +1,46 @@
-"use client";
+import React, {useMemo} from "react";
+import {QueryClient} from "@tanstack/react-query";
 
-import React from "react";
+import {DehydrateState} from "@/shared/ui/DehydrateState";
+import {FilmContent} from "@/app/film/[id]/client";
 
-import Layout from "@/shared/ui/Layout";
-import PageContent from "@/shared/ui/PageContent";
-import FilmDetails from "@/pages/filmDetails";
-import PopupFilmRemoveConfirm from "@/widgets/Cart/popups/PopupFilmRemoveConfirm";
+import getQueryClient from "@/app/getQueryClient";
+import {fetchMovieById} from "@/api";
+import {getMovieKey} from "@/entities/film/const";
 
 interface FilmPageParams {
-  id: string;
+    id: string;
 }
+
 interface FilmPageProps {
-  params: FilmPageParams;
+    params: FilmPageParams;
 }
 
-const FilmPage: React.FC<FilmPageProps> = ({ params }) => {
-  const filmId = params?.id;
+const FilmPage: React.FC<FilmPageProps> = async ({
+                                                     params
+                                                 }) => {
+    const filmId: string = params.id;
 
-  return (
-    <Layout>
-      <PageContent>
-        <FilmDetails filmId={filmId} />
-        <PopupFilmRemoveConfirm />
-      </PageContent>
-    </Layout>
-  );
-};
+    const queryClient: QueryClient = getQueryClient()
+
+    const promises: Promise<void>[] = [];
+
+    const movieKey: string = getMovieKey(filmId);
+
+    const promiseMovie: Promise<void> = queryClient.prefetchQuery({
+        queryKey: [movieKey],
+        queryFn: fetchMovieById(filmId),
+    });
+
+    promises.push(promiseMovie);
+
+    await Promise.all(promises);
+
+    return (
+        <DehydrateState queryClient={queryClient}>
+            <FilmContent filmId={filmId}/>
+        </DehydrateState>
+    );
+}
 
 export default FilmPage;
