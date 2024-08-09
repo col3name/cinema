@@ -86,7 +86,7 @@ const FilmSkeleton = () => {
 };
 
 const FilmDetails: React.FC<FilmCardPropsType> = ({filmId}) => {
-    // const film = useFindFilmSelector(filmId) as Film;
+    // constt film = useFindFilmSelector(filmId) as Film;
     // const [isEditor, setIsEditor] = useState<boolean>(false);
     const { movie: film, isLoading, error} = useFetchMovie(filmId);
 

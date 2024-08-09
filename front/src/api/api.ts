@@ -1,5 +1,5 @@
 import {Review} from "@/shared/types";
-import {Cinema} from "@/redux/features/film/model";
+import {Cinema} from "@/entities/film";
 
 export type FilmGenre = "fantasy" | "horror" | "action" | "comedy" | "";
 
