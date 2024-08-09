@@ -106,22 +106,22 @@ const FilmDetails: React.FC<FilmCardPropsType> = ({filmId}) => {
             }}
         />
     );
-    return (
-      <DataHOC
-          data={film}
-          isLoading={isLoading}
-          loaderText="movie"
-          error={error}
-          loaderComponent={FilmSkeleton}
-      >
-        <FilmData
-          film={film}
-          onReadBook={(_: string) => {
-            // setIsEditor(true);
-          }}
-        />
-      </DataHOC>
-    );
+    // return (
+    //   <DataHOC
+    //       data={film}
+    //       isLoading={isLoading}
+    //       loaderText="movie"
+    //       error={error}
+    //       loaderComponent={FilmSkeleton}
+    //   >
+    //     <FilmData
+    //       film={film}
+    //       onReadBook={(_: string) => {
+    //         // setIsEditor(true);
+    //       }}
+    //     />
+    //   </DataHOC>
+    // );
 };
 
 export default FilmDetails;

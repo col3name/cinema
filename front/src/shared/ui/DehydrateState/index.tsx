@@ -7,13 +7,16 @@ type DehydrateStateProps = {
     queryClient: QueryClient;
 }
 
-export const DehydrateState: React.FC<DehydrateStateProps> = ({children, queryClient}) => {
-    const dehydratedState: DehydratedState = dehydrate(queryClient);
-
+const renderState = (dehydratedState: DehydratedState): void => {
     console.log(dehydratedState.queries.map(query => ({
         data: query.state.data,
         key: query.queryKey,
     })));
+}
+export const DehydrateState: React.FC<DehydrateStateProps> = ({children, queryClient}) => {
+    const dehydratedState: DehydratedState = dehydrate(queryClient);
+
+    // renderState(dehydratedState)
     return (
         <HydrationBoundary state={dehydratedState}>
             {children}

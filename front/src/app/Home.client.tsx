@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import FilmSearch from "@/pages/filmSearch";
+import FilmSearch from "../widgets/filmSearch";
 import {useFetchCinemas, useFetchMovies} from "@/entities/film";
 import Layout from "@/shared/ui/Layout";
 
