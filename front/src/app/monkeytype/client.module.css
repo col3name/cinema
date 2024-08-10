@@ -1,0 +1,121 @@
+.container {
+    background-color: var(--bg-color);
+    color: #d1d0c5;
+    /*line-height: 20px;*/
+}
+
+.button {
+    outline: none;
+    border: none;
+    background-color: var(--bg-color);
+    color: #646669;
+    transition: color 0.2s ease-in-out;
+}
+
+.button:hover {
+    color: #d1d0c5;
+    cursor: pointer;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.words {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    height: 93px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.word {
+    margin: 0 5px 2px;
+    position: relative;
+}
+
+.caretBlink {
+    -webkit-animation: blink 1.5s 1s infinite;
+    animation: blink 1.5s 1s infinite;
+}
+
+.caret {
+    color: var(--hl-color);
+    margin-left: -7.29165px;
+    position: absolute;
+    transition: left .1s ease;
+}
+
+.letterCurrent,
+.letterRight,
+.letterWrong,
+.letter {
+    display: inline-flex;
+    justify-content: space-around;
+    width: 14px;
+    font-weight: 700;
+}
+
+.letter {
+    color: #646669;
+}
+
+.letterCurrent {
+    position: relative;
+    color: #646669;
+    transform: translate(-2px, 3px);
+}
+
+.letterCurrent::before {
+    content: '';
+    display: block;
+    color: var(--hl-color);
+    animation: blink 1s 0.5s infinite;
+
+    transition: left .1s ease;
+    width: 1px;
+    height: 18px;
+    background: #e2b714;
+}
+
+.letterRight {
+    /*color: green;*/
+    color: #d1d0c5;
+}
+
+.letterRight > span {
+    color: var(--fg-color);
+}
+
+.letterWrong span {
+    color: var(--hl-color) !important;
+}
+
+.letterWrong {
+    /*color: red;*/
+    color: #ca4754;
+    /*background: red;*/
+    /*color: var(--hl-color) !important;*/
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.container {
+    --bg-color: #323437;
+    --font-color: #789;
+    --hl-color: orange;
+    --fg-color: #292f34;
+}
+

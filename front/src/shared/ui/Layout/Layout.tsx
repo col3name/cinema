@@ -7,13 +7,14 @@ import styles from "@/app/page.module.css";
 
 export type LayoutPropsType = {
   children: React.ReactNode;
+    bgColor?: string;
 };
 
-const Layout: React.FC<LayoutPropsType> = ({ children }) => {
+const Layout: React.FC<LayoutPropsType> = ({ children, bgColor = undefined }) => {
   return (
-    <div>
+    <div style={{background: bgColor}}>
       <Providers>
-        <main className={styles.main}>{children && children}</main>
+        <main className={styles.main} style={{background: bgColor}}>{children && children}</main>
         <Footer />
       </Providers>
     </div>
