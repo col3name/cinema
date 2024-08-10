@@ -26,6 +26,18 @@
     justify-content: space-between;
 }
 
+.inputHidden {
+    top: 74px;
+    left: 8px;
+    position: absolute;
+    background: transparent;
+    color: transparent;
+    border: none;
+    outline: none;
+    user-select: none;
+    z-index: -1;
+}
+
 .words {
     align-items: center;
     display: flex;
