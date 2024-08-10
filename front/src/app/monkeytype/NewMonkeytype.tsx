@@ -175,6 +175,9 @@ const NewTypingText: React.FC<NewTypingText> = ({
             setRaceState(RaceStep.Running);
             start();
         }
+        if (raceState === RaceStep.Final) {
+            return;
+        }
         // if (!inputDataRef.current.isTyping) {
         //     console.log('init typeing')
         //     inputDataRef.current.isTyping = true;
@@ -246,14 +249,18 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const state = inputDataRef.current;
                 const nextIdx = state.letterIdx + 1;
                 const currentWord = words[state.wordIdx];
+                if (!currentWord) {
+                    // setRaceState(RaceStep.Final);
+                    // return;
+                }
                 inputDataRef.current.current += key;
-                if (nextIdx > currentWord.length + 1) {
+                if (nextIdx > currentWord?.length + 1) {
                     inputDataRef.current.accuracy.missed++;
                     inputDataRef.current.extraLetters.push(key)
                     return;
                 }
                 let word = words[state.wordIdx];
-                const letter = word[state.letterIdx - 1];
+                const letter = word?.[state.letterIdx - 1];
                 // console.log({word, letter, key});
                 if (inputDataRef.current.current.length > word.length) {
                     inputDataRef.current.extraLetters.push(key)
@@ -272,7 +279,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 break;
             }
         }
-    }, [words]);
+    }, [words, raceState]);
 
     useKeyPress(handleKeyPress);
 

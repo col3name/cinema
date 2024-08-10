@@ -7,9 +7,9 @@ import styles from './client.module.css';
 import Layout from "@/shared/ui/Layout";
 
 export const getText = (): string[] => {
-    const text = `A type of folder you can create on your Mac that automatically collects files based on criteria you specify. For example, you can create a Smart Folder that collects all the spreadsheet files on your Mac. The files remain in their original locations.`;
+    // const text = `A type of folder you can create on your Mac that automatically collects files based on criteria you specify. For example, you can create a Smart Folder that collects all the spreadsheet files on your Mac. The files remain in their original locations.`;
     // const text = `A type of folder you can create on your Mac that automatically`;
-    // const text = `A type of folder you can.`;
+    const text = `A type of folder you can.`;
     const words = text.toLowerCase().split('').filter(letter => (letter >= 'a' && letter <= 'z') || letter === ' ').join('').split(' ');
     return words;
 }
