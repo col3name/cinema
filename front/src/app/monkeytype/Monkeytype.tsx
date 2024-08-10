@@ -129,7 +129,7 @@ function TypingText({words}: { words: string[] }) {
 
     const inputRef = useRef<HTMLInputElement|null>(null);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         inputRef.current?.focus({preventScroll: true});
     }, []);
     return (
