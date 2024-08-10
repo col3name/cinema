@@ -46,7 +46,7 @@
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    height: 93px;
+    /*height: 93px;*/
     overflow: hidden;
     user-select: none;
 }
@@ -56,27 +56,42 @@
     position: relative;
 }
 
+.wordActive {
+    background: black;
+}
+
 .caretBlink {
     -webkit-animation: blink 1.5s 1s infinite;
     animation: blink 1.5s 1s infinite;
 }
 
 .caret {
-    color: var(--hl-color);
-    margin-left: -7.29165px;
+    /*margin-left: -7.29165px;*/
     position: absolute;
     transition: left .1s ease;
+
+    border-radius: 10px;
+    left: 40px;
+    z-index: 10;
+    width: 2px;
+    height: 29px;
+    background: var(--hl-color);
 }
 
-.letterCurrent,
+/*.letterCurrent,*/
 .letterRight,
 .letterWrong,
+.letterExtra,
 .letter {
     display: inline-flex;
     justify-content: space-around;
     width: 20px;
     font-size: 24px;
     font-weight: 700;
+}
+
+.letterExtra {
+    color: #3a71ff;
 }
 
 .letter {
@@ -86,16 +101,16 @@
 .letterCurrent {
     position: relative;
     color: #646669;
-    height: 22px;
+    /*height: 22px;*/
     /*transform: translate(-2px, 3px);*/
 }
 
 .letterCurrent::before {
-    content: '';
+    /*content: '';*/
     position: absolute;
     display: block;
     color: var(--hl-color);
-    animation: client_blink__9_Ggk 1s 0.5s infinite;
+    animation: blink 1s 0.5s infinite;
     transition: left .1s ease;
     width: 3px;
     border-radius: 10px;

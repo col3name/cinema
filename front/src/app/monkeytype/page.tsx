@@ -3,6 +3,7 @@ import {QueryClient} from "@tanstack/react-query";
 import getQueryClient from "@/app/getQueryClient";
 import {DehydrateState} from "@/shared/ui/DehydrateState";
 import {Monkeytype} from "@/app/monkeytype/Monkeytype";
+import {NewMonkeytype} from "@/app/monkeytype/NewMonkeytype";
 
 
 async function MonkeyType() {
@@ -17,7 +18,8 @@ async function MonkeyType() {
 
     return (
         <DehydrateState queryClient={queryClient}>
-            <Monkeytype />
+            <NewMonkeytype />
+            {/*<Monkeytype />*/}
         </DehydrateState>
     );
 }

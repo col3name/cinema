@@ -7,7 +7,7 @@ import styles from './client.module.css';
 
 import {getText} from "@/app/monkeytype/client";
 
-const useKeyPress = (callback: any) => {
+export const useKeyPress = (callback: any) => {
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
 
     useEffect(() => {
@@ -33,13 +33,13 @@ const useKeyPress = (callback: any) => {
             window.removeEventListener('keydown', downHandler);
             window.removeEventListener('keyup', upHandler);
         };
-    }, []);
+    }, [callback]);
 
     return keyPressed;
 };
 
 
-enum RaceStep {
+export enum RaceStep {
     Initial = 0,
     FirstPress = 1,
     Running = 2,
