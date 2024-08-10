@@ -139,7 +139,6 @@ const TypeingStatistic = (props: FinalResultParams) => {
 
     return (
         <div>
-            {/*<div>{JSON.stringify(props.history)}</div>*/}
             <p>{`elapsed: ${props.elapsed} seconds`}</p>
             <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
             <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
@@ -148,10 +147,12 @@ const TypeingStatistic = (props: FinalResultParams) => {
             <p>{`wpm: ${wpm}`}</p>
             <p>{`raw: ${raw}`}</p>
             <button onClick={props.onReset}>reset</button>
+
+            <div>{JSON.stringify(props.history)}</div>
         </div>
     );
+};
 
-}
 const FinalResult = (props: FinalResultParams) => {
 
     return (
@@ -313,6 +314,11 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 break;
             }
             default: {
+                if (inputDataRef.current.extraLetters.length > 8) {
+                    tempErrorObjectRef.current.count++;
+                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+                    return;
+                }
                 inputDataRef.current.letterIdx++;
                 const state = inputDataRef.current;
                 const nextIdx = state.letterIdx + 1;
