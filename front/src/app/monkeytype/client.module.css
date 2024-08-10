@@ -1,6 +1,7 @@
 .container {
     background-color: var(--bg-color);
     color: #d1d0c5;
+    user-select: none;
     /*line-height: 20px;*/
 }
 
