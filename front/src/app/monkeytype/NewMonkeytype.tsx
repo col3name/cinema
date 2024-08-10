@@ -1,18 +1,17 @@
 'use client';
 
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {lazy, Suspense, useCallback, useEffect, useRef, useState} from "react";
 import cn from "classnames";
-import 'chart.js/auto';
 
 import Layout from "@/shared/ui/Layout";
 
-import {getText} from "@/app/monkeytype/client";
 import {RaceStep, useKeyPress} from "@/app/monkeytype/Monkeytype";
 import styles from "@/app/monkeytype/client.module.css";
-import ChartView from "@/app/monkeytype/ChartView";
+import {useGetWords} from "@/entities/monkeytype/hook";
+import {QueryClient, useQueryClient} from "@tanstack/react-query";
+import {wordsKey} from "@/entities/monkeytype/const";
 
-const sampleText = getText()
-const length = sampleText.join(' ').length;
+const ChartView = lazy(() => import("@/app/monkeytype/ChartView"))
 
 type Accuracy = {
     correct: number;
@@ -40,7 +39,7 @@ type InputData = {
     isTyping: boolean;
     extraLetters: string[];
     accuracy: Accuracy;
-    history: [];
+    history: string[];
     historyResult: HistoryResult;
 };
 
@@ -113,7 +112,6 @@ function calculateWpmAndRaw(
     const wpm = roundTo2(
         ((accuracy.correct) * (60 / testSeconds)) / 5
     );
-    // console.log({accuracy})
     const raw = roundTo2(
         ((accuracy.correct +
                 accuracy.incorrect +
@@ -136,28 +134,37 @@ type FinalResultParams = {
     onReset: () => void;
 };
 
-const FinalResult = (props: FinalResultParams) => {
+const TypeingStatistic = (props: FinalResultParams) => {
     const {wpm, raw} = calculateWpmAndRaw(props.elapsed, props.accuracy)
 
     return (
+        <div>
+            {/*<div>{JSON.stringify(props.history)}</div>*/}
+            <p>{`elapsed: ${props.elapsed} seconds`}</p>
+            <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
+            <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
+            <p>{`accuracy: ${props.accuracy.correct}/${props.allChars}`}</p>
+            <p>{`accuracy: ${Math.floor((props.accuracy.correct / (props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed)) * 100)}%`}</p>
+            <p>{`wpm: ${wpm}`}</p>
+            <p>{`raw: ${raw}`}</p>
+            <button onClick={props.onReset}>reset</button>
+        </div>
+    );
+
+}
+const FinalResult = (props: FinalResultParams) => {
+
+    return (
         <div className={styles.container}>
-            <ChartView
-                seconds={props.elapsed}
-                raw={props.history.rawHistory}
-                wpm={props.history.wpmHistory}
-                errors={props.history.errors.map(it => it.count)}
-            />
-            <div>
-                {/*<div>{JSON.stringify(props.history)}</div>*/}
-                <p>{`elapsed: ${props.elapsed} seconds`}</p>
-                <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
-                <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
-                <p>{`accuracy: ${props.accuracy.correct}/${props.allChars}`}</p>
-                <p>{`accuracy: ${Math.floor((props.accuracy.correct / (props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed)) * 100)}%`}</p>
-                <p>{`wpm: ${wpm}`}</p>
-                <p>{`raw: ${raw}`}</p>
-                <button onClick={props.onReset}>reset</button>
-            </div>
+            <Suspense>
+                <ChartView
+                    seconds={props.elapsed}
+                    raw={props.history.rawHistory}
+                    wpm={props.history.wpmHistory}
+                    errors={props.history.errors.map(it => it.count)}
+                />
+            </Suspense>
+            <TypeingStatistic {...props} />
         </div>
     );
 }
@@ -209,7 +216,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
 
     const prevTimeRef = useRef(0);
 
-    function appendItemToHistory() {
+    const saveHistory = () => {
         const {wpm, raw} = calculateWpmAndRaw(elapsed, inputDataRef.current.accuracy);
 
         inputDataRef.current.historyResult.wpmHistory.push(wpm);
@@ -231,7 +238,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
         }
         prevTimeRef.current = elapsed;
         lastRef.current = elapsed;
-        appendItemToHistory();
+        saveHistory();
     }, [elapsed]);
 
     const inputDataRef = useRef<InputData>(initialValue);
@@ -279,6 +286,12 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 if (inputDataRef.current.letterIdx === 0) {
                     return;
                 }
+                const currentWord = words[inputDataRef.current.wordIdx];
+                if (inputDataRef.current.letterIdx < currentWord.length) {
+                    tempErrorObjectRef.current.count += currentWord.length - inputDataRef.current.letterIdx;
+                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+                }
+
                 inputDataRef.current.accuracy.correct++;
                 inputDataRef.current.wordIdx++;
                 const wordElementList = Array.from(wordsRef.current?.children || []);
@@ -293,7 +306,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                     inputDataRef.current.letterIdx = 0;
                     inputDataRef.current.extraLetters = [];
                 } else {
-                    appendItemToHistory();
+                    saveHistory();
                     stop();
                     setRaceState(RaceStep.Final);
                 }
@@ -456,6 +469,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 })}
             </div>
             <button onClick={onReset}>restart</button>
+            <UpdateTextButton/>
             <p>{inputDataRef.current.current}</p>
             <span>{elapsed}</span>
             <input
@@ -473,10 +487,35 @@ const NewTypingText: React.FC<NewTypingText> = ({
 const noop = () => {
 };
 
+type UpdateTextButtonProps = {
+    children?: React.ReactNode;
+}
+
+const UpdateTextButton: React.FC<UpdateTextButtonProps> = ({
+                                                               children = undefined
+                                                           }) => {
+    const queryClient: QueryClient = useQueryClient();
+
+    const onUpdateText = useCallback(async () => {
+        await queryClient.invalidateQueries({queryKey: [wordsKey]});
+    }, [queryClient]);
+
+    return (
+        <button onClick={onUpdateText}>update text{children && children}</button>
+    );
+};
+
 export const NewMonkeytype = () => {
+    const {data, isLoading, isError} = useGetWords();
+
+    // console.log(data?.words)
     return (
         <Layout bgColor='#323437'>
-            <NewTypingText length={length} words={sampleText}/>
+            {/*{isLoading && <p>Loading...</p>}*/}
+            {isError && (<p>Error</p>)}
+            {data && (
+                <NewTypingText length={data.length} words={data.words}/>
+            )}
         </Layout>
     );
 }

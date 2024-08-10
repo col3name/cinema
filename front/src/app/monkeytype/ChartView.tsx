@@ -15,14 +15,19 @@ const ChartView: React.FC<ChartViewProps> = ({
     raw,
     errors,
 }) => {
-    const chartRef = useRef(null);
+    const chartRef = useRef<HTMLCanvasElement>(null);
     Chart.register(...registerables);
     Chart.register(chartTrendline);
 
     useEffect(() => {
-        const ctx = chartRef.current.getContext("2d");
+        const ctx = chartRef.current?.getContext("2d");
+        if (!ctx) {
+            return;
+        }
         let myChart = Chart.getChart(ctx);
-        if (myChart) myChart.destroy();
+        if (myChart) {
+            myChart.destroy();
+        }
 
         const datasets = [
             {
@@ -30,7 +35,7 @@ const ChartView: React.FC<ChartViewProps> = ({
                 label: "WPM",
                 tension: 0.4,
                 borderColor: "#e2b714",
-                data: wpm,
+                data: wpm.splice( 2),
                 // trendlineLinear: {
                 //     style: "rgba(100,200,180, .8)",
                 //     lineStyle: "solid",
@@ -42,21 +47,42 @@ const ChartView: React.FC<ChartViewProps> = ({
                 type: "line",
                 label: "Raw",
                 tension: 0.4,
-                data: raw,
+                data: raw.splice(2),
                 borderColor: "#646669"
             },
             {
                 type: "line",
                 label: "Errors",
-                data: errors,
+                data: errors.splice(2),
                 tension: 0.4,
                 borderColor: "#ca4754",
             },
         ];
-        const number = Math.ceil( Math.ceil(seconds) / 3);
-        const labels = Array( number).fill(0).map((_, idx) => `${idx + 1}`);
+
+        const getMultiplayer = (seconds: number): number => {
+            if (seconds > 15) {
+                return 3;
+            } else if (seconds >= 30) {
+                return 6;
+            } else if (seconds >= 60) {
+                return 8;
+            } else if (seconds >= 120) {
+                return 12;
+            } else {
+                return seconds;
+            }
+        }
+        const getLabels = (seconds: number): string[] => {
+            const multiplayer = getMultiplayer(seconds);
+            const number = Math.ceil(Math.ceil(seconds) / multiplayer);
+            const labels = Array(number).fill(0).map((_, idx) => `${(idx + 1) * multiplayer}`);
+            return labels;
+        }
+
+        const labels = getLabels(seconds - 2);
         myChart = new Chart(ctx, {
             data: {
+                // @ts-ignore
                 datasets: datasets,
                 labels: labels,
             },
@@ -69,7 +95,7 @@ const ChartView: React.FC<ChartViewProps> = ({
             }
         });
         myChart.update();
-    }, [chartRef]);
+    }, []);
 
     return (
         <div>
