@@ -1,5 +1,5 @@
 'use client';
-import React, {memo, useCallback, useEffect, useRef, useState} from "react";
+import React, {memo, useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 
 import Layout from "@/shared/ui/Layout";
 
@@ -126,9 +126,19 @@ function TypingText({words}: { words: string[] }) {
             document.removeEventListener("visibilitychange", listener);
         }
     }, []);
+
+    const inputRef = useRef<HTMLInputElement|null>(null);
+
+    useLayoutEffect(() => {
+        inputRef.current?.focus({preventScroll: true});
+    }, []);
     return (
         <div className={styles.container}>
             {seconds}
+            <input ref={inputRef} id="wordsInput" className="full-width" type="text" autoComplete="off" autoCapitalize="off"
+                   autoCorrect="off" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"
+                   list="autocompleteOff" spellCheck="false" style={{top: '74px', left: '8px', position: 'absolute',}}
+            />
             <button className={styles.button} onClick={onReset}>restart</button>
             {isFinal && (
                 <FinalView
@@ -187,13 +197,13 @@ const FinalView: React.FC<FinalViewProps> = ({
 }
 
 type Props = {
-    letter: string,
-    id: number,
-    charsTyped: string[],
-    restart: number
+    letter: string;
+    id: number;
+    charsTyped: string[];
+    restart?: number;
 };
 
-const Comp = ({letter, id, charsTyped, restart}: Props) => {
+const Comp = ({letter, id, charsTyped}: Props) => {
     // const classes = withStyles()
     let CharTypography;
 
@@ -209,10 +219,13 @@ const Comp = ({letter, id, charsTyped, restart}: Props) => {
         // CharTypography = 'IncorrectTextTypography'
     }
 
-    return (<span className={CharTypography}>
-        {letter}
-    </span>)
-}
+    return (
+        <span className={CharTypography}>
+            {letter}
+        </span>
+    );
+};
+
 const Character = memo(Comp, (props, nextProps) => {
     /** Significant pref boost avoiding render
      * We only needs re-render a sliding window of 3 characters
