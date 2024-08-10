@@ -70,6 +70,8 @@ const useTimer = () => {
     }, []);
 
     const stop = () => {
+        // setSeconds(0);
+        setStartedAt(0);
         setEnabled(false);
         clearInterval(timerRef.current);
     }
@@ -285,12 +287,25 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 missed: 0,
             }
         };
+        stop();
         setRaceState(RaceStep.Initial);
     }
     const inputRef = useRef<HTMLInputElement | null>(null);
     const onFocusHiddenInput = useCallback(() => {
         inputRef.current?.focus();
     }, []);
+
+    const topRef = useRef(0);
+
+    useEffect(() => {
+        const boundingClientRect = currentWordRef.current?.getBoundingClientRect();
+        if (!boundingClientRect) {
+            return;
+        }
+        if (boundingClientRect.top !== topRef.current) {
+            topRef.current = boundingClientRect.top;
+        }
+    }, [currentWordRef.current]);
 
     if (raceState === RaceStep.Final) {
         return (
@@ -357,6 +372,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 onChange={noop}
                 ref={inputRef} type="text" autoComplete="off" autoCapitalize="off"
                 autoCorrect="off"
+                style={{top: topRef.current }}
                 list="autocompleteOff" spellCheck="false"
             />
         </div>
