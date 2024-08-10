@@ -45,6 +45,8 @@ enum RaceStep {
     Running = 2,
     Final = 3,
 }
+const noop = () => {};
+
 
 function TypingText({words}: { words: string[] }) {
     const initialTextRef = useRef(words.join(' '));
@@ -58,8 +60,6 @@ function TypingText({words}: { words: string[] }) {
         const chars: string[] = initialTextRef.current.trim().split("").map(c => c)
         setCharsToType(chars);
     }, []);
-
-    console.log({raceStep});
 
     const callback = useCallback((key: string) => {
         if (raceStep === RaceStep.Initial) {
@@ -134,8 +134,11 @@ function TypingText({words}: { words: string[] }) {
     }, [inputRef.current]);
     return (
         <div className={styles.container}>
-            {seconds}
-            <input ref={inputRef} id="wordsInput" className="full-width" type="text" autoComplete="off" autoCapitalize="off"
+            {/*{seconds}*/}
+            <input
+                className={styles.inputHidden}
+            onChange={noop}
+                ref={inputRef} id="wordsInput" type="text" autoComplete="off" autoCapitalize="off"
                    autoCorrect="off" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"
                    list="autocompleteOff" spellCheck="false" style={{top: '74px', left: '8px', position: 'absolute',}}
             />
@@ -149,7 +152,7 @@ function TypingText({words}: { words: string[] }) {
             )}
 
             {!isFinal && (
-                <div>
+                <div onClick={() => inputRef.current?.focus()}>
                     {initialTextRef.current.trim().split("").map((letter: string, index: number) => {
                         return (
                             <Character
