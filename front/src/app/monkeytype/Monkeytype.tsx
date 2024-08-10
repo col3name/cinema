@@ -67,8 +67,6 @@ function TypingText({words}: { words: string[] }) {
         } else if (raceStep === RaceStep.FirstPress) {
             setRaceStep(RaceStep.Running);
         }
-        console.log({raceStep});
-
         if (raceStep === RaceStep.Final) {
             return;
         }
@@ -78,7 +76,7 @@ function TypingText({words}: { words: string[] }) {
             // Create a shallow copy of prev Chrs typed excluding the last element.
             setCharsTyped((prevChrsTyped) => prevChrsTyped.slice(0, prevChrsTyped.length - 1));
         }
-    }, [raceStep]);
+    }, [raceStep, setCharsTyped, setRaceStep]);
 
     useKeyPress(callback)
 
@@ -105,7 +103,7 @@ function TypingText({words}: { words: string[] }) {
     }, [charsTyped.length]);
 
     const initRef = useRef(0);
-    const onReset = useCallback((e) => {
+    const onReset = useCallback((e: any) => {
         setCharsTyped([]);
         setSeconds(0);
         setRaceStep(RaceStep.Initial);
@@ -188,13 +186,14 @@ const FinalView: React.FC<FinalViewProps> = ({
     )
 }
 
-
-const Character = memo(({letter, id, charsTyped, restart}: {
+type Props = {
     letter: string,
     id: number,
     charsTyped: string[],
     restart: number
-}) => {
+};
+
+const Comp = ({letter, id, charsTyped, restart}: Props) => {
     // const classes = withStyles()
     let CharTypography;
 
@@ -213,7 +212,8 @@ const Character = memo(({letter, id, charsTyped, restart}: {
     return (<span className={CharTypography}>
         {letter}
     </span>)
-}, (props, nextProps) => {
+}
+const Character = memo(Comp, (props, nextProps) => {
     /** Significant pref boost avoiding render
      * We only needs re-render a sliding window of 3 characters
      * from where user needs to type

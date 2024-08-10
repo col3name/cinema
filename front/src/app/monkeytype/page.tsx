@@ -2,7 +2,6 @@ import React from "react";
 import {QueryClient} from "@tanstack/react-query";
 import getQueryClient from "@/app/getQueryClient";
 import {DehydrateState} from "@/shared/ui/DehydrateState";
-import {MonkeyTypeClient} from "@/app/monkeytype/client";
 import {Monkeytype} from "@/app/monkeytype/Monkeytype";
 
 
