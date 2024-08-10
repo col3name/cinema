@@ -32,6 +32,8 @@
     position: absolute;
     background: transparent;
     color: transparent;
+    /*text-shadow: 0px 0px 1px #fff;*/
+    caret-color: transparent;
     border: none;
     outline: none;
     user-select: none;
