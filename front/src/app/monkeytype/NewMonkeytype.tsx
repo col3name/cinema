@@ -370,6 +370,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                     )
                 })}
             </div>
+            <button onClick={onReset}>restart</button>
             <p>{inputDataRef.current.current}</p>
             <span>{elapsed}</span>
             <input
