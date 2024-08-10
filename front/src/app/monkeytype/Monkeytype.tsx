@@ -131,7 +131,7 @@ function TypingText({words}: { words: string[] }) {
 
     useEffect(() => {
         inputRef.current?.focus({preventScroll: true});
-    }, []);
+    }, [inputRef.current]);
     return (
         <div className={styles.container}>
             {seconds}
