@@ -1,14 +1,15 @@
 'use client';
 
 import React, {useCallback, useEffect, useRef, useState} from "react";
+import cn from "classnames";
+import 'chart.js/auto';
 
 import Layout from "@/shared/ui/Layout";
-
 
 import {getText} from "@/app/monkeytype/client";
 import {RaceStep, useKeyPress} from "@/app/monkeytype/Monkeytype";
 import styles from "@/app/monkeytype/client.module.css";
-import cn from "classnames";
+import ChartView from "@/app/monkeytype/ChartView";
 
 const sampleText = getText()
 const length = sampleText.join(' ').length;
@@ -24,6 +25,11 @@ type ErrorHistoryObject = {
     words: number[];
 };
 
+type HistoryResult = {
+    errors: ErrorHistoryObject[],
+    wpmHistory: number[],
+    rawHistory: number[],
+};
 type InputData = {
     current: string;
     historyLength: number;
@@ -34,12 +40,8 @@ type InputData = {
     isTyping: boolean;
     extraLetters: string[];
     accuracy: Accuracy;
-    history: [],
-    historyResult: {
-        errors: ErrorHistoryObject[],
-        wpmHistory: number[],
-        rawHistory: number[],
-    }
+    history: [];
+    historyResult: HistoryResult;
 };
 
 type NewTypingText = {
@@ -53,7 +55,7 @@ const useTimer = () => {
 
     const [enabled, setEnabled] = useState(false);
 
-    const [startedAt, setStartedAt] = useState<number|undefined>(undefined);
+    const [startedAt, setStartedAt] = useState<number | undefined>(undefined);
     const timerRef = useRef<number>();
 
     useEffect(() => {
@@ -65,7 +67,7 @@ const useTimer = () => {
         setStartedAt(start);
         const handler = () => {
             const delta = Date.now() - start;
-            setSeconds(delta / 1000);
+            setSeconds(Math.ceil(delta / 1000));
         };
 
         // @ts-ignore
@@ -126,6 +128,7 @@ function calculateWpmAndRaw(
 }
 
 type FinalResultParams = {
+    history: HistoryResult;
     elapsed: number;
     allChars: number;
     allWords: number;
@@ -135,16 +138,26 @@ type FinalResultParams = {
 
 const FinalResult = (props: FinalResultParams) => {
     const {wpm, raw} = calculateWpmAndRaw(props.elapsed, props.accuracy)
+
     return (
         <div className={styles.container}>
-            <p>{`elapsed: ${props.elapsed} seconds`}</p>
-            <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
-            <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
-            <p>{`accuracy: ${props.accuracy.correct}/${props.allChars}`}</p>
-            <p>{`accuracy: ${Math.floor((props.accuracy.correct / (props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed)) * 100)}%`}</p>
-            <p>{`wpm: ${wpm}`}</p>
-            <p>{`raw: ${raw}`}</p>
-            <button onClick={props.onReset}>reset</button>
+            <ChartView
+                seconds={props.elapsed}
+                raw={props.history.rawHistory}
+                wpm={props.history.wpmHistory}
+                errors={props.history.errors.map(it => it.count)}
+            />
+            <div>
+                {/*<div>{JSON.stringify(props.history)}</div>*/}
+                <p>{`elapsed: ${props.elapsed} seconds`}</p>
+                <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
+                <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
+                <p>{`accuracy: ${props.accuracy.correct}/${props.allChars}`}</p>
+                <p>{`accuracy: ${Math.floor((props.accuracy.correct / (props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed)) * 100)}%`}</p>
+                <p>{`wpm: ${wpm}`}</p>
+                <p>{`raw: ${raw}`}</p>
+                <button onClick={props.onReset}>reset</button>
+            </div>
         </div>
     );
 }
@@ -186,6 +199,40 @@ const NewTypingText: React.FC<NewTypingText> = ({
     };
 
     const {elapsed, startedAt, start, stop} = useTimer();
+
+    const lastRef = useRef<number>(elapsed);
+
+    const tempErrorObjectRef = useRef<ErrorHistoryObject>({
+        count: 0,
+        words: [],
+    });
+
+    const prevTimeRef = useRef(0);
+
+    function appendItemToHistory() {
+        const {wpm, raw} = calculateWpmAndRaw(elapsed, inputDataRef.current.accuracy);
+
+        inputDataRef.current.historyResult.wpmHistory.push(wpm);
+        inputDataRef.current.historyResult.rawHistory.push(raw);
+        const errorHistoryObject = tempErrorObjectRef.current;
+        inputDataRef.current.historyResult.errors.push({
+            count: errorHistoryObject.count,
+            words: Array.from(new Set(errorHistoryObject.words).values())
+        });
+        tempErrorObjectRef.current = {
+            count: 0,
+            words: [],
+        };
+    }
+
+    useEffect(() => {
+        if (elapsed - prevTimeRef.current < 1) {
+            return;
+        }
+        prevTimeRef.current = elapsed;
+        lastRef.current = elapsed;
+        appendItemToHistory();
+    }, [elapsed]);
 
     const inputDataRef = useRef<InputData>(initialValue);
 
@@ -246,6 +293,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                     inputDataRef.current.letterIdx = 0;
                     inputDataRef.current.extraLetters = [];
                 } else {
+                    appendItemToHistory();
                     stop();
                     setRaceState(RaceStep.Final);
                 }
@@ -262,6 +310,8 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 }
                 inputDataRef.current.current += key;
                 if (nextIdx > currentWord?.length + 1) {
+                    tempErrorObjectRef.current.count++;
+                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
                     inputDataRef.current.accuracy.missed++;
                     inputDataRef.current.extraLetters.push(key)
                     return;
@@ -275,6 +325,8 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const childs = Array.from(currentWordRef.current?.children || []);
                 childs[state.letterIdx - 1]?.classList.remove(styles.letterCurrent);
                 if (letter !== key) {
+                    tempErrorObjectRef.current.count++;
+                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
                     childs[state.letterIdx - 1]?.classList.add(styles.letterWrong);
                     inputDataRef.current.accuracy.incorrect++;
                 } else {
@@ -347,6 +399,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
     if (raceState === RaceStep.Final) {
         return (
             <FinalResult
+                history={inputDataRef.current.historyResult}
                 allWords={words.length}
                 allChars={length}
                 elapsed={elapsed}
@@ -410,7 +463,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 onChange={noop}
                 ref={inputRef} type="text" autoComplete="off" autoCapitalize="off"
                 autoCorrect="off"
-                style={{top: topRef.current }}
+                style={{top: topRef.current}}
                 list="autocompleteOff" spellCheck="false"
             />
         </div>
