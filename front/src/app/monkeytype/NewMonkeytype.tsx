@@ -213,11 +213,16 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 break;
             }
             case ' ': {
+                if (inputDataRef.current.letterIdx === 0) {
+                    return;
+                }
                 inputDataRef.current.accuracy.correct++;
                 inputDataRef.current.wordIdx++;
                 const wordElementList = Array.from(wordsRef.current?.children || []);
                 const currentWordElement = wordElementList[inputDataRef.current.wordIdx];
-                Array.from(currentWordElement?.children || [])?.[0]?.classList?.add(styles.letterCurrent);
+                const fromElement = Array.from(currentWordElement?.children || [])?.[0];
+                fromElement?.scrollIntoView({block: 'center'});
+                fromElement?.classList?.add(styles.letterCurrent);
 
                 const childs = Array.from(currentWordRef.current?.children || []);
                 childs[childs.length - 1];
