@@ -221,7 +221,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const wordElementList = Array.from(wordsRef.current?.children || []);
                 const currentWordElement = wordElementList[inputDataRef.current.wordIdx];
                 const fromElement = Array.from(currentWordElement?.children || [])?.[0];
-                fromElement?.scrollIntoView({block: 'center'});
+                fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
                 fromElement?.classList?.add(styles.letterCurrent);
 
                 const childs = Array.from(currentWordRef.current?.children || []);
