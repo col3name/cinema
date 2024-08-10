@@ -19,16 +19,27 @@ type Accuracy = {
     missed: number;
 };
 
+type ErrorHistoryObject = {
+    count: number;
+    words: number[];
+};
+
 type InputData = {
     current: string;
-    history: string[];
     historyLength: number;
     wordIdx: number;
     length: number;
     letterIdx: number;
+    activeWordIdx: number;
     isTyping: boolean;
     extraLetters: string[];
     accuracy: Accuracy;
+    history: [],
+    historyResult: {
+        errors: ErrorHistoryObject[],
+        wpmHistory: number[],
+        rawHistory: number[],
+    }
 };
 
 type NewTypingText = {
@@ -138,14 +149,22 @@ const FinalResult = (props: FinalResultParams) => {
     );
 }
 
+function clearClass(currentWordRef: React.MutableRefObject<HTMLDivElement | null>, inputDataRef: React.MutableRefObject<InputData>) {
+    const childs = Array.from(currentWordRef.current?.children || []);
+    childs[childs.length - 1];
+    childs.forEach(child => {
+        child.classList.remove(styles.letterCurrent)
+    })
+    inputDataRef.current.history.push(inputDataRef.current.current);
+}
+
 const NewTypingText: React.FC<NewTypingText> = ({
                                                     words,
                                                     length,
                                                 }) => {
     const [raceState, setRaceState] = useState<RaceStep>(RaceStep.Initial);
-    const initialValue = {
+    const initialValue: InputData = {
         current: '',
-        history: [],
         historyLength: 0,
         length,
         wordIdx: 0,
@@ -157,6 +176,12 @@ const NewTypingText: React.FC<NewTypingText> = ({
             correct: 0,
             incorrect: 0,
             missed: 0,
+        },
+        history: [],
+        historyResult: {
+            errors: [],
+            wpmHistory: [],
+            rawHistory: [],
         },
     };
 
@@ -178,19 +203,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
         if (raceState === RaceStep.Final) {
             return;
         }
-        // if (!inputDataRef.current.isTyping) {
-        //     console.log('init typeing')
-        //     inputDataRef.current.isTyping = true;
-        // }
-        // const id = setTimeout(() => {
-        //     if (timeoutRef.current) {
-        //         clearTimeout(timeoutRef.current)
-        //     }
-        //     console.log('reset typing');
-        //     inputDataRef.current.isTyping = false;
-        //     console.log(inputDataRef.current.isTyping)
-        // }, 1000);
-        // timeoutRef.current = id;
+
         switch (key) {
             case "Backspace": {
                 const state = inputDataRef.current;
@@ -226,13 +239,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const fromElement = Array.from(currentWordElement?.children || [])?.[0];
                 fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
                 fromElement?.classList?.add(styles.letterCurrent);
-
-                const childs = Array.from(currentWordRef.current?.children || []);
-                childs[childs.length - 1];
-                childs.forEach(child => {
-                    child.classList.remove(styles.letterCurrent)
-                })
-                inputDataRef.current.history.push(inputDataRef.current.current);
+                clearClass(currentWordRef, inputDataRef);
                 // break;
                 if (inputDataRef.current.wordIdx < words.length) {
                     inputDataRef.current.current = '';
@@ -284,7 +291,18 @@ const NewTypingText: React.FC<NewTypingText> = ({
     useKeyPress(handleKeyPress);
 
     const onReset = () => {
+        const wordElementList = Array.from(wordsRef.current?.children || []);
+        wordElementList.forEach(element => {
+            Array.from(element?.children || [])?.forEach(element => {
+                element.classList.remove(styles.letterCurrent);
+                element.classList.remove(styles.letterRight);
+                element.classList.remove(styles.letterExtra);
+                element.classList.remove(styles.letterWrong);
+            });
+        })
+
         inputDataRef.current = {
+            activeWordIdx: 0,
             current: '',
             history: [],
             historyLength: 0,
@@ -297,11 +315,18 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 incorrect: 0,
                 correct: 0,
                 missed: 0,
+            },
+            historyResult: {
+                errors: [],
+                wpmHistory: [],
+                rawHistory: [],
             }
         };
+        clearClass(currentWordRef, inputDataRef);
         stop();
         setRaceState(RaceStep.Initial);
-    }
+    };
+
     const inputRef = useRef<HTMLInputElement | null>(null);
     const onFocusHiddenInput = useCallback(() => {
         inputRef.current?.focus();
@@ -328,7 +353,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 accuracy={inputDataRef.current.accuracy}
                 onReset={onReset}
             />
-        )
+        );
     }
 
     return (
