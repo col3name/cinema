@@ -42,7 +42,7 @@ const useTimer = () => {
 
     const [enabled, setEnabled] = useState(false);
 
-    const [startedAt, setStartedAt] = useState<number>(undefined);
+    const [startedAt, setStartedAt] = useState<number|undefined>(undefined);
     const timerRef = useRef<number>();
 
     useEffect(() => {
@@ -56,6 +56,8 @@ const useTimer = () => {
             const delta = Date.now() - start;
             setSeconds(delta / 1000);
         };
+
+        // @ts-ignore
         timerRef.current = setInterval(handler, 100);
 
         return () => {
@@ -96,7 +98,7 @@ function calculateWpmAndRaw(
     const wpm = roundTo2(
         ((accuracy.correct) * (60 / testSeconds)) / 5
     );
-    console.log({accuracy})
+    // console.log({accuracy})
     const raw = roundTo2(
         ((accuracy.correct +
                 accuracy.incorrect +
@@ -165,7 +167,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
     const currentLetterRef = useRef<HTMLSpanElement | null>(null);
 
     // const timeoutRef = useRef<number>(null);
-    console.log(inputDataRef.current);
+    // console.log(inputDataRef.current);
     const handleKeyPress = useCallback((key: string) => {
         if (raceState === RaceStep.Initial) {
             setRaceState(RaceStep.Running);
@@ -189,11 +191,11 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const state = inputDataRef.current;
                 const extraLetters = inputDataRef.current.extraLetters;
                 const current = inputDataRef.current.current;
-                const childs = Array.from(currentWordRef.current?.children);
+                const childs = Array.from(currentWordRef.current?.children || []);
                 const item = childs[inputDataRef.current.letterIdx - 1]
-                console.log(item);
-                childs[state.letterIdx]?.classList.remove(styles.letterCurrent);
-                childs[state.letterIdx - 1]?.classList.add(styles.letterCurrent);
+                // console.log(item);
+                childs[state.letterIdx]?.classList?.remove(styles.letterCurrent);
+                childs[state.letterIdx - 1]?.classList?.add(styles.letterCurrent);
                 item?.classList.remove(styles.letterRight);
                 item?.classList.remove(styles.letterWrong);
                 if (extraLetters.length > 0) {
@@ -245,7 +247,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 }
                 let word = words[state.wordIdx];
                 const letter = word[state.letterIdx - 1];
-                console.log({word, letter, key});
+                // console.log({word, letter, key});
                 if (inputDataRef.current.current.length > word.length) {
                     inputDataRef.current.extraLetters.push(key)
                 }
