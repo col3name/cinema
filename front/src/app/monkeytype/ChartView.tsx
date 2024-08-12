@@ -69,6 +69,7 @@ const ChartView: React.FC<ChartViewProps> = ({
         const getLabels = (seconds: number): string[] => {
             const multiplayer = getMultiplayer(seconds);
             const number = Math.ceil(Math.ceil(seconds) / multiplayer);
+            console.log(multiplayer, number, seconds);
             const labels = Array(number).fill(0).map((_, idx) => `${(idx + 1) * multiplayer}`);
             return labels;
         }

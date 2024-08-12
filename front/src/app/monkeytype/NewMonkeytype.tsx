@@ -82,16 +82,20 @@ const useTimer = () => {
     }, []);
 
     const stop = () => {
-        // setSeconds(0);
         setStartedAt(0);
         setEnabled(false);
         clearInterval(timerRef.current);
+    }
+    const reset = () => {
+        stop();
+        setSeconds(0);
     }
     return {
         elapsed: seconds,
         startedAt,
         start,
         stop,
+        reset,
     };
 };
 
@@ -152,7 +156,7 @@ const TypeingStatistic: React.FC<TypeingStatisticProps> = ({
             <p>{`raw: ${raw}`}</p>
             <p>{`incorrect letters: ${accuracy.incorrect}`}</p>
 
-            <button onClick={onReset}>reset</button>
+            <button className={styles.button} onClick={onReset}>reset</button>
         </div>
     );
 };
@@ -173,7 +177,6 @@ const FinalResult: React.FC<FinalResultProps> = (props) => {
                 />
             </Suspense>
             <TypeingStatistic {...props} />
-            <div>{JSON.stringify(history)}</div>
         </div>
     );
 }
@@ -214,7 +217,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
         },
     };
 
-    const {elapsed, startedAt, start, stop} = useTimer();
+    const {elapsed, startedAt, start, stop, reset,} = useTimer();
 
     const lastRef = useRef<number>(elapsed);
 
@@ -376,6 +379,9 @@ const NewTypingText: React.FC<NewTypingText> = ({
             });
         })
 
+        wordsRef.current?.scrollIntoView({block: 'center', behavior: 'smooth'});
+        currentWordRef.current?.scrollIntoView({block: 'center', behavior: 'smooth'});
+
         inputDataRef.current = {
             activeWordIdx: 0,
             current: '',
@@ -398,7 +404,7 @@ const NewTypingText: React.FC<NewTypingText> = ({
             }
         };
         clearClass(currentWordRef, inputDataRef);
-        stop();
+        reset();
         setRaceState(RaceStep.Initial);
     };
 
@@ -432,6 +438,10 @@ const NewTypingText: React.FC<NewTypingText> = ({
         );
     }
 
+    let onClick = () => {
+        onReset();
+        reset();
+    };
     return (
         <div
             onClick={onFocusHiddenInput}
@@ -478,9 +488,10 @@ const NewTypingText: React.FC<NewTypingText> = ({
                     )
                 })}
             </div>
-            <button onClick={onReset}>restart</button>
-            <UpdateTextButton/>
-            <p>{inputDataRef.current.current}</p>
+            <div className={styles.actions}>
+                <button className={styles.button} onClick={onReset}>restart</button>
+                <UpdateTextButton onClick={onClick}/>
+            </div>
             <span>{elapsed}</span>
             <input
                 className={styles.inputHidden}
@@ -499,19 +510,23 @@ const noop = () => {
 
 type UpdateTextButtonProps = {
     children?: React.ReactNode;
+    onClick: VoidFunction;
 }
 
 const UpdateTextButton: React.FC<UpdateTextButtonProps> = ({
+    onClick,
                                                                children = undefined
                                                            }) => {
     const queryClient: QueryClient = useQueryClient();
 
     const onUpdateText = useCallback(async () => {
         await queryClient.invalidateQueries({queryKey: [wordsKey]});
+        onClick();
+
     }, [queryClient]);
 
     return (
-        <button onClick={onUpdateText}>update text{children && children}</button>
+        <button className={styles.button} onClick={onUpdateText}>update text{children && children}</button>
     );
 };
 
