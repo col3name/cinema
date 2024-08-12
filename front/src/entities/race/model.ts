@@ -6,7 +6,7 @@ export enum RaceStep {
     Final = 3,
 }
 
-export type Accuracy = {
+export type TypingAccuracy = {
     correct: number;
     incorrect: number;
     missed: number;
@@ -18,23 +18,10 @@ export type ErrorHistoryObject = {
 };
 
 export type HistoryResult = {
+    elapsedSeconds: number;
     errors: ErrorHistoryObject[],
     wpmHistory: number[],
     rawHistory: number[],
-};
-
-export type InputData = {
-    current: string;
-    historyLength: number;
-    wordIdx: number;
-    length: number;
-    letterIdx: number;
-    activeWordIdx: number;
-    isTyping: boolean;
-    extraLetters: string[];
-    accuracy: Accuracy;
-    history: string[];
-    historyResult: HistoryResult;
 };
 
 export type NewTypingText = {

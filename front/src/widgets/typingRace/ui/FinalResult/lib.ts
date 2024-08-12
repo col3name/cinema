@@ -1,4 +1,4 @@
-import {Accuracy} from "@/entities/race/model";
+import {TypingAccuracy} from "@/entities/race/model";
 import {roundTo2} from "@/shared/lib/math";
 
 type WpmAndRaw = {
@@ -7,18 +7,18 @@ type WpmAndRaw = {
 };
 
 export const calculateWpmAndRaw = (
-    testSeconds: number,
-    accuracy: Accuracy,
+    seconds: number,
+    accuracy: TypingAccuracy,
     withDecimalPoints: boolean = false,
 ): WpmAndRaw => {
     const wpm = roundTo2(
-        ((accuracy.correct) * (60 / testSeconds)) / 5
+        ((accuracy.correct) * (60 / seconds)) / 5
     );
     const raw = roundTo2(
         ((accuracy.correct +
                 accuracy.incorrect +
                 accuracy.missed) *
-            (60 / testSeconds)) /
+            (60 / seconds)) /
         5
     );
     return {

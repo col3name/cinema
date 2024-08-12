@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import cn from "classnames";
 import {useKeyPress} from "@/shared/hooks";
 
@@ -7,11 +7,12 @@ import styles from "@/app/monkeytype/client.module.css";
 import {UpdateTextButton} from "@/features/face/update-text-button";
 import Button from "@/shared/ui/Button";
 
-import {Accuracy, ErrorHistoryObject, HistoryResult, InputData, NewTypingText, RaceStep} from "@/entities/race/model";
+import {ErrorHistoryObject, NewTypingText, RaceStep, TypingAccuracy} from "@/entities/race/model";
 import {HiddenInput} from "@/widgets/typingRace/ui/HiddenInput";
 import {Container} from "@/shared/ui/Container";
-import {FinalResult} from "@/widgets/typingRace/ui/FinalResult";
-import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
+import {FinalResultContainer as FinalResult} from "@/widgets/typingRace/ui/FinalResult";
+import {useDispatch} from "react-redux";
+import {onSaveHistory} from "@/entities/race/slice";
 
 const useTimer = () => {
     const [seconds, setSeconds] = useState<number>(0);
@@ -57,29 +58,41 @@ const useTimer = () => {
     return {
         elapsed: seconds,
         startedAt,
-        start,
-        stop,
-        reset,
+        startTimer: start,
+        stopTimer: stop,
+        resetTimer: reset,
     };
 };
 
-function clearClass(currentWordRef: React.MutableRefObject<HTMLDivElement | null>, inputDataRef: React.MutableRefObject<InputData>) {
+export type InputData = {
+    current: string;
+    wordIdx: number;
+    length: number;
+    letterIdx: number;
+    activeWordIdx: number;
+    isTyping: boolean;
+    extraLetters: string[];
+    accuracy: TypingAccuracy;
+    // historyResult: HistoryResult;
+};
+
+
+function clearClass(currentWordRef: React.MutableRefObject<HTMLDivElement | null>) {
     const childs = Array.from(currentWordRef.current?.children || []);
     childs[childs.length - 1];
     childs.forEach(child => {
         child.classList.remove(styles.letterCurrent)
     })
-    inputDataRef.current.history.push(inputDataRef.current.current);
 }
 
+
 export const TypingRace: React.FC<NewTypingText> = ({
-                                                  words,
-                                                  length,
-                                              }) => {
+                                                        words,
+                                                        length,
+                                                    }) => {
     const [raceState, setRaceState] = useState<RaceStep>(RaceStep.Initial);
     const initialValue: InputData = {
         current: '',
-        historyLength: 0,
         length,
         wordIdx: 0,
         letterIdx: 0,
@@ -91,15 +104,9 @@ export const TypingRace: React.FC<NewTypingText> = ({
             incorrect: 0,
             missed: 0,
         },
-        history: [],
-        historyResult: {
-            errors: [],
-            wpmHistory: [],
-            rawHistory: [],
-        },
     };
 
-    const {elapsed, startedAt, start, stop, reset,} = useTimer();
+    const {elapsed, startedAt, startTimer, stopTimer, resetTimer,} = useTimer();
 
     const lastRef = useRef<number>(elapsed);
 
@@ -110,21 +117,19 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
     const prevTimeRef = useRef(0);
 
-    const saveHistory = () => {
-        const {wpm, raw} = calculateWpmAndRaw(elapsed, inputDataRef.current.accuracy);
+    const dispatch = useDispatch();
 
-        inputDataRef.current.historyResult.wpmHistory.push(wpm);
-        inputDataRef.current.historyResult.rawHistory.push(raw);
-        const errorHistoryObject = tempErrorObjectRef.current;
-        inputDataRef.current.historyResult.errors.push({
-            count: errorHistoryObject.count,
-            words: Array.from(new Set(errorHistoryObject.words).values())
-        });
+    const saveHistory = useCallback(() => {
+        dispatch(onSaveHistory({
+            elapsedSeconds: elapsed,
+            accuracy: inputDataRef.current.accuracy,
+            errorHistoryObject: tempErrorObjectRef.current,
+        }));
         tempErrorObjectRef.current = {
             count: 0,
             words: [],
         };
-    }
+    }, [dispatch, elapsed]);
 
     useEffect(() => {
         if (elapsed - prevTimeRef.current < 1) {
@@ -133,7 +138,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         prevTimeRef.current = elapsed;
         lastRef.current = elapsed;
         saveHistory();
-    }, [elapsed]);
+    }, [elapsed, saveHistory]);
 
     const inputDataRef = useRef<InputData>(initialValue);
 
@@ -141,10 +146,102 @@ export const TypingRace: React.FC<NewTypingText> = ({
     const currentWordRef = useRef<HTMLDivElement | null>(null);
     const currentLetterRef = useRef<HTMLSpanElement | null>(null);
 
+    const onPressBackspace = useCallback((): void => {
+        const extraLetters: string[] = inputDataRef.current.extraLetters;
+        const current: string = inputDataRef.current.current;
+        const childs: Element[] = Array.from(currentWordRef.current?.children || []);
+        childs[inputDataRef.current.letterIdx]?.classList?.remove(styles.letterCurrent);
+        childs[inputDataRef.current.letterIdx - 1]?.classList?.add(styles.letterCurrent);
+
+        const item: Element = childs[inputDataRef.current.letterIdx - 1]
+
+        item?.classList.remove(styles.letterRight);
+        item?.classList.remove(styles.letterWrong);
+        if (extraLetters.length > 0) {
+            inputDataRef.current.letterIdx--;
+            inputDataRef.current.extraLetters = extraLetters.splice(0, extraLetters.length - 1);
+            inputDataRef.current.current = current.substring(0, current.length - 1);
+            return;
+        }
+        if (current.length > 0) {
+            inputDataRef.current.current = current.substring(0, current.length - 1);
+            inputDataRef.current.letterIdx--;
+            return;
+        }
+    }, []);
+
+    const onPressSpaceBar = useCallback(() => {
+        if (inputDataRef.current.letterIdx === 0) {
+            return;
+        }
+        const currentWord = words[inputDataRef.current.wordIdx];
+        if (inputDataRef.current.letterIdx < currentWord.length) {
+            tempErrorObjectRef.current.count += currentWord.length - inputDataRef.current.letterIdx;
+            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+        }
+
+        inputDataRef.current.accuracy.correct++;
+        inputDataRef.current.wordIdx++;
+        const wordElementList = Array.from(wordsRef.current?.children || []);
+        const currentWordElement = wordElementList[inputDataRef.current.wordIdx];
+        const fromElement = Array.from(currentWordElement?.children || [])?.[0];
+        fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
+        fromElement?.classList?.add(styles.letterCurrent);
+        clearClass(currentWordRef);
+        // break;
+        if (inputDataRef.current.wordIdx < words.length) {
+            inputDataRef.current.current = '';
+            inputDataRef.current.letterIdx = 0;
+            inputDataRef.current.extraLetters = [];
+        } else {
+            saveHistory();
+            stopTimer();
+            setRaceState(RaceStep.Final);
+        }
+    }, [saveHistory, stopTimer, words]);
+
+    const onTypeLetter = useCallback((key: string): void => {
+        if (inputDataRef.current.extraLetters.length > 8) {
+            tempErrorObjectRef.current.count++;
+            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            return;
+        }
+        inputDataRef.current.letterIdx++;
+        const state = inputDataRef.current;
+        const nextIdx = state.letterIdx + 1;
+        const currentWord = words[state.wordIdx];
+        inputDataRef.current.current += key;
+        if (nextIdx > currentWord?.length + 1) {
+            tempErrorObjectRef.current.count++;
+            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            inputDataRef.current.accuracy.missed++;
+            inputDataRef.current.extraLetters.push(key)
+            return;
+        }
+        const word = words[state.wordIdx];
+        const letter = word?.[state.letterIdx - 1];
+        if (inputDataRef.current.current.length > word.length) {
+            inputDataRef.current.extraLetters.push(key)
+        }
+        const childs: Element[] = Array.from(currentWordRef.current?.children || []);
+        childs[state.letterIdx - 1]?.classList.remove(styles.letterCurrent);
+        if (letter !== key) {
+            tempErrorObjectRef.current.count++;
+            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            childs[state.letterIdx - 1]?.classList.add(styles.letterWrong);
+            inputDataRef.current.accuracy.incorrect++;
+        } else {
+            inputDataRef.current.accuracy.correct++;
+            childs[state.letterIdx - 1]?.classList.add(styles.letterRight);
+        }
+        childs[state.letterIdx]?.classList.add(styles.letterCurrent);
+        currentLetterRef.current = childs[state.letterIdx] as HTMLSpanElement;
+    }, [words])
+
     const handleKeyPress = useCallback((key: string) => {
         if (raceState === RaceStep.Initial) {
             setRaceState(RaceStep.Running);
-            start();
+            startTimer();
         }
         if (raceState === RaceStep.Final) {
             return;
@@ -152,97 +249,15 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
         switch (key) {
             case "Backspace": {
-                const state = inputDataRef.current;
-                const extraLetters = inputDataRef.current.extraLetters;
-                const current = inputDataRef.current.current;
-                const childs = Array.from(currentWordRef.current?.children || []);
-                const item = childs[inputDataRef.current.letterIdx - 1]
-                childs[state.letterIdx]?.classList?.remove(styles.letterCurrent);
-                childs[state.letterIdx - 1]?.classList?.add(styles.letterCurrent);
-                item?.classList.remove(styles.letterRight);
-                item?.classList.remove(styles.letterWrong);
-                if (extraLetters.length > 0) {
-                    inputDataRef.current.letterIdx--;
-                    inputDataRef.current.extraLetters = extraLetters.splice(0, extraLetters.length - 1);
-                    inputDataRef.current.current = current.substring(0, current.length - 1);
-                    return;
-                }
-                if (current.length > 0) {
-                    inputDataRef.current.current = current.substring(0, current.length - 1);
-                    inputDataRef.current.letterIdx--;
-                }
+                onPressBackspace();
                 break;
             }
             case ' ': {
-                if (inputDataRef.current.letterIdx === 0) {
-                    return;
-                }
-                const currentWord = words[inputDataRef.current.wordIdx];
-                if (inputDataRef.current.letterIdx < currentWord.length) {
-                    tempErrorObjectRef.current.count += currentWord.length - inputDataRef.current.letterIdx;
-                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
-                }
-
-                inputDataRef.current.accuracy.correct++;
-                inputDataRef.current.wordIdx++;
-                const wordElementList = Array.from(wordsRef.current?.children || []);
-                const currentWordElement = wordElementList[inputDataRef.current.wordIdx];
-                const fromElement = Array.from(currentWordElement?.children || [])?.[0];
-                fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
-                fromElement?.classList?.add(styles.letterCurrent);
-                clearClass(currentWordRef, inputDataRef);
-                // break;
-                if (inputDataRef.current.wordIdx < words.length) {
-                    inputDataRef.current.current = '';
-                    inputDataRef.current.letterIdx = 0;
-                    inputDataRef.current.extraLetters = [];
-                } else {
-                    saveHistory();
-                    stop();
-                    setRaceState(RaceStep.Final);
-                }
+                onPressSpaceBar();
                 break;
             }
             default: {
-                if (inputDataRef.current.extraLetters.length > 8) {
-                    tempErrorObjectRef.current.count++;
-                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
-                    return;
-                }
-                inputDataRef.current.letterIdx++;
-                const state = inputDataRef.current;
-                const nextIdx = state.letterIdx + 1;
-                const currentWord = words[state.wordIdx];
-                if (!currentWord) {
-                    // setRaceState(RaceStep.Final);
-                    // return;
-                }
-                inputDataRef.current.current += key;
-                if (nextIdx > currentWord?.length + 1) {
-                    tempErrorObjectRef.current.count++;
-                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
-                    inputDataRef.current.accuracy.missed++;
-                    inputDataRef.current.extraLetters.push(key)
-                    return;
-                }
-                const word = words[state.wordIdx];
-                const letter = word?.[state.letterIdx - 1];
-                if (inputDataRef.current.current.length > word.length) {
-                    inputDataRef.current.extraLetters.push(key)
-                }
-                const childs = Array.from(currentWordRef.current?.children || []);
-                childs[state.letterIdx - 1]?.classList.remove(styles.letterCurrent);
-                if (letter !== key) {
-                    tempErrorObjectRef.current.count++;
-                    tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
-                    childs[state.letterIdx - 1]?.classList.add(styles.letterWrong);
-                    inputDataRef.current.accuracy.incorrect++;
-                } else {
-                    inputDataRef.current.accuracy.correct++;
-                    childs[state.letterIdx - 1]?.classList.add(styles.letterRight);
-                }
-                childs[state.letterIdx]?.classList.add(styles.letterCurrent);
-                currentLetterRef.current = childs[state.letterIdx] as HTMLSpanElement;
+                onTypeLetter(key);
                 break;
             }
         }
@@ -267,8 +282,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
         inputDataRef.current = {
             activeWordIdx: 0,
             current: '',
-            history: [],
-            historyLength: 0,
             length,
             wordIdx: 0,
             letterIdx: 0,
@@ -279,14 +292,9 @@ export const TypingRace: React.FC<NewTypingText> = ({
                 correct: 0,
                 missed: 0,
             },
-            historyResult: {
-                errors: [],
-                wpmHistory: [],
-                rawHistory: [],
-            }
         };
-        clearClass(currentWordRef, inputDataRef);
-        reset();
+        clearClass(currentWordRef);
+        resetTimer();
         setRaceState(RaceStep.Initial);
     };
 
@@ -309,13 +317,12 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
     const onClick = useCallback(() => {
         onReset();
-        reset();
-    }, [onReset, reset]);
+        resetTimer();
+    }, [onReset, resetTimer]);
 
     if (raceState === RaceStep.Final) {
         return (
             <FinalResult
-                history={inputDataRef.current.historyResult}
                 allWords={words.length}
                 allChars={length}
                 elapsed={elapsed}

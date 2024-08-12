@@ -1,4 +1,4 @@
-import {Accuracy, HistoryResult} from "@/entities/race/model";
+import {TypingAccuracy, HistoryResult} from "@/entities/race/model";
 import React, {lazy, Suspense} from "react";
 
 import {Container} from "@/shared/ui/Container";
@@ -6,23 +6,22 @@ const ResultChart = lazy(() => import("@/app/monkeytype/ResultChart"))
 import Button from "@/shared/ui/Button";
 
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
-
-
+import {useHistoryResult} from "@/entities/race/selector";
 
 type TypeingStatisticProps = {
     elapsed: number;
     allChars: number;
     allWords: number;
-    accuracy: Accuracy;
+    accuracy: TypingAccuracy;
     onReset: () => void;
 };
 
 const TypingStatistic: React.FC<TypeingStatisticProps> = ({
-                                                               accuracy,
-                                                               elapsed,
-                                                               allChars,
-                                                               onReset,
-                                                           }) => {
+                                                              accuracy,
+                                                              elapsed,
+                                                              allChars,
+                                                              onReset,
+                                                          }) => {
     const {wpm, raw} = calculateWpmAndRaw(elapsed, accuracy);
 
     return (
@@ -41,19 +40,19 @@ const TypingStatistic: React.FC<TypeingStatisticProps> = ({
     );
 };
 
-type FinalResultProps = TypeingStatisticProps & {
-    history: HistoryResult;
-};
+type FinalResultProps = TypeingStatisticProps;
 
-export const FinalResult: React.FC<FinalResultProps> = (props) => {
+export const FinalResultContainer: React.FC<FinalResultProps> = (props) => {
+    const historyResult: HistoryResult = useHistoryResult();
+
     return (
         <Container>
             <Suspense>
                 <ResultChart
                     seconds={props.elapsed}
-                    raw={props.history.rawHistory.filter(it => it !== Infinity)}
-                    wpm={props.history.wpmHistory.filter(it => it !== Infinity)}
-                    errors={props.history.errors.map(it => it.count)}
+                    raw={historyResult.rawHistory.filter(it => it !== Infinity)}
+                    wpm={historyResult.wpmHistory.filter(it => it !== Infinity)}
+                    errors={historyResult.errors.map(it => it.count)}
                 />
             </Suspense>
             <TypingStatistic {...props} />
