@@ -17,8 +17,10 @@ import {
     incrementAccuracyIncorrect,
     incrementAccuracyMissed,
     onResetRaceState,
-    onSaveHistory
+    onSaveHistory,
+    setRaceStep,
 } from "@/entities/race/slice";
+import {useRaceStep} from "@/entities/race/selector";
 
 const useTimer = () => {
     const [seconds, setSeconds] = useState<number>(0);
@@ -95,7 +97,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
                                                         words,
                                                         length,
                                                     }) => {
-    const [raceState, setRaceState] = useState<RaceStep>(RaceStep.Initial);
     const initialValue: InputData = {
         current: '',
         length,
@@ -195,7 +196,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         } else {
             saveHistory();
             stopTimer();
-            setRaceState(RaceStep.Final);
+            dispatch(setRaceStep(RaceStep.Final));
         }
     }, [dispatch, saveHistory, stopTimer, words]);
 
@@ -237,12 +238,14 @@ export const TypingRace: React.FC<NewTypingText> = ({
         currentLetterRef.current = childs[state.letterIdx] as HTMLSpanElement;
     }, [dispatch, words])
 
+    const raceStep: RaceStep = useRaceStep();
+
     const handleKeyPress = useCallback((key: string) => {
-        if (raceState === RaceStep.Initial) {
-            setRaceState(RaceStep.Running);
+        if (raceStep === RaceStep.Initial) {
+            dispatch(setRaceStep(RaceStep.Running));
             startTimer();
         }
-        if (raceState === RaceStep.Final) {
+        if (raceStep === RaceStep.Final) {
             return;
         }
 
@@ -260,7 +263,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
                 break;
             }
         }
-    }, [words, raceState]);
+    }, [words, raceStep, dispatch]);
 
     useKeyPress(handleKeyPress);
 
@@ -291,7 +294,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         };
         clearClass(currentWordRef);
         resetTimer();
-        setRaceState(RaceStep.Initial);
+        dispatch(setRaceStep(RaceStep.Initial));
     }, [dispatch, length, resetTimer]);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -316,7 +319,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         resetTimer();
     }, [onReset, resetTimer]);
 
-    if (raceState === RaceStep.Final) {
+    if (raceStep === RaceStep.Final) {
         return (
             <FinalResult
                 allWords={words.length}

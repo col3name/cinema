@@ -79,6 +79,9 @@ const slice = createSlice({
             incrementAccuracyMissed: (state: WritableDraft<RaceState>) => {
                 state.accuracy.missed++;
             },
+            setRaceStep: (state: WritableDraft<RaceState>, action: PayloadAction<RaceStep>) => {
+                state.raceStep = action.payload;
+            },
         },
     })
 ;
@@ -91,6 +94,7 @@ export const {
     incrementAccuracyIncorrect,
     incrementAccuracyCorrect,
     incrementAccuracyMissed,
+    setRaceStep,
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,
