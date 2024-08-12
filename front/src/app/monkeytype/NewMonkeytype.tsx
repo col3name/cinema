@@ -125,8 +125,7 @@ function calculateWpmAndRaw(
     };
 }
 
-type FinalResultParams = {
-    history: HistoryResult;
+type TypeingStatisticProps = {
     elapsed: number;
     allChars: number;
     allWords: number;
@@ -134,38 +133,47 @@ type FinalResultParams = {
     onReset: () => void;
 };
 
-const TypeingStatistic = (props: FinalResultParams) => {
-    const {wpm, raw} = calculateWpmAndRaw(props.elapsed, props.accuracy)
+const TypeingStatistic: React.FC<TypeingStatisticProps> = ({
+    accuracy,
+    elapsed,
+    allChars,
+    onReset,
+                                                      }) => {
+    const {wpm, raw} = calculateWpmAndRaw(elapsed, accuracy)
 
     return (
         <div>
-            <p>{`elapsed: ${props.elapsed} seconds`}</p>
-            <p>{`raw cpm: ${Math.floor((props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed) / props.elapsed * 60)}`}</p>
-            <p>{`cpm: ${Math.floor((props.accuracy.correct) / props.elapsed * 60)}`}</p>
-            <p>{`accuracy: ${props.accuracy.correct}/${props.allChars}`}</p>
-            <p>{`accuracy: ${Math.floor((props.accuracy.correct / (props.accuracy.correct + props.accuracy.incorrect + props.accuracy.missed)) * 100)}%`}</p>
+            <p>{`elapsed: ${elapsed} seconds`}</p>
+            <p>{`raw cpm: ${Math.floor((accuracy.correct + accuracy.incorrect + accuracy.missed) / elapsed * 60)}`}</p>
+            <p>{`cpm: ${Math.floor((accuracy.correct) / elapsed * 60)}`}</p>
+            <p>{`accuracy: ${accuracy.correct}/${allChars}`}</p>
+            <p>{`accuracy: ${Math.floor((accuracy.correct / (accuracy.correct + accuracy.incorrect + accuracy.missed)) * 100)}%`}</p>
             <p>{`wpm: ${wpm}`}</p>
             <p>{`raw: ${raw}`}</p>
-            <button onClick={props.onReset}>reset</button>
+            <p>{`incorrect letters: ${accuracy.incorrect}`}</p>
 
-            <div>{JSON.stringify(props.history)}</div>
+            <button onClick={onReset}>reset</button>
         </div>
     );
 };
 
-const FinalResult = (props: FinalResultParams) => {
+type FinalResultProps = TypeingStatisticProps & {
+    history: HistoryResult;
+};
 
+const FinalResult: React.FC<FinalResultProps> = (props) => {
     return (
         <div className={styles.container}>
             <Suspense>
                 <ChartView
                     seconds={props.elapsed}
-                    raw={props.history.rawHistory}
-                    wpm={props.history.wpmHistory}
+                    raw={props.history.rawHistory.filter(it => it !== Infinity)}
+                    wpm={props.history.wpmHistory.filter(it => it !== Infinity)}
                     errors={props.history.errors.map(it => it.count)}
                 />
             </Suspense>
             <TypeingStatistic {...props} />
+            <div>{JSON.stringify(history)}</div>
         </div>
     );
 }
@@ -248,8 +256,6 @@ const NewTypingText: React.FC<NewTypingText> = ({
     const currentWordRef = useRef<HTMLDivElement | null>(null);
     const currentLetterRef = useRef<HTMLSpanElement | null>(null);
 
-    // const timeoutRef = useRef<number>(null);
-    // console.log(inputDataRef.current);
     const handleKeyPress = useCallback((key: string) => {
         if (raceState === RaceStep.Initial) {
             setRaceState(RaceStep.Running);
@@ -266,7 +272,6 @@ const NewTypingText: React.FC<NewTypingText> = ({
                 const current = inputDataRef.current.current;
                 const childs = Array.from(currentWordRef.current?.children || []);
                 const item = childs[inputDataRef.current.letterIdx - 1]
-                // console.log(item);
                 childs[state.letterIdx]?.classList?.remove(styles.letterCurrent);
                 childs[state.letterIdx - 1]?.classList?.add(styles.letterCurrent);
                 item?.classList.remove(styles.letterRight);
@@ -335,9 +340,8 @@ const NewTypingText: React.FC<NewTypingText> = ({
                     inputDataRef.current.extraLetters.push(key)
                     return;
                 }
-                let word = words[state.wordIdx];
+                const word = words[state.wordIdx];
                 const letter = word?.[state.letterIdx - 1];
-                // console.log({word, letter, key});
                 if (inputDataRef.current.current.length > word.length) {
                     inputDataRef.current.extraLetters.push(key)
                 }
@@ -512,12 +516,10 @@ const UpdateTextButton: React.FC<UpdateTextButtonProps> = ({
 };
 
 export const NewMonkeytype = () => {
-    const {data, isLoading, isError} = useGetWords();
+    const {data, isError} = useGetWords();
 
-    // console.log(data?.words)
     return (
         <Layout bgColor='#323437'>
-            {/*{isLoading && <p>Loading...</p>}*/}
             {isError && (<p>Error</p>)}
             {data && (
                 <NewTypingText length={data.length} words={data.words}/>

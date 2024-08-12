@@ -35,25 +35,19 @@ const ChartView: React.FC<ChartViewProps> = ({
                 label: "WPM",
                 tension: 0.4,
                 borderColor: "#e2b714",
-                data: wpm.splice( 2),
-                // trendlineLinear: {
-                //     style: "rgba(100,200,180, .8)",
-                //     lineStyle: "solid",
-                //     width: 1,
-                //     projection: true
-                // }
+                data: wpm,
             },
             {
                 type: "line",
                 label: "Raw",
                 tension: 0.4,
-                data: raw.splice(2),
+                data: raw,
                 borderColor: "#646669"
             },
             {
                 type: "line",
                 label: "Errors",
-                data: errors.splice(2),
+                data: errors,
                 tension: 0.4,
                 borderColor: "#ca4754",
             },
@@ -69,7 +63,7 @@ const ChartView: React.FC<ChartViewProps> = ({
             } else if (seconds >= 120) {
                 return 12;
             } else {
-                return seconds;
+                return 1;
             }
         }
         const getLabels = (seconds: number): string[] => {
@@ -79,7 +73,7 @@ const ChartView: React.FC<ChartViewProps> = ({
             return labels;
         }
 
-        const labels = getLabels(seconds - 2);
+        const labels: string[] = getLabels(seconds - 2);
         myChart = new Chart(ctx, {
             data: {
                 // @ts-ignore
