@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "../stylesForm.module.css";
+import styles from "./stylesLabel.module.css";
 
 export type LabelPropsType = {
   className?: string;

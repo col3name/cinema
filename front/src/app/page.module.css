@@ -4,11 +4,13 @@
   align-items: center;
   gap: 28px;
 
-  min-height: calc(100vh - 71px);
+  height: 100vh;
+  /*min-height: 100vh;*/
 
+  background: #323437;
   margin: 0;
   padding: 85px 32px 24px;
-  background: rgb(245, 245, 245);
+  /*background: rgb(245, 245, 245);*/
 }
 
 .description {

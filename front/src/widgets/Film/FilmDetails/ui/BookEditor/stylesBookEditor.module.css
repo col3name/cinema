@@ -1,8 +1,0 @@
-.bookEditorContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.bookPage {
-  flex: 1;
-}

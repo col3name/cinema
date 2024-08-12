@@ -1,0 +1,12 @@
+.label {
+}
+
+.labelTitle {
+  font:
+    400 14px/20px "SF Pro Text",
+    sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  color: #1b1f23;
+  margin-bottom: 5px;
+}
