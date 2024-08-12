@@ -30,7 +30,7 @@ const initialState: RaceState = {
 type onSaveHistoryPayload = {
     errorHistoryObject: ErrorHistoryObject;
     elapsedSeconds: number;
-    accuracy: TypingAccuracy;
+    // accuracy: TypingAccuracy;
 }
 export type OnPressSpacePayload = {
     elapsed: number;
@@ -41,11 +41,10 @@ const slice = createSlice({
         name: "race",
         initialState: initialState,
         reducers: {
-
             onSaveHistory: (state: WritableDraft<RaceState>, action: PayloadAction<onSaveHistoryPayload>) => {
                 const elapsedSeconds = action.payload.elapsedSeconds;
                 state.historyResult.elapsedSeconds = elapsedSeconds;
-                const {wpm, raw} = calculateWpmAndRaw(elapsedSeconds, action.payload.accuracy);
+                const {wpm, raw} = calculateWpmAndRaw(elapsedSeconds, state.accuracy);
                 state.historyResult.wpmHistory.push(wpm);
                 state.historyResult.rawHistory.push(raw);
 
@@ -71,6 +70,15 @@ const slice = createSlice({
                     rawHistory: [],
                 }
             },
+            incrementAccuracyIncorrect: (state: WritableDraft<RaceState>) => {
+                state.accuracy.incorrect++;
+            },
+            incrementAccuracyCorrect: (state: WritableDraft<RaceState>) => {
+                state.accuracy.correct++;
+            },
+            incrementAccuracyMissed: (state: WritableDraft<RaceState>) => {
+                state.accuracy.missed++;
+            },
         },
     })
 ;
@@ -78,15 +86,11 @@ const slice = createSlice({
 export const raceReducer = slice.reducer;
 
 export const {
-    onPressBackspace,
-    onPressSpace,
-    onSaveHistory,
-    onTypeLetter,
-    moveCaret,
     onResetRaceState,
-    setRaceStep,
-    pushCurrentWordToHistory,
-    setRaceWords,
+    onSaveHistory,
+    incrementAccuracyIncorrect,
+    incrementAccuracyCorrect,
+    incrementAccuracyMissed,
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,
