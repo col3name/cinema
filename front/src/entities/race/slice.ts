@@ -8,6 +8,7 @@ export type RaceState = {
     accuracy: TypingAccuracy;
     historyResult: HistoryResult;
     tempErrorObject: ErrorHistoryObject;
+    letterIdx: number;
     wordIdx: number;
     extraLetters: string[];
     current: string;
@@ -16,6 +17,7 @@ export type RaceState = {
 const initialState: RaceState = {
     words: [],
     wordIdx: 0,
+    letterIdx: 0,
     raceStep: RaceStep.Initial,
     accuracy: {
         extra: 0,
@@ -87,8 +89,21 @@ const slice = createSlice({
                     words: [],
                 };
                 state.wordIdx = 0;
+                state.letterIdx = 0;
                 state.extraLetters = [];
                 state.current = '';
+            },
+            incrementWordIndex: (state: RaceState) => {
+                state.wordIdx++;
+            },
+            incrementLetterIndex: (state: RaceState) => {
+                state.letterIdx++;
+            },
+            decrementLetterIndex: (state: RaceState) => {
+                state.letterIdx--;
+            },
+            setLetterIndex: (state: RaceState, action: PayloadAction<number>) => {
+                state.letterIdx = action.payload;
             },
             incrementAccuracyIncorrect: (state: RaceState) => {
                 state.accuracy.incorrect++;
@@ -105,21 +120,24 @@ const slice = createSlice({
             setRaceStep: (state: RaceState, action: PayloadAction<RaceStep>) => {
                 state.raceStep = action.payload;
             },
-            incrementErrorObject: (state: RaceState, action: PayloadAction<{ count:number, wordIdx: number }>) => {
+            incrementErrorObject: (state: RaceState, action: PayloadAction<{ count:number }>) => {
                 state.tempErrorObject.count += action.payload.count;
-                state.tempErrorObject.words.push(action.payload.wordIdx)
+                state.tempErrorObject.words.push(state.wordIdx)
             },
             addExtraLetter: (state: RaceState, action: PayloadAction<string>) => {
                 state.extraLetters.push(action.payload);
             },
             deleteLastExtraLetter: (state: RaceState) => {
                 state.extraLetters = state.extraLetters.splice(0, state.extraLetters.length - 1);
+                state.letterIdx--;
+                state.current = state.current.substring(0, state.current.length - 1);
             },
             resetExtraLetter: (state: RaceState) => {
                 state.extraLetters = [];
             },
             deleteLastLetterInCurrentWord: (state: RaceState) => {
                 state.current = state.current.substring(0, state.current.length - 1);
+                state.letterIdx--;
             },
             appendLetterInCurrentWord: (state: RaceState, action: PayloadAction<string>) => {
                 state.current += action.payload;
@@ -127,13 +145,67 @@ const slice = createSlice({
             resetCurrentWord: (state: RaceState) => {
                 state.current = '';
             },
+            setWords: (state: RaceState, action: PayloadAction<string[]>) => {
+                state.words = [...action.payload];
+            },
+            moveToNextWord: (state: RaceState) => {
+                state.letterIdx = 0;
+                state.extraLetters = [];
+                state.current = '';
+            },
+            typeLetter: (state:RaceState, action: PayloadAction<string>) => {
+                const key = action.payload;
+                const currentLetterIndex = state.letterIdx;
+
+                const letterIdx: number = currentLetterIndex + 1;
+                if (state.extraLetters.length > 8) {
+                    slice.caseReducers.incrementErrorObject(state, {...action, payload: {count: 1}});
+                    // dispatch(incrementErrorObject({count: 1}));
+                    return;
+                }
+                slice.caseReducers.incrementLetterIndex(state);
+                // dispatch(incrementLetterIndex());
+
+                const nextLetterIndex: number = letterIdx + 1;
+
+                const currentWord: string = state.words[state.wordIdx];
+                slice.caseReducers.appendLetterInCurrentWord(state, action);
+                // dispatch(appendLetterInCurrentWord(key))
+                if (nextLetterIndex > currentWord?.length + 1) {
+                    slice.caseReducers.incrementErrorObject(state, {...action, payload: {count: 1}});
+                    slice.caseReducers.incrementAccuracyExtra(state);
+                    slice.caseReducers.addExtraLetter(state, action);
+
+                    // dispatch(incrementErrorObject({count: 1}));
+                    // dispatch(incrementAccuracyExtra())
+                    // dispatch(addExtraLetter(key));
+                    return;
+                }
+                const currentLetter: string = currentWord?.[letterIdx - 1];
+                if (state.current.length > currentWord.length) {
+                    slice.caseReducers.addExtraLetter(state, action);
+                    // dispatch(addExtraLetter(key));
+                }
+
+                const isSame = currentLetter === key;
+                if (!isSame) {
+                    slice.caseReducers.incrementErrorObject(state, {...action, payload: {count: 1}});
+                    slice.caseReducers.incrementAccuracyIncorrect(state);
+                    // dispatch(incrementErrorObject({count: 1}));
+                    // dispatch(incrementAccuracyIncorrect());
+                } else {
+                    slice.caseReducers.incrementAccuracyCorrect(state);
+                    // dispatch(incrementAccuracyCorrect());
+                }
+            }
         },
-    })
-;
+    });
+
 
 export const raceReducer = slice.reducer;
 
 export const {
+    setWords,
     onResetRaceState,
     onSaveHistory,
     incrementAccuracyIncorrect,
@@ -147,7 +219,13 @@ export const {
     resetExtraLetter,
     appendLetterInCurrentWord,
     deleteLastLetterInCurrentWord,
-    resetCurrentWord
+    resetCurrentWord,
+    moveToNextWord,
+    incrementWordIndex,
+    incrementLetterIndex,
+    decrementLetterIndex,
+    setLetterIndex,
+    typeLetter,
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,

@@ -15,6 +15,9 @@ export const useRaceWords = (): string[] =>
 export const useTypedWord = (): string =>
     useAppSelector((state: RootState) => state.race.current);
 
+export const useCurrentLetterIndex = (): number =>
+    useAppSelector((state: RootState) => state.race.letterIdx);
+
 export const useExtraLetters = (): string[] =>
     useAppSelector((state: RootState) => state.race.extraLetters);
 

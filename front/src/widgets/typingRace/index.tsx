@@ -21,14 +21,20 @@ import {
     incrementAccuracyExtra,
     incrementAccuracyIncorrect,
     incrementAccuracyMissed,
-    incrementErrorObject,
+    incrementErrorObject, incrementLetterIndex, incrementWordIndex, moveToNextWord,
     onResetRaceState,
     onSaveHistory,
     resetCurrentWord,
     resetExtraLetter,
-    setRaceStep,
+    setRaceStep, setWords, typeLetter,
 } from "@/entities/race/slice";
-import {useExtraLetters, useRaceStep, useTypedWord} from "@/entities/race/selector";
+import {
+    useCurrentLetterIndex,
+    useCurrentWordIndex,
+    useExtraLetters,
+    useRaceStep,
+    useTypedWord
+} from "@/entities/race/selector";
 
 const useTimer = () => {
     const [seconds, setSeconds] = useState<number>(0);
@@ -80,12 +86,6 @@ const useTimer = () => {
     };
 };
 
-export type InputData = {
-    wordIdx: number;
-    length: number;
-    letterIdx: number;
-};
-
 const clearClass = (currentWordRef: React.MutableRefObject<HTMLDivElement | null>) => {
     const childrenElements: Element[] = Array.from(currentWordRef.current?.children || []);
     childrenElements[childrenElements.length - 1];
@@ -99,12 +99,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
                                                         words,
                                                         length,
                                                     }) => {
-    const initialValue: InputData = {
-        length,
-        wordIdx: 0,
-        letterIdx: 0,
-    };
-
     const {elapsed, startedAt, startTimer, stopTimer, resetTimer,} = useTimer();
 
     const lastRef = useRef<number>(elapsed);
@@ -128,21 +122,20 @@ export const TypingRace: React.FC<NewTypingText> = ({
         saveHistory();
     }, [elapsed, saveHistory]);
 
-    const inputDataRef = useRef<InputData>(initialValue);
-
     const wordsRef = useRef<HTMLDivElement | null>(null);
     const currentWordRef = useRef<HTMLDivElement | null>(null);
     const currentLetterRef = useRef<HTMLSpanElement | null>(null);
 
     const extraLetters = useExtraLetters();
-    const currentLetterIndex = inputDataRef.current.letterIdx;
-    // const currentWordIndex = useCurrentWordIndex();
-    const currentWordIndex = inputDataRef.current.wordIdx;
+    const currentLetterIndex = useCurrentLetterIndex()
+    const currentWordIndex = useCurrentWordIndex();
     const typedWord: string = useTypedWord();
 
-    const onPressBackspace = useCallback((): void => {
-        const currentLetterIndex = inputDataRef.current.letterIdx;
+    useEffect(() => {
+        dispatch(setWords(words));
+    }, [words]);
 
+    const onPressBackspace = useCallback((): void => {
         const childrenElements: Element[] = Array.from(currentWordRef.current?.children || []);
         childrenElements[currentLetterIndex]?.classList?.remove(styles.letterCurrent);
         childrenElements[currentLetterIndex - 1]?.classList?.add(styles.letterCurrent);
@@ -153,20 +146,16 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
         // -------
         if (extraLetters.length > 0) {
-            inputDataRef.current.letterIdx--;
             dispatch(deleteLastExtraLetter());
-            dispatch(deleteLastLetterInCurrentWord());
             return;
         }
         if (typedWord.length > 0) {
             dispatch(deleteLastLetterInCurrentWord());
-            inputDataRef.current.letterIdx--;
             return;
         }
-    }, [dispatch, extraLetters.length]);
+    }, [dispatch, currentLetterIndex, extraLetters.length]);
 
     const onPressSpaceBar = useCallback(() => {
-        const currentLetterIndex = inputDataRef.current.letterIdx;
         if (currentLetterIndex === 0) {
             return;
         }
@@ -174,68 +163,39 @@ export const TypingRace: React.FC<NewTypingText> = ({
         if (currentLetterIndex < currentWord.length) {
             const count = currentWord.length - currentLetterIndex;
             dispatch(incrementAccuracyMissed(count));
-            dispatch(incrementErrorObject({count, wordIdx: currentWordIndex}));
+            dispatch(incrementErrorObject({count,}));
         }
-
         dispatch(incrementAccuracyCorrect());
-        inputDataRef.current.wordIdx++;
+        dispatch(incrementWordIndex())
 
-        const wordElementList = Array.from(wordsRef.current?.children || []);
-
-        const currentWordElement = wordElementList[currentWordIndex];
-        const fromElement = Array.from(currentWordElement?.children || [])?.[0];
+        const wordElementList: Element[] = Array.from(wordsRef.current?.children || []);
+        const currentWordElement: Element = wordElementList[currentWordIndex];
+        const fromElement: Element = Array.from(currentWordElement?.children || [])?.[0];
         fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
         fromElement?.classList?.add(styles.letterCurrent);
         clearClass(currentWordRef);
 
-        if (inputDataRef.current.wordIdx < words.length) {
-            dispatch(resetCurrentWord());
-            inputDataRef.current.letterIdx = 0;
-            dispatch(resetExtraLetter());
+        if (currentWordIndex + 1 < words.length) {
+            dispatch(moveToNextWord());
         } else {
             saveHistory();
-            stopTimer();
             dispatch(setRaceStep(RaceStep.Final));
+            stopTimer();
         }
-    }, [currentWordIndex, dispatch, saveHistory, stopTimer, words]);
+    }, [currentWordIndex, currentLetterIndex, dispatch, saveHistory, stopTimer, words]);
 
     const onTypeLetter = useCallback((key: string): void => {
-        if (extraLetters.length > 8) {
-            dispatch(incrementErrorObject({count: 1, wordIdx: currentWordIndex}));
-            return;
-        }
-        inputDataRef.current.letterIdx++;
-
-        const currentLetterIndex: number = inputDataRef.current.letterIdx;
-        const nextLetterIndex: number = currentLetterIndex + 1;
-
-        const currentWord: string = words[currentWordIndex];
-        dispatch(appendLetterInCurrentWord(key))
-        if (nextLetterIndex > currentWord?.length + 1) {
-            dispatch(incrementErrorObject({count: 1, wordIdx: currentWordIndex}));
-            dispatch(incrementAccuracyExtra())
-            dispatch(addExtraLetter(key));
-            return;
-        }
-        const currentLetter: string = currentWord?.[currentLetterIndex - 1];
-        if (typedWord.length > currentWord.length) {
-            dispatch(addExtraLetter(key));
-        }
-
+        const letterIdx: number = currentLetterIndex;
+        dispatch(typeLetter(key));
+        const currentLetter = words[currentWordIndex]?.[letterIdx];
         const isSame = currentLetter === key;
-        if (!isSame) {
-            dispatch(incrementErrorObject({count: 1, wordIdx: currentWordIndex}));
-            dispatch(incrementAccuracyIncorrect());
-        } else {
-            dispatch(incrementAccuracyCorrect())
-        }
 
         const childrenElements: Element[] = Array.from(currentWordRef.current?.children || []);
-        childrenElements[currentLetterIndex - 1]?.classList.remove(styles.letterCurrent);
-        childrenElements[currentLetterIndex - 1]?.classList.add(isSame ? styles.letterRight : styles.letterWrong);
-        childrenElements[currentLetterIndex]?.classList.add(styles.letterCurrent);
-        currentLetterRef.current = childrenElements[currentLetterIndex] as HTMLSpanElement;
-    }, [currentWordIndex, dispatch, extraLetters.length, words])
+        childrenElements[letterIdx]?.classList.remove(styles.letterCurrent);
+        childrenElements[letterIdx]?.classList.add(isSame ? styles.letterRight : styles.letterWrong);
+        childrenElements[letterIdx + 1]?.classList.add(styles.letterCurrent);
+        currentLetterRef.current = childrenElements[letterIdx] as HTMLSpanElement;
+    }, [currentWordIndex, currentLetterIndex, dispatch, extraLetters.length, words])
 
     const raceStep: RaceStep = useRaceStep();
 
@@ -282,11 +242,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
         wordsRef.current?.scrollIntoView({block: 'center', behavior: 'smooth'});
         currentWordRef.current?.scrollIntoView({block: 'center', behavior: 'smooth'});
 
-        inputDataRef.current = {
-            length,
-            wordIdx: 0,
-            letterIdx: 0,
-        };
         clearClass(currentWordRef);
         resetTimer();
         dispatch(setRaceStep(RaceStep.Initial));
@@ -319,7 +274,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         return <LetterList
             // @ts-ignore
             ref={currentLetterRef} word={word} isActiveWord={isActiveWord}
-                           currentLetterIndex={currentLetterIndex}/>
+            currentLetterIndex={currentLetterIndex}/>
     }, [currentLetterIndex]);
     const renderCaret = useCallback(() => <CaretMemoized currentLetterIndex={currentLetterIndex}
                                                          key={currentWordIndex}/>, [currentLetterIndex, currentWordIndex]);
@@ -373,12 +328,12 @@ type WordMemoizedProps = {
 };
 
 const WordMemoized: React.FC<WordMemoizedProps> = memo(forwardRef<HTMLDivElement, WordMemoizedProps>(function WordMemoized({
-                                                                                            isActive,
-                                                                                            word,
-                                                                                            renderLetterList,
-                                                                                            children,
-                                                                                            renderCaret,
-                                                                                        }, ref) {
+                                                                                                                               isActive,
+                                                                                                                               word,
+                                                                                                                               renderLetterList,
+                                                                                                                               children,
+                                                                                                                               renderCaret,
+                                                                                                                           }, ref) {
         const renderLetterList1 = useMemo(() => renderLetterList(word, isActive), [renderLetterList, word, isActive]);
         return (
             <div
@@ -412,14 +367,14 @@ type WordListProps = {
 }
 
 const WordList: React.FC<WordListProps> = forwardRef<HTMLDivElement, WordListProps>(function WordList({
-                                                                           words,
-                                                                           currentWordIndex,
-                                                                           children,
-                                                                           currentLetterIndex,
-                                                                           renderLetterList,
-                                                                           renderCaret,
-                                                                           currentWordRef,
-                                                                       }, ref: React.ForwardedRef<HTMLDivElement | null>) {
+                                                                                                          words,
+                                                                                                          currentWordIndex,
+                                                                                                          children,
+                                                                                                          currentLetterIndex,
+                                                                                                          renderLetterList,
+                                                                                                          renderCaret,
+                                                                                                          currentWordRef,
+                                                                                                      }, ref: React.ForwardedRef<HTMLDivElement | null>) {
     return (
         <div ref={ref} className={styles.words}>
             {words.map((word: string, wordIdx: number) => {
@@ -431,7 +386,7 @@ const WordList: React.FC<WordListProps> = forwardRef<HTMLDivElement, WordListPro
                 const isActiveWord = wordIdx === currentWordIndex;
                 return (
                     <WordMemoized
-                        key={ `${wordIdx}-${word}`}
+                        key={`${wordIdx}-${word}`}
                         // @ts-ignore
                         ref={currentWordRef}
                         isActive={isActiveWord}
@@ -456,10 +411,10 @@ type LetterListProps = {
 }
 
 const LetterList: React.FC<LetterListProps> = forwardRef<HTMLSpanElement, LetterListProps>(function LetterList({
-                                                                                 word,
-                                                                                 isActiveWord,
-                                                                                 currentLetterIndex,
-                                                                             }, ref) {
+                                                                                                                   word,
+                                                                                                                   isActiveWord,
+                                                                                                                   currentLetterIndex,
+                                                                                                               }, ref) {
     const letters: string[] = useMemo(() => word.split(''), [word]);
 
     return letters.map((letter: string, letterIdx: number) => {
