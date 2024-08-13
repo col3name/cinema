@@ -3,8 +3,10 @@ import {QueryClient} from "@tanstack/react-query";
 
 import {DehydrateState} from "@/shared/ui/DehydrateState";
 
-import getQueryClient from "@/app/getQueryClient";
+import getQueryClient from "@/shared/query/getQueryClient";
 import {MonkeyTypeRacing} from "@/widgets/typingRace";
+import {wordsKey} from "@/entities/race/const";
+import {fetchWords} from "@/api";
 
 async function MonkeyType() {
     const queryClient: QueryClient = getQueryClient();

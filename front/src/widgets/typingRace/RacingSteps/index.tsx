@@ -1,6 +1,5 @@
 import React, {useCallback} from "react";
-import {useDispatch} from "react-redux";
-import {useQueryClient} from "@tanstack/react-query";
+import {QueryClient, useQueryClient} from "@tanstack/react-query";
 
 import {FinalResultContainer as FinalResult} from "@/widgets/typingRace/ui/FinalResult";
 import {TypeRacing} from "@/widgets/typingRace/TypeRacing";
@@ -9,7 +8,8 @@ import {onResetRaceState, onSaveHistory, setElapsedSeconds,} from "@/entities/ra
 import {useRaceStep,} from "@/entities/race/selector";
 import {RaceStep} from "@/entities/race/model";
 import {wordsKey} from "@/entities/race/const";
-import {useTimer} from "@/shared/hooks/useTimer";
+import {useTimer} from "@/shared/hooks";
+import {useAppDispatch} from "@/shared/redux/hooks";
 
 export type RacingStepProps = {
     words: string[];
@@ -19,11 +19,11 @@ export type RacingStepProps = {
 export const RacingSteps: React.FC<RacingStepProps> = ({
                                                            length,
                                                        }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const raceStep: RaceStep = useRaceStep();
 
-    const queryClient = useQueryClient();
+    const queryClient: QueryClient = useQueryClient();
 
     const updateHistory = useCallback((elapsed: number) => {
         dispatch(onSaveHistory());

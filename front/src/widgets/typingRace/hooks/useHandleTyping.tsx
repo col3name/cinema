@@ -1,5 +1,4 @@
 import React, {useCallback, useRef} from "react";
-import {useDispatch} from "react-redux";
 
 import styles from "@/widgets/typingRace/client.module.css";
 
@@ -7,6 +6,7 @@ import {deleteLastTypedLetter, onResetRaceState, pressSpaceBar, setRaceStep, typ
 import {RaceStep} from "@/entities/race/model";
 import {useCurrentLetterIndex, useCurrentWordIndex, useRaceStep, useWords} from "@/entities/race/selector";
 import {useKeyPress} from "@/shared/hooks";
+import {useAppDispatch} from "@/shared/redux/hooks";
 
 const clearClass = (currentWordRef: React.MutableRefObject<HTMLDivElement | null>) => {
     const childrenElements: Element[] = Array.from(currentWordRef.current?.children || []);
@@ -26,7 +26,7 @@ export const useHandleTyping = ({
                                     stopTimer,
                                     startTimer,
                                 }: UseHandleTypingProps) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const wordsRef = useRef<HTMLDivElement | null>(null);
     const currentWordRef = useRef<HTMLDivElement | null>(null);

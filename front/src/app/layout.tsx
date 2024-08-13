@@ -4,7 +4,7 @@ import {Inter} from "next/font/google";
 
 const inter = Inter({subsets: ["latin"]});
 import {Providers} from "@/shared/redux/provider";
-import QueryProviders from "@/app/queryProviders";
+import QueryProviders from "@/shared/query/queryProviders";
 
 export default function RootLayout({
                                        children,

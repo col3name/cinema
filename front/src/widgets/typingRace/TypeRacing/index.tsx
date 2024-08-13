@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef} from "react";
 
 import {Container} from "@/shared/ui/Container";
 import {WordListContainer} from "@/widgets/typingRace/ui/WordListContainer";
-import {UpdateTextButton} from "@/features/face/update-text-button";
+import {UpdateTextButton} from "@/features/race/update-text-button";
 import Button from "@/shared/ui/Button";
 import {TimerView} from "@/widgets/typingRace/ui/TimerView";
 import {HiddenInput} from "@/widgets/typingRace/ui/HiddenInput";
@@ -54,6 +54,7 @@ export const TypeRacing: React.FC<TypeRacingProps> = ({
         <Container
             onClick={onFocusHiddenInput}
         >
+            <TimerView />
             <WordListContainer
                 wordsRef={wordsRef}
                 currentWordRef={currentWordRef}
@@ -63,7 +64,6 @@ export const TypeRacing: React.FC<TypeRacingProps> = ({
                 <Button onClick={onReset}>restart</Button>
                 <UpdateTextButton onClick={onClick}/>
             </div>
-            <TimerView />
             <HiddenInput
                 // @ts-ignore
                 ref={hiddenInputRef}

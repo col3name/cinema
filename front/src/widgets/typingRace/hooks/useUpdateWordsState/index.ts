@@ -1,10 +1,10 @@
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
 
 import {setWords} from "@/entities/race/slice";
+import {useAppDispatch} from "@/shared/redux/hooks";
 
 export const useUpdateWordsState =(words?: string[]) =>  {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (words) {
