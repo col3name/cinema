@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ErrorHistoryObject, HistoryResult, RaceStep, TypingAccuracy} from "@/entities/race/model";
-import {WritableDraft} from "immer/src/types/types-external";
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
 
 export type RaceState = {
@@ -11,6 +10,7 @@ export type RaceState = {
     tempErrorObject: ErrorHistoryObject;
     wordIdx: number;
     extraLetters: string[];
+    current: string;
 };
 
 const initialState: RaceState = {
@@ -34,6 +34,7 @@ const initialState: RaceState = {
         words: [],
     },
     extraLetters: [],
+    current: '',
 };
 
 
@@ -50,7 +51,7 @@ const slice = createSlice({
         name: "race",
         initialState: initialState,
         reducers: {
-            onSaveHistory: (state: WritableDraft<RaceState>, action: PayloadAction<onSaveHistoryPayload>) => {
+            onSaveHistory: (state: RaceState, action: PayloadAction<onSaveHistoryPayload>) => {
                 const elapsedSeconds = action.payload.elapsedSeconds;
                 state.historyResult.elapsedSeconds = elapsedSeconds;
                 const {wpm, raw} = calculateWpmAndRaw(elapsedSeconds, state.accuracy);
@@ -66,7 +67,7 @@ const slice = createSlice({
                 state.tempErrorObject.words = [];
             },
 
-            onResetRaceState: (state: WritableDraft<RaceState>) => {
+            onResetRaceState: (state: RaceState) => {
                 state.words = [];
                 state.raceStep = RaceStep.Initial;
                 state.accuracy = {
@@ -87,34 +88,44 @@ const slice = createSlice({
                 };
                 state.wordIdx = 0;
                 state.extraLetters = [];
+                state.current = '';
             },
-            incrementAccuracyIncorrect: (state: WritableDraft<RaceState>) => {
+            incrementAccuracyIncorrect: (state: RaceState) => {
                 state.accuracy.incorrect++;
             },
-            incrementAccuracyCorrect: (state: WritableDraft<RaceState>) => {
+            incrementAccuracyCorrect: (state: RaceState) => {
                 state.accuracy.correct++;
             },
-            incrementAccuracyMissed: (state: WritableDraft<RaceState>, action: PayloadAction<number>) => {
+            incrementAccuracyMissed: (state: RaceState, action: PayloadAction<number>) => {
                 state.accuracy.missed += action.payload;
             },
-            incrementAccuracyExtra: (state: WritableDraft<RaceState>) => {
+            incrementAccuracyExtra: (state: RaceState) => {
                 state.accuracy.extra++;
             },
-            setRaceStep: (state: WritableDraft<RaceState>, action: PayloadAction<RaceStep>) => {
+            setRaceStep: (state: RaceState, action: PayloadAction<RaceStep>) => {
                 state.raceStep = action.payload;
             },
-            incrementErrorObject: (state: WritableDraft<RaceState>, action: PayloadAction<{ count:number, wordIdx: number }>) => {
+            incrementErrorObject: (state: RaceState, action: PayloadAction<{ count:number, wordIdx: number }>) => {
                 state.tempErrorObject.count += action.payload.count;
                 state.tempErrorObject.words.push(action.payload.wordIdx)
             },
-            addExtraLetter: (state: WritableDraft<RaceState>, action: PayloadAction<string>) => {
+            addExtraLetter: (state: RaceState, action: PayloadAction<string>) => {
                 state.extraLetters.push(action.payload);
             },
-            deleteLastExtraLetter: (state: WritableDraft<RaceState>) => {
+            deleteLastExtraLetter: (state: RaceState) => {
                 state.extraLetters = state.extraLetters.splice(0, state.extraLetters.length - 1);
             },
-            resetExtraLetter: (state: WritableDraft<RaceState>) => {
+            resetExtraLetter: (state: RaceState) => {
                 state.extraLetters = [];
+            },
+            deleteLastLetterInCurrentWord: (state: RaceState) => {
+                state.current = state.current.substring(0, state.current.length - 1);
+            },
+            appendLetterInCurrentWord: (state: RaceState, action: PayloadAction<string>) => {
+                state.current += action.payload;
+            },
+            resetCurrentWord: (state: RaceState) => {
+                state.current = '';
             },
         },
     })
@@ -134,6 +145,9 @@ export const {
     addExtraLetter,
     deleteLastExtraLetter,
     resetExtraLetter,
+    appendLetterInCurrentWord,
+    deleteLastLetterInCurrentWord,
+    resetCurrentWord
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,

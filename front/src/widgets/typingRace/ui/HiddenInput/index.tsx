@@ -10,7 +10,7 @@ type HiddenInputProps = {
     top: number;
 }
 
-export const HiddenInput: React.FC<HiddenInputProps> = forwardRef(function Input({
+export const HiddenInput: React.FC<HiddenInputProps> = forwardRef<HTMLInputElement, HiddenInputProps>(function Input({
                                                                        top
                                                                    }, ref) {
     return (
