@@ -15,9 +15,7 @@ export const calculateWpmAndRaw = (
         ((accuracy.correct) * (60 / seconds)) / 5
     );
     const raw = roundTo2(
-        ((accuracy.correct +
-                accuracy.incorrect +
-                accuracy.missed) *
+        ((accuracy.correct + accuracy.incorrect + accuracy.missed + accuracy.extra) *
             (60 / seconds)) /
         5
     );

@@ -7,15 +7,17 @@ import styles from "@/app/monkeytype/client.module.css";
 import {UpdateTextButton} from "@/features/face/update-text-button";
 import Button from "@/shared/ui/Button";
 
-import {ErrorHistoryObject, NewTypingText, RaceStep} from "@/entities/race/model";
+import {NewTypingText, RaceStep} from "@/entities/race/model";
 import {HiddenInput} from "@/widgets/typingRace/ui/HiddenInput";
 import {Container} from "@/shared/ui/Container";
 import {FinalResultContainer as FinalResult} from "@/widgets/typingRace/ui/FinalResult";
 import {useDispatch} from "react-redux";
 import {
     incrementAccuracyCorrect,
+    incrementAccuracyExtra,
     incrementAccuracyIncorrect,
     incrementAccuracyMissed,
+    incrementErrorObject,
     onResetRaceState,
     onSaveHistory,
     setRaceStep,
@@ -83,7 +85,6 @@ export type InputData = {
     // historyResult: HistoryResult;
 };
 
-
 function clearClass(currentWordRef: React.MutableRefObject<HTMLDivElement | null>) {
     const childs = Array.from(currentWordRef.current?.children || []);
     childs[childs.length - 1];
@@ -111,11 +112,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
     const lastRef = useRef<number>(elapsed);
 
-    const tempErrorObjectRef = useRef<ErrorHistoryObject>({
-        count: 0,
-        words: [],
-    });
-
     const prevTimeRef = useRef(0);
 
     const dispatch = useDispatch();
@@ -123,12 +119,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
     const saveHistory = useCallback(() => {
         dispatch(onSaveHistory({
             elapsedSeconds: elapsed,
-            errorHistoryObject: tempErrorObjectRef.current,
         }));
-        tempErrorObjectRef.current = {
-            count: 0,
-            words: [],
-        };
     }, [dispatch, elapsed]);
 
     useEffect(() => {
@@ -174,10 +165,12 @@ export const TypingRace: React.FC<NewTypingText> = ({
         if (inputDataRef.current.letterIdx === 0) {
             return;
         }
-        const currentWord = words[inputDataRef.current.wordIdx];
+        const wordIdx = inputDataRef.current.wordIdx;
+        const currentWord = words[wordIdx];
         if (inputDataRef.current.letterIdx < currentWord.length) {
-            tempErrorObjectRef.current.count += currentWord.length - inputDataRef.current.letterIdx;
-            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            const count = currentWord.length - inputDataRef.current.letterIdx;
+            dispatch(incrementAccuracyMissed(count));
+            dispatch(incrementErrorObject({count, wordIdx}));
         }
 
         dispatch(incrementAccuracyCorrect())
@@ -202,8 +195,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
     const onTypeLetter = useCallback((key: string): void => {
         if (inputDataRef.current.extraLetters.length > 8) {
-            tempErrorObjectRef.current.count++;
-            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            dispatch(incrementErrorObject({count: 1, wordIdx: inputDataRef.current.wordIdx}));
             return;
         }
         inputDataRef.current.letterIdx++;
@@ -212,9 +204,8 @@ export const TypingRace: React.FC<NewTypingText> = ({
         const currentWord = words[state.wordIdx];
         inputDataRef.current.current += key;
         if (nextIdx > currentWord?.length + 1) {
-            tempErrorObjectRef.current.count++;
-            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
-            dispatch(incrementAccuracyMissed())
+            dispatch(incrementErrorObject({count: 1, wordIdx: inputDataRef.current.wordIdx}));
+            dispatch(incrementAccuracyExtra())
             inputDataRef.current.extraLetters.push(key)
             return;
         }
@@ -226,8 +217,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         const childs: Element[] = Array.from(currentWordRef.current?.children || []);
         childs[state.letterIdx - 1]?.classList.remove(styles.letterCurrent);
         if (letter !== key) {
-            tempErrorObjectRef.current.count++;
-            tempErrorObjectRef.current.words.push(inputDataRef.current.wordIdx);
+            dispatch(incrementErrorObject({count: 1, wordIdx: inputDataRef.current.wordIdx}));
             childs[state.letterIdx - 1]?.classList.add(styles.letterWrong);
             dispatch(incrementAccuracyIncorrect());
         } else {
@@ -329,6 +319,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
             />
         );
     }
+    const currentWordIndex = inputDataRef.current.wordIdx;
 
     return (
         <Container
@@ -336,7 +327,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
         >
             <div ref={wordsRef} className={styles.words}>
                 {words.map((word, wordIdx) => {
-                    const isActiveWord = wordIdx === inputDataRef.current.wordIdx;
+                    const isActiveWord = wordIdx === currentWordIndex;
                     return (
                         <div
                             key={`${word}-${wordIdx}`}
@@ -367,7 +358,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
                             })}
                             {isActiveWord && (
                                 <span className={cn(styles.caret, styles.caretBlink)}
-                                      style={{left: Math.max((inputDataRef.current.letterIdx), 0) * 20 + 'px'}}></span>
+                                      style={{left: Math.max(inputDataRef.current.letterIdx, 0) * 20 + 'px'}}></span>
                             )}
                         </div>
                     )
@@ -385,7 +376,3 @@ export const TypingRace: React.FC<NewTypingText> = ({
         </Container>
     );
 };
-
-const noop = () => {
-};
-

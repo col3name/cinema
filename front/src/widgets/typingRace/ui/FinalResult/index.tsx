@@ -24,16 +24,20 @@ const TypingStatistic: React.FC<TypeingStatisticProps> = ({
                                                           }) => {
     const {wpm, raw} = calculateWpmAndRaw(elapsed, accuracy);
 
+    const countTypedLetters = accuracy.correct + accuracy.incorrect + accuracy.missed + accuracy.extra;
     return (
         <div>
             <p>{`elapsed: ${elapsed} seconds`}</p>
-            <p>{`raw cpm: ${Math.floor((accuracy.correct + accuracy.incorrect + accuracy.missed) / elapsed * 60)}`}</p>
+            <p>{`raw cpm: ${Math.floor(countTypedLetters / elapsed * 60)}`}</p>
             <p>{`cpm: ${Math.floor((accuracy.correct) / elapsed * 60)}`}</p>
-            <p>{`accuracy: ${accuracy.correct}/${allChars}`}</p>
-            <p>{`accuracy: ${Math.floor((accuracy.correct / (accuracy.correct + accuracy.incorrect + accuracy.missed)) * 100)}%`}</p>
+            <p>{`accuracy: ${accuracy.correct}/${countTypedLetters}`}</p>
+            <p>{`accuracy: ${Math.floor((accuracy.correct / (countTypedLetters)) * 100)}%`}</p>
             <p>{`wpm: ${wpm}`}</p>
             <p>{`raw: ${raw}`}</p>
-            <p>{`incorrect letters: ${accuracy.incorrect}`}</p>
+            <p>{`correct: ${accuracy.correct}`}</p>
+            <p>{`incorrect: ${accuracy.incorrect}`}</p>
+            <p>{`extra: ${accuracy.extra}`}</p>
+            <p>{`missed: ${accuracy.missed}`}</p>
 
             <Button onClick={onReset}>reset</Button>
         </div>

@@ -8,12 +8,14 @@ export type RaceState = {
     raceStep: RaceStep;
     accuracy: TypingAccuracy;
     historyResult: HistoryResult;
+    tempErrorObject: ErrorHistoryObject;
 };
 
 const initialState: RaceState = {
     words: [],
     raceStep: RaceStep.Initial,
     accuracy: {
+        extra: 0,
         correct: 0,
         incorrect: 0,
         missed: 0,
@@ -24,11 +26,14 @@ const initialState: RaceState = {
         wpmHistory: [],
         rawHistory: [],
     },
+    tempErrorObject: {
+        count: 0,
+        words: [],
+    },
 };
 
 
 type onSaveHistoryPayload = {
-    errorHistoryObject: ErrorHistoryObject;
     elapsedSeconds: number;
     // accuracy: TypingAccuracy;
 }
@@ -48,17 +53,20 @@ const slice = createSlice({
                 state.historyResult.wpmHistory.push(wpm);
                 state.historyResult.rawHistory.push(raw);
 
-                const errorHistoryObject = action.payload.errorHistoryObject;
+                const errorHistoryObject = state.tempErrorObject;
                 state.historyResult.errors.push({
                     count: errorHistoryObject.count,
                     words: Array.from(new Set(errorHistoryObject.words).values())
                 });
+                state.tempErrorObject.count = 0;
+                state.tempErrorObject.words = [];
             },
 
             onResetRaceState: (state: WritableDraft<RaceState>) => {
                 state.words = [];
                 state.raceStep = RaceStep.Initial;
                 state.accuracy = {
+                    extra: 0,
                     correct: 0,
                     incorrect: 0,
                     missed: 0,
@@ -68,7 +76,11 @@ const slice = createSlice({
                     errors: [],
                     wpmHistory: [],
                     rawHistory: [],
-                }
+                };
+                state.tempErrorObject = {
+                    count: 0,
+                    words: [],
+                };
             },
             incrementAccuracyIncorrect: (state: WritableDraft<RaceState>) => {
                 state.accuracy.incorrect++;
@@ -76,12 +88,19 @@ const slice = createSlice({
             incrementAccuracyCorrect: (state: WritableDraft<RaceState>) => {
                 state.accuracy.correct++;
             },
-            incrementAccuracyMissed: (state: WritableDraft<RaceState>) => {
-                state.accuracy.missed++;
+            incrementAccuracyMissed: (state: WritableDraft<RaceState>, action: PayloadAction<number>) => {
+                state.accuracy.missed += action.payload;
+            },
+            incrementAccuracyExtra: (state: WritableDraft<RaceState>) => {
+                state.accuracy.extra++;
             },
             setRaceStep: (state: WritableDraft<RaceState>, action: PayloadAction<RaceStep>) => {
                 state.raceStep = action.payload;
             },
+            incrementErrorObject: (state: WritableDraft<RaceState>, action: PayloadAction<{ count:number, wordIdx: number }>) => {
+                state.tempErrorObject.count += action.payload.count;
+                state.tempErrorObject.words.push(action.payload.wordIdx)
+            }
         },
     })
 ;
@@ -94,7 +113,9 @@ export const {
     incrementAccuracyIncorrect,
     incrementAccuracyCorrect,
     incrementAccuracyMissed,
+    incrementAccuracyExtra,
     setRaceStep,
+    incrementErrorObject,
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,

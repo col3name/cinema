@@ -10,6 +10,7 @@ export type TypingAccuracy = {
     correct: number;
     incorrect: number;
     missed: number;
+    extra: number;
 };
 
 export type ErrorHistoryObject = {
