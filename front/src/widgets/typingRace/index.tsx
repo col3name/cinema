@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import cn from "classnames";
 import {useDispatch} from "react-redux";
 
@@ -13,6 +13,8 @@ import styles from "@/app/monkeytype/client.module.css";
 import {useKeyPress} from "@/shared/hooks";
 import {NewTypingText, RaceStep} from "@/entities/race/model";
 import {
+    addExtraLetter,
+    deleteLastExtraLetter,
     incrementAccuracyCorrect,
     incrementAccuracyExtra,
     incrementAccuracyIncorrect,
@@ -20,9 +22,10 @@ import {
     incrementErrorObject,
     onResetRaceState,
     onSaveHistory,
+    resetExtraLetter,
     setRaceStep,
 } from "@/entities/race/slice";
-import {useCurrentWordIndex, useRaceStep} from "@/entities/race/selector";
+import {useExtraLetters, useRaceStep} from "@/entities/race/selector";
 
 const useTimer = () => {
     const [seconds, setSeconds] = useState<number>(0);
@@ -79,7 +82,6 @@ export type InputData = {
     wordIdx: number;
     length: number;
     letterIdx: number;
-    extraLetters: string[];
 };
 
 const clearClass = (currentWordRef: React.MutableRefObject<HTMLDivElement | null>) => {
@@ -100,7 +102,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
         length,
         wordIdx: 0,
         letterIdx: 0,
-        extraLetters: [],
     };
 
     const {elapsed, startedAt, startTimer, stopTimer, resetTimer,} = useTimer();
@@ -132,6 +133,11 @@ export const TypingRace: React.FC<NewTypingText> = ({
     const currentWordRef = useRef<HTMLDivElement | null>(null);
     const currentLetterRef = useRef<HTMLSpanElement | null>(null);
 
+    const extraLetters = useExtraLetters();
+    const currentLetterIndex = inputDataRef.current.letterIdx;
+    // const currentWordIndex = useCurrentWordIndex();
+    const currentWordIndex = inputDataRef.current.wordIdx;
+
     const onPressBackspace = useCallback((): void => {
         const currentLetterIndex = inputDataRef.current.letterIdx;
 
@@ -144,11 +150,10 @@ export const TypingRace: React.FC<NewTypingText> = ({
         item?.classList.remove(styles.letterWrong);
 
         // -------
-        const extraLetters: string[] = inputDataRef.current.extraLetters;
         const current: string = inputDataRef.current.current;
         if (extraLetters.length > 0) {
             inputDataRef.current.letterIdx--;
-            inputDataRef.current.extraLetters = extraLetters.splice(0, extraLetters.length - 1);
+            dispatch(deleteLastExtraLetter())
             inputDataRef.current.current = current.substring(0, current.length - 1);
             return;
         }
@@ -157,17 +162,13 @@ export const TypingRace: React.FC<NewTypingText> = ({
             inputDataRef.current.letterIdx--;
             return;
         }
-    }, []);
-
-    // const currentWordIndex = useCurrentWordIndex();
-    const currentWordIndex = inputDataRef.current.wordIdx;
+    }, [dispatch, extraLetters.length]);
 
     const onPressSpaceBar = useCallback(() => {
         const currentLetterIndex = inputDataRef.current.letterIdx;
         if (currentLetterIndex === 0) {
             return;
         }
-        const currentWordIndex = inputDataRef.current.wordIdx;
         const currentWord = words[currentWordIndex];
         if (currentLetterIndex < currentWord.length) {
             const count = currentWord.length - currentLetterIndex;
@@ -189,17 +190,16 @@ export const TypingRace: React.FC<NewTypingText> = ({
         if (inputDataRef.current.wordIdx < words.length) {
             inputDataRef.current.current = '';
             inputDataRef.current.letterIdx = 0;
-            inputDataRef.current.extraLetters = [];
+            dispatch(resetExtraLetter());
         } else {
             saveHistory();
             stopTimer();
             dispatch(setRaceStep(RaceStep.Final));
         }
-    }, [dispatch, saveHistory, stopTimer, words, currentWordIndex]);
+    }, [currentWordIndex, dispatch, saveHistory, stopTimer, words]);
 
     const onTypeLetter = useCallback((key: string): void => {
-        const currentWordIndex = inputDataRef.current.wordIdx;
-        if (inputDataRef.current.extraLetters.length > 8) {
+        if (extraLetters.length > 8) {
             dispatch(incrementErrorObject({count: 1, wordIdx: currentWordIndex}));
             return;
         }
@@ -213,12 +213,12 @@ export const TypingRace: React.FC<NewTypingText> = ({
         if (nextLetterIndex > currentWord?.length + 1) {
             dispatch(incrementErrorObject({count: 1, wordIdx: currentWordIndex}));
             dispatch(incrementAccuracyExtra())
-            inputDataRef.current.extraLetters.push(key)
+            dispatch(addExtraLetter(key));
             return;
         }
         const currentLetter: string = currentWord?.[currentLetterIndex - 1];
         if (inputDataRef.current.current.length > currentWord.length) {
-            inputDataRef.current.extraLetters.push(key)
+            dispatch(addExtraLetter(key));
         }
 
         const isSame = currentLetter === key;
@@ -231,10 +231,10 @@ export const TypingRace: React.FC<NewTypingText> = ({
 
         const childrenElements: Element[] = Array.from(currentWordRef.current?.children || []);
         childrenElements[currentLetterIndex - 1]?.classList.remove(styles.letterCurrent);
-        childrenElements[currentLetterIndex - 1]?.classList.add(isSame? styles.letterRight : styles.letterWrong);
+        childrenElements[currentLetterIndex - 1]?.classList.add(isSame ? styles.letterRight : styles.letterWrong);
         childrenElements[currentLetterIndex]?.classList.add(styles.letterCurrent);
         currentLetterRef.current = childrenElements[currentLetterIndex] as HTMLSpanElement;
-    }, [dispatch, words])
+    }, [currentWordIndex, dispatch, extraLetters.length, words])
 
     const raceStep: RaceStep = useRaceStep();
 
@@ -261,7 +261,7 @@ export const TypingRace: React.FC<NewTypingText> = ({
                 break;
             }
         }
-    }, [words, raceStep, dispatch]);
+    }, [raceStep, dispatch, startTimer, onPressBackspace, onPressSpaceBar, onTypeLetter]);
 
     useKeyPress(handleKeyPress);
 
@@ -286,7 +286,6 @@ export const TypingRace: React.FC<NewTypingText> = ({
             length,
             wordIdx: 0,
             letterIdx: 0,
-            extraLetters: [],
         };
         clearClass(currentWordRef);
         resetTimer();
@@ -315,6 +314,13 @@ export const TypingRace: React.FC<NewTypingText> = ({
         resetTimer();
     }, [onReset, resetTimer]);
 
+
+    const renderLetterList = useCallback((word: string, isActiveWord: boolean): React.ReactNode => {
+        return <LetterList ref={currentLetterRef} word={word} isActiveWord={isActiveWord}
+                           currentLetterIndex={currentLetterIndex}/>
+    }, [currentLetterIndex]);
+    const renderCaret = useCallback(() => <CaretMemoized currentLetterIndex={currentLetterIndex}
+                                                         key={currentWordIndex}/>, [currentLetterIndex, currentWordIndex]);
     if (raceStep === RaceStep.Final) {
         return (
             <FinalResult
@@ -330,45 +336,16 @@ export const TypingRace: React.FC<NewTypingText> = ({
         <Container
             onClick={onFocusHiddenInput}
         >
-            <div ref={wordsRef} className={styles.words}>
-                {words.map((word, wordIdx) => {
-                    const isActiveWord = wordIdx === currentWordIndex;
-                    return (
-                        <div
-                            key={`${word}-${wordIdx}`}
-                            ref={isActiveWord ? currentWordRef : null}
-                            className={cn(styles.word, isActiveWord && styles.wordActive)}
-                        >
-                            {word.split('').map((letter, letterIdx) => {
-                                const isCurrent = isActiveWord && letterIdx === inputDataRef.current.letterIdx;
-                                return (
-                                    <span
-                                        key={`${letter}-${letterIdx}-${wordIdx}`}
-                                        ref={isCurrent ? currentLetterRef : null}
-                                        className={styles.letter}
-                                    >
-                                        {letter}
-                                    </span>
-                                )
-                            })}
-                            {isActiveWord && inputDataRef.current.extraLetters.map((letter, letterIdx) => {
-                                return (
-                                    <span
-                                        key={`${letter}-${letterIdx}-${wordIdx}`}
-                                        className={styles.letterExtra}
-                                    >
-                                        {letter}
-                                    </span>
-                                )
-                            })}
-                            {isActiveWord && (
-                                <span className={cn(styles.caret, styles.caretBlink)}
-                                      style={{left: Math.max(inputDataRef.current.letterIdx, 0) * 20 + 'px'}}></span>
-                            )}
-                        </div>
-                    )
-                })}
-            </div>
+            <WordList
+                ref={wordsRef}
+                words={words}
+                currentWordIndex={currentWordIndex}
+                currentWordRef={currentWordRef}
+                renderLetterList={renderLetterList}
+                renderCaret={renderCaret}
+            >
+                <ExtraLetters letters={extraLetters}/>
+            </WordList>
             <div className={styles.actions}>
                 <Button onClick={onReset}>restart</Button>
                 <UpdateTextButton onClick={onClick}/>
@@ -381,3 +358,186 @@ export const TypingRace: React.FC<NewTypingText> = ({
         </Container>
     );
 };
+
+
+type WordMemoizedProps = {
+    isActive: boolean;
+    word: string;
+    children: React.ReactNode;
+    renderLetterList: (word: string, isActiveWord: boolean) => React.ReactNode;
+    renderCaret: () => React.ReactNode;
+};
+
+const WordMemoized: React.FC<WordMemoizedProps> = memo(forwardRef(function WordMemoized({
+                                                                                            isActive,
+                                                                                            word,
+                                                                                            renderLetterList,
+                                                                                            children,
+                                                                                            renderCaret,
+                                                                                        }, ref) {
+        const renderLetterList1 = useMemo(() => renderLetterList(word, isActive), [renderLetterList, word, isActive]);
+        return (
+            <div
+                ref={isActive ? ref : null}
+                className={styles.word}
+            >
+                {renderLetterList1}
+                {isActive && (
+                    <>
+                        {children}
+                        {renderCaret()}
+                    </>
+                )}
+            </div>
+        );
+    }), (prevProps, nextProps) =>
+        prevProps.isActive === nextProps.isActive &&
+        prevProps.word === nextProps.word &&
+        prevProps.children === nextProps.children
+);
+
+type WordListProps = {
+    words: string[];
+    currentWordIndex: number;
+    currentLetterIndex?: number;
+    children: React.ReactNode;
+    currentWordRef: React.MutableRefObject<HTMLDivElement | null>
+    renderLetterList: (word: string, isActiveWord: boolean) => React.ReactNode;
+    renderCaret: () => React.ReactNode;
+}
+
+const WordList: React.FC<WordListProps> = forwardRef(function WordList({
+                                                                           words,
+                                                                           currentWordIndex,
+                                                                           children,
+                                                                           currentLetterIndex,
+                                                                           renderLetterList,
+                                                                           renderCaret,
+                                                                           currentWordRef,
+                                                                       }, ref: React.ForwardedRef<HTMLDivElement | null>) {
+    return (
+        <div ref={ref} className={styles.words}>
+            {words.map((word: string, wordIdx: number) => {
+                // const isVisible = Math.abs( currentWordIndex - wordIdx) < 50;
+                // if (!isVisible) {
+                //     return null;
+                // }
+
+                const isActiveWord = wordIdx === currentWordIndex;
+                return (
+                    <WordMemoized
+                        key={ `${wordIdx}-${word}`}
+                        ref={currentWordRef}
+                        isActive={isActiveWord}
+                        word={word}
+                        currentLetterIndex={currentLetterIndex}
+                        renderLetterList={renderLetterList}
+                        renderCaret={renderCaret}
+                    >
+                        {children}
+                    </WordMemoized>
+                );
+            })}
+        </div>
+    );
+});
+
+
+type LetterListProps = {
+    word: string;
+    isActiveWord: boolean;
+    currentLetterIndex: number;
+}
+
+const LetterList: React.FC<LetterListProps> = forwardRef(function LetterList({
+                                                                                 word,
+                                                                                 isActiveWord,
+                                                                                 currentLetterIndex,
+                                                                             }, ref) {
+    const letters: string[] = useMemo(() => word.split(''), [word]);
+
+    return letters.map((letter: string, letterIdx: number) => {
+        const isCurrent = isActiveWord && letterIdx === currentLetterIndex;
+        return (
+            <LetterMemoized
+                key={`${letter}-${letterIdx}`}
+                ref={isCurrent ? ref : null}
+                isCurrent={isCurrent}
+            >
+                {letter}
+            </LetterMemoized>
+        );
+    });
+});
+
+type WordProps = {
+    isActive: boolean;
+    children: React.ReactNode;
+}
+
+const Word: React.FC<WordProps> = memo(forwardRef(function Word({
+                                                                    isActive,
+                                                                    children,
+                                                                }, ref) {
+    return (
+        <section
+            ref={isActive ? ref : null}
+            className={cn(styles.word, isActive && styles.wordActive)}
+        >
+            {children}
+        </section>
+    );
+}));
+
+type ExtraLetters = {
+    letters: string[];
+};
+
+const ExtraLetters: React.FC<ExtraLetters> = ({
+                                                  letters,
+                                              }) => {
+    return letters.map((letter: string, letterIdx: number) => {
+        return (
+            <LetterMemoized
+                key={`${letter}-${letterIdx}`}
+                isExtra
+            >
+                {letter}
+            </LetterMemoized>
+        );
+    });
+};
+
+type CaretProps = {
+    currentLetterIndex: number;
+};
+
+const Caret: React.FC<CaretProps> = ({
+                                         currentLetterIndex
+                                     }) => {
+    const left = Math.max(currentLetterIndex, 0) * 20 + 'px';
+    return (
+        <span className={cn(styles.caret, styles.caretBlink)} style={{left}}/>
+    );
+}
+
+const CaretMemoized = memo(Caret);
+
+type LetterProps = {
+    isCurrent?: boolean;
+    isExtra?: boolean;
+    children: React.ReactNode;
+};
+
+const Letter = forwardRef(function Letter(props: LetterProps, ref) {
+    return (
+        <span
+            ref={props.isCurrent ? ref : null}
+            className={!props.isExtra ? styles.letter : styles.letterExtra}
+        >
+            {props.children}
+        </span>
+    );
+});
+
+const LetterMemoized = memo(Letter);

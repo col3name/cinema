@@ -108,7 +108,13 @@ const slice = createSlice({
                 state.tempErrorObject.words.push(action.payload.wordIdx)
             },
             addExtraLetter: (state: WritableDraft<RaceState>, action: PayloadAction<string>) => {
-
+                state.extraLetters.push(action.payload);
+            },
+            deleteLastExtraLetter: (state: WritableDraft<RaceState>) => {
+                state.extraLetters = state.extraLetters.splice(0, state.extraLetters.length - 1);
+            },
+            resetExtraLetter: (state: WritableDraft<RaceState>) => {
+                state.extraLetters = [];
             },
         },
     })
@@ -125,6 +131,9 @@ export const {
     incrementAccuracyExtra,
     setRaceStep,
     incrementErrorObject,
+    addExtraLetter,
+    deleteLastExtraLetter,
+    resetExtraLetter,
     // addToCart,
     // decrementQuantity,
     // confirmTheRemoveFromCart,
