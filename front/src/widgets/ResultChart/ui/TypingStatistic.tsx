@@ -1,21 +1,16 @@
 import {TypingAccuracy} from "@/entities/race/model";
 import React from "react";
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
-import Button from "@/shared/ui/Button";
 
 type TypeingStatisticProps = {
     elapsed: number;
-    allChars: number;
     allWords: number;
     accuracy: TypingAccuracy;
-    onReset: () => void;
 };
 
 export const TypingStatistic: React.FC<TypeingStatisticProps> = ({
                                                               accuracy,
                                                               elapsed,
-                                                              allChars,
-                                                              onReset,
                                                           }) => {
     const {wpm, raw} = calculateWpmAndRaw(elapsed, accuracy);
 
@@ -33,8 +28,6 @@ export const TypingStatistic: React.FC<TypeingStatisticProps> = ({
             <p>{`incorrect: ${accuracy.incorrect}`}</p>
             <p>{`extra: ${accuracy.extra}`}</p>
             <p>{`missed: ${accuracy.missed}`}</p>
-
-            <Button onClick={onReset}>reset</Button>
         </div>
     );
 };

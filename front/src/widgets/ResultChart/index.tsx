@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Chart, registerables } from "chart.js";
+import React, {useLayoutEffect, useRef} from "react";
+import {Chart, registerables} from "chart.js";
 import chartTrendline from "chartjs-plugin-trendline";
 
 type ChartViewProps = {
@@ -19,7 +19,7 @@ const ResultChart: React.FC<ChartViewProps> = ({
     Chart.register(...registerables);
     Chart.register(chartTrendline);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const ctx = chartRef.current?.getContext("2d");
         if (!ctx) {
             return;

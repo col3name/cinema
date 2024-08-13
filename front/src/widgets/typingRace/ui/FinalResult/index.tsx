@@ -6,6 +6,7 @@ import {TypingStatistic} from "@/widgets/ResultChart/ui/TypingStatistic";
 const ResultChart = lazy(() => import("@/widgets/ResultChart"))
 
 import {useElapsedSeconds, useHistoryResult, useRaceTypingAccuracy, useWordsCount} from "@/entities/race/selector";
+import Button from "@/shared/ui/Button";
 
 type FinalResultProps = {
     allChars: number;
@@ -20,7 +21,9 @@ export const FinalResultContainer: React.FC<FinalResultProps> = (props: FinalRes
 
     return (
         <Container>
-            <Suspense>
+            <Button onClick={props.onReset}>reset</Button>
+            <TypingStatistic elapsed={elapsedSeconds} allWords={allWords} accuracy={accuracy}/>
+            <Suspense fallback={<div style={{height: 400, width: 400}}></div>}>
                 <ResultChart
                     seconds={elapsedSeconds}
                     raw={historyResult.rawHistory.filter(it => it !== Infinity)}
@@ -28,7 +31,6 @@ export const FinalResultContainer: React.FC<FinalResultProps> = (props: FinalRes
                     errors={historyResult.errors.map(it => it.count)}
                 />
             </Suspense>
-            <TypingStatistic {...props} elapsed={elapsedSeconds}  allWords={allWords} accuracy={accuracy}/>
         </Container>
     );
 }
