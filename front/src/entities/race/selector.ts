@@ -12,6 +12,9 @@ import {HistoryResult, RaceStep, TypingAccuracy} from "@/entities/race/model";
 export const useRaceWords = (): string[] =>
     useAppSelector((state: RootState) => state.race.words);
 
+export const useCurrentWordIndex = (): number =>
+    useAppSelector((state: RootState) => state.race.wordIdx);
+
 export const useHistoryResult = (): HistoryResult =>
     useAppSelector((state: RootState) => state.race.historyResult);
 export const useRaceTypingAccuracy = (): TypingAccuracy =>

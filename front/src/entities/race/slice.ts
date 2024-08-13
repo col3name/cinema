@@ -9,10 +9,12 @@ export type RaceState = {
     accuracy: TypingAccuracy;
     historyResult: HistoryResult;
     tempErrorObject: ErrorHistoryObject;
+    wordIdx: number;
 };
 
 const initialState: RaceState = {
     words: [],
+    wordIdx: 0,
     raceStep: RaceStep.Initial,
     accuracy: {
         extra: 0,
@@ -81,6 +83,7 @@ const slice = createSlice({
                     count: 0,
                     words: [],
                 };
+                state.wordIdx = 0;
             },
             incrementAccuracyIncorrect: (state: WritableDraft<RaceState>) => {
                 state.accuracy.incorrect++;
