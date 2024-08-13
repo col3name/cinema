@@ -21,6 +21,16 @@ type UseHandleTypingProps = {
     stopTimer: VoidFunction;
     startTimer: VoidFunction;
 }
+
+const moveToNextWord = (wordsRef: React.MutableRefObject<HTMLDivElement | null>, currentWordIndex: number, currentWordRef: React.MutableRefObject<HTMLDivElement | null>) => {
+    const wordElementList: Element[] = Array.from(wordsRef.current?.children || []);
+    const currentWordElement: Element = wordElementList?.[currentWordIndex];
+    const fromElement: Element = Array.from(currentWordElement?.children || [])?.[0];
+    fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
+    fromElement?.classList?.add(styles.letterCurrent);
+    clearClass(currentWordRef);
+}
+
 export const useHandleTyping = ({
                                     resetTimer,
                                     stopTimer,
@@ -54,13 +64,7 @@ export const useHandleTyping = ({
         if (currentWordIndex + 1 >= words.length) {
             stopTimer();
         }
-
-        const wordElementList: Element[] = Array.from(wordsRef.current?.children || []);
-        const currentWordElement: Element = wordElementList[currentWordIndex];
-        const fromElement: Element = Array.from(currentWordElement?.children || [])?.[0];
-        fromElement?.scrollIntoView({block: 'center', behavior: 'smooth'});
-        fromElement?.classList?.add(styles.letterCurrent);
-        clearClass(currentWordRef);
+        moveToNextWord(wordsRef, currentWordIndex, currentWordRef);
     }, [dispatch, currentWordIndex, words.length, stopTimer]);
 
     const onTypeLetter = useCallback((key: string): void => {

@@ -6,22 +6,20 @@ import Button from "@/shared/ui/Button";
 import {wordsKey} from "@/entities/race/const";
 
 type UpdateTextButtonProps = {
-    children?: React.ReactNode;
-    onClick: VoidFunction;
+    onClick?: VoidFunction;
 }
 
 export const UpdateTextButton: React.FC<UpdateTextButtonProps> = ({
-                                                               onClick,
-                                                               children = undefined
-                                                           }) => {
+                                                                      onClick,
+                                                                  }) => {
     const queryClient: QueryClient = useQueryClient();
 
     const onUpdateText = useCallback(async () => {
+        onClick?.();
         await queryClient.invalidateQueries({queryKey: [wordsKey]});
-        onClick();
     }, [onClick, queryClient]);
 
     return (
-        <Button onClick={onUpdateText}>update text{children && children}</Button>
+        <Button onClick={onUpdateText}>update text</Button>
     );
 };
