@@ -3,10 +3,9 @@ type FetchWordsResponse = {
     length: number;
 };
 
-const vercelurl = process.env.VERCEL_URL;
-const baseUrl = (!vercelurl || vercelurl?.length ===0) ? 'http://localhost:8080' : vercelurl;
+const baseUrl = process.env.NODE_ENV === 'production' ? 'https://ticket-search-beryl.vercel.app' : 'http://localhost:8080';
 
-export const fetchWords = async (): Promise<FetchWordsResponse| undefined> => {
+export const fetchWords = async (): Promise<FetchWordsResponse | undefined> => {
     try {
         console.log({baseUrl});
         const response = await fetch(baseUrl + '/api/text')
