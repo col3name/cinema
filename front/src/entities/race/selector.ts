@@ -8,8 +8,13 @@ export const useCurrentLetterIndex = (): number =>
 export const useExtraLetters = (): string[] =>
     useAppSelector((state: RootState) => state.race.extraLetters);
 
+export const useElapsedSeconds = (): number =>
+    useAppSelector((state: RootState) => state.race.elapsed);
 export const useCurrentWordIndex = (): number =>
     useAppSelector((state: RootState) => state.race.wordIdx);
+
+export const useWords = (): string[] =>
+    useAppSelector((state: RootState) => state.race.words);
 
 export const useHistoryResult = (): HistoryResult =>
     useAppSelector((state: RootState) => state.race.historyResult);

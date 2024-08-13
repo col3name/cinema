@@ -3,18 +3,20 @@ import {ErrorHistoryObject, HistoryResult, RaceStep, TypingAccuracy} from "@/ent
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
 
 export type RaceState = {
+    wordIdx: number;
+    elapsed: number;
     words: string[],
     raceStep: RaceStep;
     accuracy: TypingAccuracy;
     historyResult: HistoryResult;
-    tempErrorObject: ErrorHistoryObject;
     letterIdx: number;
-    wordIdx: number;
+    tempErrorObject: ErrorHistoryObject;
     extraLetters: string[];
     current: string;
 };
 
 const initialState: RaceState = {
+    elapsed: 0,
     words: [],
     wordIdx: 0,
     letterIdx: 0,
@@ -39,18 +41,15 @@ const initialState: RaceState = {
     current: '',
 };
 
-
-type onSaveHistoryPayload = {
-    elapsedSeconds: number;
-}
-
-
 const slice = createSlice({
         name: "race",
         initialState: initialState,
         reducers: {
-            onSaveHistory: (state: RaceState, action: PayloadAction<onSaveHistoryPayload>) => {
-                const elapsedSeconds = action.payload.elapsedSeconds;
+            setElapsedSeconds: (state: RaceState, action: PayloadAction<number>) => {
+                state.elapsed = action.payload;
+            },
+            onSaveHistory: (state: RaceState) => {
+                const elapsedSeconds = state.elapsed;
                 state.historyResult.elapsedSeconds = elapsedSeconds;
                 const {wpm, raw} = calculateWpmAndRaw(elapsedSeconds, state.accuracy);
                 state.historyResult.wpmHistory.push(wpm);
@@ -65,7 +64,8 @@ const slice = createSlice({
                 state.tempErrorObject.words = [];
             },
             onResetRaceState: (state: RaceState) => {
-                state.words = [];
+                // state.words = [];
+                state.elapsed = 0;
                 state.raceStep = RaceStep.Initial;
                 state.accuracy = {
                     extra: 0,
@@ -98,12 +98,10 @@ const slice = createSlice({
             deleteLastTypedLetter: (state: RaceState) => {
                 if (state.extraLetters.length > 0) {
                     slice.caseReducers.deleteLastExtraLetter(state);
-                    // dispatch(deleteLastExtraLetter());
                     return;
                 }
                 if (state.current.length > 0) {
                     slice.caseReducers.deleteLastLetterInCurrentWord(state);
-                    // dispatch(deleteLastLetterInCurrentWord());
                     return;
                 }
             },
@@ -158,15 +156,15 @@ const slice = createSlice({
                     state.accuracy.correct++;
                 }
             },
-            pressSpaceBar: (state: RaceState, action: PayloadAction<number>) => {
-                if ( state.letterIdx === 0) {
+            pressSpaceBar: (state: RaceState) => {
+                if (state.letterIdx === 0) {
                     return;
                 }
                 const currentWord = state.words[state.wordIdx];
                 if (state.letterIdx < currentWord.length) {
                     const count = currentWord.length - state.letterIdx;
                     state.accuracy.missed += count;
-                    slice.caseReducers.incrementErrorObject(state, {type: action.type, payload: {count}});
+                    slice.caseReducers.incrementErrorObject(state, {type: 'incrementErrorObject', payload: {count}});
                 }
                 state.accuracy.correct++;
                 state.wordIdx++;
@@ -174,7 +172,7 @@ const slice = createSlice({
                 if (state.wordIdx + 1 <= state.words.length) {
                     slice.caseReducers.moveToNextWord(state);
                 } else {
-                    slice.caseReducers.onSaveHistory(state, {type: action.type, payload: {elapsedSeconds: action.payload}});
+                    slice.caseReducers.onSaveHistory(state);
                     state.raceStep = RaceStep.Final;
                 }
             }
@@ -185,6 +183,7 @@ const slice = createSlice({
 export const raceReducer = slice.reducer;
 
 export const {
+    setElapsedSeconds,
     setWords,
     onResetRaceState,
     onSaveHistory,
