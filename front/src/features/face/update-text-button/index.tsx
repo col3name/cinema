@@ -19,7 +19,7 @@ export const UpdateTextButton: React.FC<UpdateTextButtonProps> = ({
     const onUpdateText = useCallback(async () => {
         await queryClient.invalidateQueries({queryKey: [wordsKey]});
         onClick();
-    }, [queryClient]);
+    }, [onClick, queryClient]);
 
     return (
         <Button onClick={onUpdateText}>update text{children && children}</Button>

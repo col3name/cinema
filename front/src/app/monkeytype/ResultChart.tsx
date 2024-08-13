@@ -89,7 +89,7 @@ const ResultChart: React.FC<ChartViewProps> = ({
             }
         });
         myChart.update();
-    }, []);
+    }, [errors, raw, seconds, wpm]);
 
     return (
         <div>

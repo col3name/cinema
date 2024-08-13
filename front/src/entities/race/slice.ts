@@ -10,6 +10,7 @@ export type RaceState = {
     historyResult: HistoryResult;
     tempErrorObject: ErrorHistoryObject;
     wordIdx: number;
+    extraLetters: string[];
 };
 
 const initialState: RaceState = {
@@ -32,6 +33,7 @@ const initialState: RaceState = {
         count: 0,
         words: [],
     },
+    extraLetters: [],
 };
 
 
@@ -84,6 +86,7 @@ const slice = createSlice({
                     words: [],
                 };
                 state.wordIdx = 0;
+                state.extraLetters = [];
             },
             incrementAccuracyIncorrect: (state: WritableDraft<RaceState>) => {
                 state.accuracy.incorrect++;
@@ -103,7 +106,10 @@ const slice = createSlice({
             incrementErrorObject: (state: WritableDraft<RaceState>, action: PayloadAction<{ count:number, wordIdx: number }>) => {
                 state.tempErrorObject.count += action.payload.count;
                 state.tempErrorObject.words.push(action.payload.wordIdx)
-            }
+            },
+            addExtraLetter: (state: WritableDraft<RaceState>, action: PayloadAction<string>) => {
+
+            },
         },
     })
 ;
