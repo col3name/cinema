@@ -3,20 +3,23 @@
 import React from "react";
 
 import Layout from "@/shared/ui/Layout";
-import {useGetWords} from "@/entities/race/hook";
+import {TypeRacer} from "@/widgets/typingRace/ui/TypeRacer";
+
+import {useGetWords} from "@/entities/typeRacing/hook";
 import {useUpdateWordsState} from "@/widgets/typingRace/hooks/useUpdateWordsState";
-import {RacingSteps} from "@/widgets/typingRace/RacingSteps";
 
 export const MonkeyTypeRacing = () => {
-    const {data, isError} = useGetWords();
+    const {data, isLoading, isFetching, isError} = useGetWords();
 
-    useUpdateWordsState(data?.words);
+    useUpdateWordsState(data?.words, data?.length);
 
     return (
         <Layout>
             {isError && (<p>Error</p>)}
-            {data && (
-                <RacingSteps length={data.length} words={data.words}/>
+            {isFetching && <div>Update Text</div>}
+            {isLoading && <div>Loading</div>}
+            {!isLoading && !isFetching && data && (
+                <TypeRacer />
             )}
         </Layout>
     );

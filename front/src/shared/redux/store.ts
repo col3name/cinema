@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import {raceReducer} from "@/entities/race/slice";
+import {typeRacingReducer} from "@/entities/typeRacing/slice";
 
 const store = configureStore({
   reducer: {
-    race: raceReducer,
+    typeRacing: typeRacingReducer
   },
 });
 

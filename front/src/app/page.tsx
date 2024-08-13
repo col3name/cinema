@@ -5,7 +5,7 @@ import {DehydrateState} from "@/shared/ui/DehydrateState";
 
 import getQueryClient from "@/shared/query/getQueryClient";
 import {MonkeyTypeRacing} from "@/widgets/typingRace";
-import {wordsKey} from "@/entities/race/const";
+import {wordsKey} from "@/entities/typeRacing/const";
 import {fetchWords} from "@/api";
 
 async function MonkeyType() {

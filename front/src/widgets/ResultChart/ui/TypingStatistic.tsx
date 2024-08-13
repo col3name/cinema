@@ -1,4 +1,4 @@
-import {TypingAccuracy} from "@/entities/race/model";
+import {TypingAccuracy} from "@/entities/typeRacing/model";
 import React from "react";
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
 

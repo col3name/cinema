@@ -1,4 +1,4 @@
-import {TypingAccuracy} from "@/entities/race/model";
+import {TypingAccuracy} from "@/entities/typeRacing/model";
 import {roundTo2} from "@/shared/lib/math";
 
 type WpmAndRaw = {

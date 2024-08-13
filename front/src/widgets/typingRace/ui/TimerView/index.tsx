@@ -1,8 +1,8 @@
 import React from "react";
 
-import {useElapsedSeconds} from "@/entities/race/selector";
+import {useElapsedSeconds} from "@/entities/typeRacing/selector";
 
-export const TimerView = () => {
+export const ElapsedSecond = () => {
     const elapsed = useElapsedSeconds();
 
     return <span>{elapsed}</span>

@@ -1,40 +1,32 @@
-import React, {forwardRef, memo, useMemo} from "react";
+import React, {forwardRef} from "react";
+
+import {LetterMemo} from "@/widgets/typingRace/ui/Letter";
+import {ExtraLetters} from "@/widgets/typingRace/ui/Letter/extraLetters";
 
 import styles from "./stylesWords.module.css";
 
-type WordMemoizedProps = {
-    isActive: boolean;
-    word: string;
-    children: React.ReactNode;
-    renderLetterList: (word: string, isActiveWord: boolean) => React.ReactNode;
-    renderCaret: () => React.ReactNode;
-};
+import {ILetter, IWord} from "@/entities/typeRacing/slice";
 
-export const WordMemoized: React.FC<WordMemoizedProps> = memo(forwardRef<HTMLDivElement, WordMemoizedProps>(function WordMemoized({
-                                                                                                                               isActive,
-                                                                                                                               word,
-                                                                                                                               renderLetterList,
-                                                                                                                               children,
-                                                                                                                               renderCaret,
-                                                                                                                           }, ref) {
-        const renderLetterList1 = useMemo(() => renderLetterList(word, isActive), [renderLetterList, word, isActive]);
-        return (
-            <div
-                // @ts-ignore
-                ref={isActive ? ref : null}
-                className={styles.word}
-            >
-                {renderLetterList1}
-                {isActive && (
-                    <>
-                        {children}
-                        {renderCaret()}
-                    </>
-                )}
-            </div>
-        );
-    }), (prevProps, nextProps) =>
-        prevProps.isActive === nextProps.isActive &&
-        prevProps.word === nextProps.word &&
-        prevProps.children === nextProps.children
-);
+type WordProps = {
+    word: IWord;
+}
+
+const Word: React.FC<WordProps> = forwardRef(function Word({
+                                                               word,
+                                                           }, ref) {
+    return (
+        // @ts-ignore
+        <div ref={ref} className={styles.word}>
+            {word.letters.map((letter: ILetter, index: number) => {
+                return (
+                    <LetterMemo key={`${letter.id}-${letter.text}-${letter.type}-${index}`} letter={letter}/>
+                );
+            })}
+            {word.isActive && (
+                <ExtraLetters extraLetters={word.extraLetters} />
+            )}
+        </div>
+    );
+});
+
+export const WordMemo = React.memo(Word);

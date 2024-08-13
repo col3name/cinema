@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -11,4 +12,8 @@
     color: #d1d0c5;
 
     user-select: none;
+}
+
+.containerHalf {
+    max-width: 600px;
 }

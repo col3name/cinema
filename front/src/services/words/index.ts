@@ -17,7 +17,7 @@ export const getWords = (countWords: number|undefined = 0): WordData => {
 
     let count: number;
     if (!countWords) {
-        count = randomInt(10, 30);
+        count = randomInt(10, 15);
     } else {
         count = (countWords < 10) ? randomInt(10, 30): countWords;
     }

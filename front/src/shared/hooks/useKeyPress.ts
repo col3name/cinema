@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 
-
 export const useKeyPress = (callback: any) => {
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
 
     useEffect(() => {
         const downHandler = (e: any) => {
             const {key} = e;
+
             if ((key.length === 1 || key === "Backspace")) {
                 setKeyPressed(key);
                 callback && callback(key);

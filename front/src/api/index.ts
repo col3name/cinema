@@ -7,7 +7,6 @@ const baseUrl = process.env.NODE_ENV === 'production' ? 'https://ticket-search-b
 
 export const fetchWords = async (): Promise<FetchWordsResponse | undefined> => {
     try {
-        console.log({baseUrl});
         const response = await fetch(baseUrl + '/api/text')
         return await response.json();
     } catch (_) {

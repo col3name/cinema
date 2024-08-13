@@ -1,29 +1,33 @@
-import {HistoryResult, TypingAccuracy} from "@/entities/race/model";
 import React, {lazy, Suspense} from "react";
 
 import {Container} from "@/shared/ui/Container";
-import {TypingStatistic} from "@/widgets/ResultChart/ui/TypingStatistic";
-const ResultChart = lazy(() => import("@/widgets/ResultChart"))
-
-import {useElapsedSeconds, useHistoryResult, useRaceTypingAccuracy, useWordsCount} from "@/entities/race/selector";
 import Button from "@/shared/ui/Button";
+import {TypingStatistic} from "@/widgets/ResultChart/ui/TypingStatistic";
+const ResultChart = lazy(() => import("@/widgets/ResultChart"));
+
+import {HistoryResult, TypingAccuracy} from "@/entities/typeRacing/model";
+import {
+    useElapsedSeconds,
+    useHistoryResult,
+    useRaceTypingAccuracy,
+    useWordsCount
+} from "@/entities/typeRacing/selector";
 
 type FinalResultProps = {
-    allChars: number;
     onReset: () => void;
 };
 
-export const FinalResultContainer: React.FC<FinalResultProps> = (props: FinalResultProps) => {
+export const FinalResultContainer: React.FC<FinalResultProps> = (props) => {
     const historyResult: HistoryResult = useHistoryResult();
     const accuracy: TypingAccuracy = useRaceTypingAccuracy();
     const allWords = useWordsCount();
     const elapsedSeconds = useElapsedSeconds();
 
     return (
-        <Container>
+        <Container isHalf>
             <Button onClick={props.onReset}>reset</Button>
             <TypingStatistic elapsed={elapsedSeconds} allWords={allWords} accuracy={accuracy}/>
-            <Suspense fallback={<div style={{height: 400, width: 400}}></div>}>
+            <Suspense>
                 <ResultChart
                     seconds={elapsedSeconds}
                     raw={historyResult.rawHistory.filter(it => it !== Infinity)}
