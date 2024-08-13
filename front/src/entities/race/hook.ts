@@ -12,8 +12,14 @@ const shuffleArray = <T, >(value: T[]): T[] => {
 }
 
 const getRandomText = (dictionary: string[]): string => {
-    // const countWords: number = randomInt(30, 50);
     const countWords: number = randomInt(10, 15);
+    // const countWords: number = randomInt(1000, 1010);
+    //
+    // let list: string[]= [...dictionary];
+    // for (let i = 0; i < 1; i++) {
+    //     list = list.concat(...dictionary)
+    // }
+    // return list.join(' ');
 
     return shuffleArray(dictionary).slice(0, countWords).join(' ');
 };

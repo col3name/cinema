@@ -35,7 +35,7 @@
 .caret {
     position: absolute;
     left: 40px;
-    width: 2px;
+    width: 2px !important;
     height: 29px;
     border-radius: 10px;
 

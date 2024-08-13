@@ -6,7 +6,7 @@ const ResultChart = lazy(() => import("@/app/monkeytype/ResultChart"))
 import Button from "@/shared/ui/Button";
 
 import {calculateWpmAndRaw} from "@/widgets/typingRace/ui/FinalResult/lib";
-import {useHistoryResult, useRaceTypingAccuracy} from "@/entities/race/selector";
+import {useHistoryResult, useRaceTypingAccuracy, useWordsCount} from "@/entities/race/selector";
 
 type TypeingStatisticProps = {
     elapsed: number;
@@ -47,7 +47,6 @@ const TypingStatistic: React.FC<TypeingStatisticProps> = ({
 type FinalResultProps = {
     elapsed: number;
     allChars: number;
-    allWords: number;
     onReset: () => void;
 };
 
@@ -55,7 +54,7 @@ type FinalResultProps = {
 export const FinalResultContainer: React.FC<FinalResultProps> = (props) => {
     const historyResult: HistoryResult = useHistoryResult();
     const accuracy: TypingAccuracy = useRaceTypingAccuracy();
-
+    const allWords = useWordsCount();
     return (
         <Container>
             <Suspense>
@@ -66,7 +65,7 @@ export const FinalResultContainer: React.FC<FinalResultProps> = (props) => {
                     errors={historyResult.errors.map(it => it.count)}
                 />
             </Suspense>
-            <TypingStatistic {...props}  accuracy={accuracy}/>
+            <TypingStatistic {...props}  allWords={allWords} accuracy={accuracy}/>
         </Container>
     );
 }
