@@ -1,5 +1,7 @@
 import React from "react";
+
 import {Letter} from "@/widgets/typingRace/ui/Letter/Letter";
+
 import {useExtraLetters} from "@/entities/race/selector";
 
 type ExtraLettersListProps = {

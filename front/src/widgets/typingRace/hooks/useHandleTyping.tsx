@@ -1,6 +1,6 @@
 import React, {useCallback, useRef} from "react";
 
-import styles from "@/widgets/typingRace/client.module.css";
+import styles from "@/widgets/typingRace/ui/Letter/stylesLetter.module.css";
 
 import {deleteLastTypedLetter, onResetRaceState, pressSpaceBar, setRaceStep, typeLetter} from "@/entities/race/slice";
 import {RaceStep} from "@/entities/race/model";

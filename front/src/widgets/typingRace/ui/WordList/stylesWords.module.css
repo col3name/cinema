@@ -1,0 +1,17 @@
+
+.words {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    height: 193px;
+    margin-left: unset;
+    overflow: hidden;
+    user-select: none;
+    transition: none;
+}
+
+.word {
+    position: relative;
+    margin: 0 5px 2px;
+}

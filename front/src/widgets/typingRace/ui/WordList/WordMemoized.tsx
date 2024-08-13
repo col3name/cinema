@@ -1,5 +1,6 @@
 import React, {forwardRef, memo, useMemo} from "react";
-import styles from "@/widgets/typingRace/client.module.css";
+
+import styles from "./stylesWords.module.css";
 
 type WordMemoizedProps = {
     isActive: boolean;

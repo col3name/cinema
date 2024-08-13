@@ -1,0 +1,25 @@
+.caretBlink {
+    animation: blink 1.5s 1s infinite;
+}
+
+.caret {
+    position: absolute;
+    left: 40px;
+    width: 2px !important;
+    height: 29px;
+    border-radius: 10px;
+
+    z-index: 10;
+
+    background: var(--hl-color);
+    transition: left .1s ease;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}

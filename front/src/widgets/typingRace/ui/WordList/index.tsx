@@ -1,7 +1,8 @@
 import React, {forwardRef} from "react";
-import styles from "@/widgets/typingRace/client.module.css";
+
 import {WordMemoized} from "@/widgets/typingRace/ui/WordList/WordMemoized";
 
+import styles from "./stylesWords.module.css";
 
 type WordListProps = {
     words: string[];

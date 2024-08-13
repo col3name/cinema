@@ -1,5 +1,6 @@
 import React, {forwardRef, memo} from "react";
-import styles from "@/widgets/typingRace/client.module.css";
+
+import styles from "./stylesLetter.module.css";
 
 type LetterProps = {
     isCurrent?: boolean;

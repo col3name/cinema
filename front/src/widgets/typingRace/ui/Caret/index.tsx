@@ -1,6 +1,7 @@
 import React, {memo} from "react";
 import cn from "classnames";
-import styles from "@/widgets/typingRace/client.module.css";
+
+import styles from './stylesCaret.module.css';
 
 type CaretProps = {
     currentLetterIndex: number;

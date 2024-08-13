@@ -2,15 +2,13 @@ import React, {useCallback, useEffect, useRef} from "react";
 
 import {Container} from "@/shared/ui/Container";
 import {WordListContainer} from "@/widgets/typingRace/ui/WordListContainer";
-import {UpdateTextButton} from "@/features/race/update-text-button";
-import Button from "@/shared/ui/Button";
 import {TimerView} from "@/widgets/typingRace/ui/TimerView";
 import {HiddenInput} from "@/widgets/typingRace/ui/HiddenInput";
 
-import styles from "@/widgets/typingRace/client.module.css";
-
 import {useFocusHiddenInput} from "@/widgets/typingRace/hooks/useFocusHiddenInput";
 import {useHandleTyping} from "@/widgets/typingRace/hooks/useHandleTyping";
+import {RacingActions} from "@/widgets/typingRace/TypeRacing/ui/RacingActions";
+
 
 type TypeRacingProps = {
     stopTimer: VoidFunction;
@@ -45,25 +43,17 @@ export const TypeRacing: React.FC<TypeRacingProps> = ({
         }
     }, [currentWordIndex, currentWordRef]);
 
-    const onClick = useCallback(() => {
-        onReset();
-        resetTimer();
-    }, [onReset, resetTimer]);
-
     return (
         <Container
             onClick={onFocusHiddenInput}
         >
-            <TimerView />
+            <TimerView/>
             <WordListContainer
                 wordsRef={wordsRef}
                 currentWordRef={currentWordRef}
                 currentLetterRef={currentLetterRef}
             />
-            <div className={styles.actions}>
-                <Button onClick={onReset}>restart</Button>
-                <UpdateTextButton onClick={onClick}/>
-            </div>
+            <RacingActions resetTimer={resetTimer} onReset={onReset}/>
             <HiddenInput
                 // @ts-ignore
                 ref={hiddenInputRef}
