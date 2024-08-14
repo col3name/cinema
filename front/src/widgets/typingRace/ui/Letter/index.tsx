@@ -18,7 +18,6 @@ const Letter: React.FC<LetterProps> = ({
             [stylesLetter.letterExtra]: letter.type === ILetterType.Extra,
             [stylesLetter.letterWrong]: letter.type === ILetterType.Incorrect,
             [stylesLetter.letterRight]: letter.type === ILetterType.Correct,
-            [stylesLetter.letterCurrent]: letter.type === ILetterType.Current,
         })}>{letter.text}</span>
     );
 };

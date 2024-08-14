@@ -11,8 +11,7 @@
 
     z-index: 10;
 
-    background: var(--hl-color);
-    transition: left .1s ease;
+    transition: left .2s ease;
 }
 
 @keyframes blink {

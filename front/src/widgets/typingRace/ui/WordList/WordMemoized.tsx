@@ -6,6 +6,7 @@ import {ExtraLetters} from "@/widgets/typingRace/ui/Letter/extraLetters";
 import styles from "./stylesWords.module.css";
 
 import {ILetter, IWord} from "@/entities/typeRacing/slice";
+import {Caret} from "@/widgets/typingRace/ui/Caret";
 
 type WordProps = {
     word: IWord;
@@ -17,6 +18,9 @@ const Word: React.FC<WordProps> = forwardRef(function Word({
     return (
         // @ts-ignore
         <div ref={ref} className={styles.word}>
+            {word.isActive && (
+                <Caret />
+            )}
             {word.letters.map((letter: ILetter, index: number) => {
                 return (
                     <LetterMemo key={`${letter.id}-${letter.text}-${letter.type}-${index}`} letter={letter}/>

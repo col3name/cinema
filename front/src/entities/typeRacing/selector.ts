@@ -10,6 +10,9 @@ export const useCountWords = (): number =>
 export const useCurrentWordIndex = (): number =>
     useAppSelector((state: RootState) => state.typeRacing.wordIdx);
 
+export const useCurrentLetterIndex = (): number =>
+    useAppSelector((state: RootState) => state.typeRacing.letterIdx);
+
 export const useWords = (): IWord[] =>
     useAppSelector((state: RootState) => state.typeRacing.words);
 
