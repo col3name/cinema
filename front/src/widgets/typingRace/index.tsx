@@ -7,6 +7,7 @@ import {TypeRacer} from "@/widgets/typingRace/ui/TypeRacer";
 
 import {useGetWords} from "@/entities/typeRacing/hook";
 import {useUpdateWordsState} from "@/widgets/typingRace/hooks/useUpdateWordsState";
+import {Loader} from "@/shared/ui/Loader";
 
 export const MonkeyTypeRacing = () => {
     const {data, isLoading, isFetching, isError} = useGetWords();
@@ -16,8 +17,8 @@ export const MonkeyTypeRacing = () => {
     return (
         <Layout>
             {isError && (<p>Error</p>)}
-            {isFetching && <div>Update Text</div>}
-            {isLoading && <div>Loading</div>}
+            {isFetching &&  <Loader />}
+            {isLoading && <Loader /> }
             {!isLoading && !isFetching && data && (
                 <TypeRacer />
             )}
