@@ -13,8 +13,9 @@ const Letter: React.FC<LetterProps> = ({
                                            letter,
                                        }) => {
     return (
-        <span className={cn({
+        <span className={cn(stylesLetter.letter,{
             [stylesLetter.letter]: letter.type === ILetterType.Initial,
+            [stylesLetter.letterCurrent]: letter.type === ILetterType.Current,
             [stylesLetter.letterExtra]: letter.type === ILetterType.Extra,
             [stylesLetter.letterWrong]: letter.type === ILetterType.Incorrect,
             [stylesLetter.letterRight]: letter.type === ILetterType.Correct,
