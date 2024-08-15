@@ -5,6 +5,7 @@ import {Inter} from "next/font/google";
 const inter = Inter({subsets: ["latin"]});
 import {Providers} from "@/shared/redux/provider";
 import QueryProviders from "@/shared/query/queryProviders";
+import {YMetrica} from "@/shared/ui/YMetrica";
 
 export default function RootLayout({
                                        children,
@@ -19,6 +20,7 @@ export default function RootLayout({
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         </head>
         <body className={inter.className}>
+        <YMetrica/>
         <QueryProviders>
             <Providers>{children}</Providers>
         </QueryProviders>
